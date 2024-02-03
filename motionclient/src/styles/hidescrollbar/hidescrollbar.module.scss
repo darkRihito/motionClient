@@ -1,0 +1,10 @@
+.hide {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: transparent transparent; /* Firefox */
+    -webkit-scrollbar-width: thin; /* Webkit browsers */
+    -webkit-scrollbar-color: transparent transparent; /* Webkit browsers */
+    ::-webkit-scrollbar {
+      width: 0;
+      background: transparent; /* Optional: Make the background transparent */
+    }
+  }

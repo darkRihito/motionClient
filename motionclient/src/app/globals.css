@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #fafafa;
+  background-image: url("/assets/bkg/brick.jpg");
+  background-size: 250px;
+  background-repeat: repeat;
+}

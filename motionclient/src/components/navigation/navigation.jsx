@@ -10,12 +10,8 @@ import useStore from "@/store/useModalStore";
 
 // Icons
 import { GrCircleQuestion } from "react-icons/gr";
-import { FiEdit2 } from "react-icons/fi";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { BsThreeDots } from "react-icons/bs";
-
-// Style Modules
-import containerblur from "@/styles/containerblur/containerblur.module.scss";
 
 // LEFT NAVIGATION
 const LeftNavigation = () => {
@@ -30,7 +26,7 @@ const LeftNavigation = () => {
   };
   const handleLinkClick = (path) => {
     if (pathname !== path) {
-      setLoading(true);
+      router.push(path);
     }
   };
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -58,7 +54,7 @@ const LeftNavigation = () => {
                   className="block cursor-pointer"
                 >
                   <li
-                    className={`flex gap-2 w-max bg-white p-3 lg:px-4 rounded-2xl ${
+                    className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
                       isActive("/home") ? "font-semibold" : ""
                     }`}
                   >
@@ -76,7 +72,7 @@ const LeftNavigation = () => {
                   className="block cursor-pointer"
                 >
                   <li
-                    className={`flex gap-2 w-max bg-white p-3 lg:px-4 rounded-2xl ${
+                    className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
                       isActive("/home/admin") ? "font-semibold" : ""
                     }`}
                   >
@@ -94,7 +90,7 @@ const LeftNavigation = () => {
                   className="block cursor-pointer"
                 >
                   <li
-                    className={`flex gap-2 w-max bg-white p-3 lg:px-4 rounded-2xl ${
+                    className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
                       isActive("/home/challenge") ? "font-semibold" : ""
                     }`}
                   >
@@ -112,7 +108,7 @@ const LeftNavigation = () => {
                   className="block cursor-pointer"
                 >
                   <li
-                    className={`flex gap-2 w-max bg-white p-3 lg:px-4 rounded-2xl ${
+                    className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
                       isActive("/home/leaderboard") ? "font-semibold" : ""
                     }`}
                   >
@@ -127,7 +123,7 @@ const LeftNavigation = () => {
           </div>
           <li
             onClick={toggleMenuVisibility}
-            className="flex gap-2 w-max bg-white p-3 lg:px-4 rounded-2xl cursor-pointer"
+            className="flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl cursor-pointer"
           >
             <BsThreeDots className="text-2xl text-gray-300" />
           </li>
@@ -150,15 +146,6 @@ const TopNavigationDropdown = () => {
             </div>
           </div>
           <ul className="text-sm flex flex-col gap-2">
-            {/* <li className="">
-              <div
-                href="#"
-                className="px-4 py-3 bg-light-white rounded-xl hover:bg-gray-100 block"
-              >
-                <FiEdit2 className="text-xl inline-block me-2" />
-                Edit Profil
-              </div>
-            </li> */}
             <li>
               <Link href="#" className="px-4 py-3 bg-light-white rounded-xl hover:bg-gray-100 block">
                 <GrCircleQuestion className="text-xl inline-block me-2" />
@@ -194,10 +181,9 @@ const TopNavigation = () => {
       <div className="fixed z-20 mx-auto max-w-screen-xl w-full top-0">
         <div className="relative pt-4 float-end w-max top-6 right-4">
           <nav className="">
-            <div className="flex flex-wrap items-center justify-between mx-auto py-3 ps-8 pe-4 rounded-full bg-white">
+            <div onClick={toggleDropdown} className="flex flex-wrap items-center justify-between mx-auto py-3 ps-8 pe-4 rounded-full bg-light-white cursor-pointer">
               <div
-                className="flex items-center gap-3 md:gap-4 cursor-pointer"
-                onClick={toggleDropdown}
+                className="flex items-center gap-3 md:gap-4"
               >
                 <div className="text-sm md:text-base text-end">
                   <div className="font-semibold text-black-100">

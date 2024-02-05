@@ -150,7 +150,7 @@ const TopNavigationDropdown = () => {
             </div>
           </div>
           <ul className="text-sm flex flex-col gap-2">
-            <li className="">
+            {/* <li className="">
               <div
                 href="#"
                 className="px-4 py-3 bg-light-white rounded-xl hover:bg-gray-100 block"
@@ -158,7 +158,7 @@ const TopNavigationDropdown = () => {
                 <FiEdit2 className="text-xl inline-block me-2" />
                 Edit Profil
               </div>
-            </li>
+            </li> */}
             <li>
               <Link href="#" className="px-4 py-3 bg-light-white rounded-xl hover:bg-gray-100 block">
                 <GrCircleQuestion className="text-xl inline-block me-2" />
@@ -191,8 +191,8 @@ const TopNavigation = () => {
   };
   return (
     <>
-      <div className="fixed mx-auto max-w-screen-xl w-full">
-        <div className="relative pt-4 z-20 float-end w-max top-6 right-4">
+      <div className="fixed z-20 mx-auto max-w-screen-xl w-full top-0">
+        <div className="relative pt-4 float-end w-max top-6 right-4">
           <nav className="">
             <div className="flex flex-wrap items-center justify-between mx-auto py-3 ps-8 pe-4 rounded-full bg-white">
               <div

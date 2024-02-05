@@ -20,9 +20,7 @@ export default function layout({ children }) {
       <GlobalContainer>
         <LeftNavigation />
         <TopNavigation />
-        <div className="pt-24">
-          <Suspense fallback={<Loading />}>{children}</Suspense>
-        </div>
+        <Suspense fallback={<Loading />}>{children}</Suspense>
       </GlobalContainer>
     </>
   );

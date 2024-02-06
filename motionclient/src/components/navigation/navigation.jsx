@@ -51,7 +51,7 @@ const LeftNavigation = () => {
                 <Link
                   href={"/home"}
                   onClick={() => handleLinkClick("/home")}
-                  className="block cursor-pointer"
+                  className="block cursor-pointer transition duration-150 hover:scale-[1.05]"
                 >
                   <li
                     className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
@@ -69,7 +69,7 @@ const LeftNavigation = () => {
                 <Link
                   href={"/home/admin"}
                   onClick={() => handleLinkClick("/home/admin")}
-                  className="block cursor-pointer"
+                  className="block cursor-pointer hover:scale-[1.05] transition duration-150"
                 >
                   <li
                     className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
@@ -87,7 +87,7 @@ const LeftNavigation = () => {
                 <Link
                   href={"/home/challenge"}
                   onClick={() => handleLinkClick("/home/challenge")}
-                  className="block cursor-pointer"
+                  className="block cursor-pointer hover:scale-[1.05] transition duration-150"
                 >
                   <li
                     className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
@@ -105,7 +105,7 @@ const LeftNavigation = () => {
                 <Link
                   href={"/home/leaderboard"}
                   onClick={() => handleLinkClick("/home/leaderboard")}
-                  className="block cursor-pointer"
+                  className="block cursor-pointer hover:scale-[1.05]"
                 >
                   <li
                     className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
@@ -123,7 +123,7 @@ const LeftNavigation = () => {
           </div>
           <li
             onClick={toggleMenuVisibility}
-            className="flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl cursor-pointer"
+            className="flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl cursor-pointer hover:scale-[1.05]"
           >
             <BsThreeDots className="text-2xl text-gray-300" />
           </li>

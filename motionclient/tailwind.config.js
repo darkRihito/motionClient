@@ -28,6 +28,20 @@ module.exports = {
         ternary: "#",
         ternary2: "#",
       },
+      keyframes: {
+        slideIn: {
+          "0%": { opacity: 0, transform: "translateY(10%)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
+        zoom: {
+          "0%": { opacity: 0, transform: "scale(80%)" },
+          "100%": { opacity: 1, transform: "scale(100%)" },
+        },
+      },
+      animation: {
+        slideIn: "slideIn .25s ease-in-out forwards var(--delay, 0)",
+        zoom: "zoom .25s ease-in-out forwards var(--delay, 0)",
+      },
     },
   },
   plugins: [],

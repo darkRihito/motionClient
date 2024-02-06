@@ -1,13 +1,18 @@
-import React from "react";
+"use client"
+import React, {useState} from "react";
 import Image from "next/image";
 
 // Icons
 import { MdModeEditOutline } from "react-icons/md";
 
 export default function page() {
+
+  const [show, setShow] = React.useState(false);
+  const handleClick = () => setShow((prevState) => !prevState);
+
   return (
     <>
-      <div className="max-w-screen-md mx-auto mt-64 mb-16">
+      <div className="max-w-screen-md mx-auto mt-64 mb-16 animate-slideIn opacity-0" style={{ "--delay": 0.25 + "s" }}>
         {/* HEADER */}
         <div className="">
           <div className="w-full h-20 bg-light-white rounded-t-xl flex">
@@ -22,7 +27,7 @@ export default function page() {
               </div>
             </div>
             <div className="w-full h-full py-3">
-              <p className="text-base">Good Morning,</p>
+              <p className="text-base">Hello,</p>
               <h4 className="text-3xl font-semibold">
                 Rihito <span className="text-base text-blue-500">,GM</span>
               </h4>

@@ -7,19 +7,38 @@ export default function page() {
   return (
     <>
       <div className="max-w-screen-md mx-auto mt-24 mb-16">
-        <div className="w-full mt-12 text-center mb-14">
+        <div className="w-full mt-12 text-center mb-14 animate-slideIn opacity-0" style={{ "--delay": 0.25 + "s" }}>
           <p className="text-xl font-semibold mb-1">Selamat Datang!</p>
           <h2 className="text-4xl font-bold mb-4">Papan Peringkat</h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam corporis, dolor commodi placeat debitis vel voluptas quas vitae itaque quibusdam! Natus doloremque error debitis perspiciatis dicta iste asperiores!
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+            corporis, dolor commodi placeat debitis vel voluptas quas vitae
+            itaque quibusdam! Natus doloremque error debitis perspiciatis dicta
+            iste asperiores!
           </p>
         </div>
-        <div className="min-h-44 aspect-[3/1] w-full flex justify-center items-center gap-4 lg:gap-6 mb-14 px-2 lg:px-0">
-          <div className="rounded-xl bg-light-white w-56 h-[90%]"></div>
-          <div className="rounded-xl bg-light-white w-56 h-full"></div>
-          <div className="rounded-xl bg-light-white w-56 h-[90%]"></div>
+        <div className="min-h-44 aspect-[3/1] w-full flex justify-center items-center gap-4 lg:gap-6 mb-14 px-2 lg:px-0 animate-slideIn opacity-0" style={{ "--delay": 0.5 + "s" }}>
+          <div className="rounded-xl border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
+            <div className="h-16 w-16 md:h-20 md:w-20 rounded-full relative overflow-hidden border-4">
+              <Image className="bg-gray-200" fill src="" alt="Profile pict" />
+            </div>
+            <h4 className="lg:text-lg">Unknown<span></span></h4>
+
+          </div>
+          <div className="rounded-xl border-2 w-56 h-full flex flex-col items-center gap-2.5 px-4 py-6">
+            <div className="h-20 w-20 md:h-24 md:w-24 rounded-full relative overflow-hidden border-4">
+              <Image className="bg-gray-200" fill src="/assets/img/profile.jpg" alt="Profile pict" />
+            </div>
+            <h4 className="lg:text-lg">Rihito<span> ,GM</span></h4>
+          </div>
+          <div className="rounded-xl border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
+            <div className="h-16 w-16 md:h-20 md:w-20 rounded-full relative overflow-hidden border-4">
+              <Image className="bg-gray-200" fill src="" alt="Profile pict" />
+            </div>
+            <h4 className="lg:text-lg">Unknown<span></span></h4>
+          </div>
         </div>
-        <div className="px-2 lg:px-0">
+        <div className="px-2 lg:px-0 animate-slideIn opacity-0" style={{ "--delay": 0.75 + "s" }}>
           <div className={`relative overflow-x-auto rounded-lg`}>
             <table
               className={`w-full text-sm text-left rtl:text-right bg-light-white`}
@@ -65,8 +84,7 @@ export default function page() {
                       <div className="">
                         <div className="border h-10 w-10 md:h-11 md:w-11 rounded-full relative overflow-hidden">
                           <Image
-                            layout="fill"
-                            objectFit="contain"
+                            fill
                             src="/assets/img/profile.jpg"
                             alt="Profile pict"
                           />

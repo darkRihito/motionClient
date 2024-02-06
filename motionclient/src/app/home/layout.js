@@ -15,7 +15,6 @@ import { ModalProvider } from "@/provider/modalprovider/modalprovider";
 export default function layout({ children }) {
   return (
     <>
-      <GlobalBackground type="bg-bkg2" />
       <ModalProvider>
         <GlobalContainer>
           <LeftNavigation />

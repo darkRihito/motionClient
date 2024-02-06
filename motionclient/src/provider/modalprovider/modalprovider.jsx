@@ -25,7 +25,7 @@ export function ModalProvider({ children }) {
       {modalContent ? (
         <>
           <div
-            className={`z-20 fixed top-0 w-screen h-screen bg-black-100 ${containerblur.blur}`}
+            className={`z-20 fixed top-0 w-screen h-screen ${containerblur.blur}`}
           ></div>
           <div className="z-20 fixed top-0 left-0 h-screen w-screen flex justify-center items-center px-2">
             <div className="rounded-xl p-4 relative bg-white">

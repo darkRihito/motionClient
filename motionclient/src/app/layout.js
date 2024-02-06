@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 const round = Varela_Round({ subsets: ["latin"], weight: "400" });
 
-import hidescrollbar from "@/styles/hidescrollbar/hidescrollbar.module.scss";
+import { BackgroundProvider } from "@/provider/backgroundprovider/backgroundprovider";
 
 export const metadata = {
   title: "Create Next App",
@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html suppressHydrationWarning={true} lang="en">
       <body suppressHydrationWarning={true} className={`${round.className}`}>
-        {children}
+        <BackgroundProvider>{children}</BackgroundProvider>
       </body>
     </html>
   );

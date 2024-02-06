@@ -11,7 +11,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { GlobalContainer } from "@/components/globalcontainer/globalcontainer";
 import ButtonStyle from "@/components/mybutton/mybutton";
 import { InputStyle } from "@/components/myinput/myinput";
-import { GlobalBackground } from "@/components/globalbackground/globalbackground";
 
 // Styles
 import background from "@/styles/background/background.module.scss";
@@ -22,7 +21,6 @@ export default function page() {
   const Icon = shown ? FaEye : FaEyeSlash;
   return (
     <>
-      <GlobalBackground type="bg-bkg0"/>
       <GlobalContainer>
         <div className="">
           <div className="flex flex-col justify-center items-center">

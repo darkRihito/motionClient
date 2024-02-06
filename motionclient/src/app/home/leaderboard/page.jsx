@@ -1,9 +1,14 @@
-import React from "react";
+"use client";
+import React, {useEffect} from "react";
 import Image from "next/image";
 
 import ContainerBlur from "@/styles/containerblur/containerblur.module.scss";
-
+import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 export default function page() {
+  const { setType } = useBackground();
+  useEffect(() => {
+    setType("bg-bkg0");
+  }, []);
   return (
     <>
       <div className="max-w-screen-md mx-auto mt-24 mb-16">

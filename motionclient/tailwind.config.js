@@ -8,9 +8,9 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        bkg0: "url('/assets/bkg/bkg0.jpg')",
+        bkg2: "url('/assets/bkg/background02.webp')",
+        bkg0: "url('/assets/bkg/background01.webp')",
         bkg1: "url('/assets/bkg/bkg1.jpg')",
-        bkg2: "url('/assets/bkg/bkg2.jpg')",
       },
       colors: {
         transparent: "transparent",

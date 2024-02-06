@@ -1,21 +1,31 @@
-"use client"
-import React, {useState} from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 // Icons
 import { MdModeEditOutline } from "react-icons/md";
 import { useModal } from "@/provider/modalprovider/modalprovider";
 
+import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
+
 export default function page() {
+  
+  const { setType } = useBackground();
+  useEffect(() => {
+    setType("bg-bkg0");
+  }, []);
 
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow((prevState) => !prevState);
 
-   const { openModal } = useModal();
+  const { openModal } = useModal();
 
   return (
     <>
-      <div className="max-w-screen-md mx-auto mt-64 mb-16 animate-slideIn opacity-0" style={{ "--delay": 0.25 + "s" }}>
+      <div
+        className="max-w-screen-md mx-auto mt-64 mb-16 animate-slideIn opacity-0"
+        style={{ "--delay": 0.25 + "s" }}
+      >
         {/* HEADER */}
         <div className="">
           <div className={`w-full h-20 bg-light-white rounded-t-xl flex`}>
@@ -24,7 +34,8 @@ export default function page() {
                 <div className="absolute rounded-xl w-full h-full hover: z-10 hover:brightness-10 hover:bg-black-100 hover:opacity-10 cursor-pointer"></div>
                 <Image
                   className="rounded-xl border-4 border-light-white"
-                  fill alt=""
+                  fill
+                  alt=""
                   src="/assets/img/profile.jpg"
                 />
               </div>
@@ -99,7 +110,12 @@ export default function page() {
                       </div>
                     </div>
                   </div>
-                  <div className="p-2 rounded-lg cursor-pointer hover:bg-gray-100" onClick={() => openModal(<div className="">Some modal content</div>)}>
+                  <div
+                    className="p-2 rounded-lg cursor-pointer hover:bg-gray-100"
+                    onClick={() =>
+                      openModal(<div className="">Some modal content</div>)
+                    }
+                  >
                     <p className="text-sm">Poin Keaktifan</p>
                     <div className="flex justify-center items-center gap-1">
                       <div className="h-8 w-8 relative">
@@ -134,14 +150,10 @@ export default function page() {
                   <p className="">I feel happy today</p>
                 </div>
                 <div className="mb-2">
-                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="relative w-8 h-8">
-                        <Image
-                          src="/assets/icon/user.png"
-                          alt=""
-                          fill
-                        ></Image>
+                        <Image src="/assets/icon/user.png" alt="" fill></Image>
                       </div>
                       <h3 className="text-xl font-semibold">Biografi</h3>
                     </div>

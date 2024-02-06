@@ -1,7 +1,13 @@
+"use client"
 import React from "react";
 import Image from "next/image";
 
+// Provider
+import { useModal } from "@/provider/modalprovider/modalprovider";
+
 export default function page() {
+  const { openModal } = useModal();
+
   return (
     <>
       <div className="max-w-screen-md mx-auto mt-24 mb-16">
@@ -22,8 +28,8 @@ export default function page() {
         <div className="mt-8 p-6 sm:grid grid-cols-5 grid-rows-2 gap-6 space-y-6 sm:space-y-0">
           <div className="row-span-2 col-span-2">
             <div
-              className="sm:h-full h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl border-2 text-white flex sm:flex-col gap-4 animate-zoom opacity-0"
-              style={{ "--delay": 0.5 + "s" }}
+              className={`bg-white/75 backdrop-blur-lg sm:h-full h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex sm:flex-col gap-4 animate-zoom opacity-0 cursor-pointer`}
+              style={{ "--delay": 0.5 + "s" }} onClick={() => openModal(<div className="">Some modal content</div>)}
             >
               <div className="relative aspect-square h-full sm:h-auto sm:w-full sm:order-2">
                 <Image alt="" fill src="/assets/icon/selectionc.png" />
@@ -38,7 +44,7 @@ export default function page() {
           </div>
           <div className="col-span-3">
             <div
-              className="h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white border-2 flex gap-4 animate-zoom opacity-0"
+              className="bg-white/75 backdrop-blur-lg h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex gap-4 animate-zoom opacity-0"
               style={{ "--delay": 0.75 + "s" }}
             >
               <div className="relative aspect-square h-full ">
@@ -54,7 +60,7 @@ export default function page() {
           </div>
           <div className="col-span-3">
             <div
-              className="h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl border-2 text-white flex gap-4 animate-zoom opacity-0"
+              className="bg-white/75 backdrop-blur-lg h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex gap-4 animate-zoom opacity-0"
               style={{ "--delay": 1 + "s" }}
             >
               <div className="relative aspect-square h-full ">

@@ -4,18 +4,21 @@ import Image from "next/image";
 
 // Icons
 import { MdModeEditOutline } from "react-icons/md";
+import { useModal } from "@/provider/modalprovider/modalprovider";
 
 export default function page() {
 
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow((prevState) => !prevState);
 
+   const { openModal } = useModal();
+
   return (
     <>
       <div className="max-w-screen-md mx-auto mt-64 mb-16 animate-slideIn opacity-0" style={{ "--delay": 0.25 + "s" }}>
         {/* HEADER */}
         <div className="">
-          <div className="w-full h-20 bg-light-white rounded-t-xl flex">
+          <div className={`w-full h-20 bg-light-white rounded-t-xl flex`}>
             <div className="w-44 flex-none h-full flex items-center justify-center">
               <div className="rounded-xl w-32 h-32 mb-14 bg-light-white relative ">
                 <div className="absolute rounded-xl w-full h-full hover: z-10 hover:brightness-10 hover:bg-black-100 hover:opacity-10 cursor-pointer"></div>
@@ -96,7 +99,7 @@ export default function page() {
                       </div>
                     </div>
                   </div>
-                  <div className="p-2 rounded-lg cursor-pointer hover:bg-gray-100">
+                  <div className="p-2 rounded-lg cursor-pointer hover:bg-gray-100" onClick={() => openModal(<div className="">Some modal content</div>)}>
                     <p className="text-sm">Poin Keaktifan</p>
                     <div className="flex justify-center items-center gap-1">
                       <div className="h-8 w-8 relative">

@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-// Store
-import useStore from "@/store/useModalStore";
 
 // Icons
 import { GrCircleQuestion } from "react-icons/gr";

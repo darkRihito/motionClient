@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 const round = Varela_Round({ subsets: ["latin"], weight: "400" });
 
-import hidescrollbar from "@/styles/hidescrollbar/hidescrollbar.module.scss"
+import hidescrollbar from "@/styles/hidescrollbar/hidescrollbar.module.scss";
 
 export const metadata = {
   title: "Create Next App",

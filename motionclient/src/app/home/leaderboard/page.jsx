@@ -18,22 +18,21 @@ export default function page() {
           </p>
         </div>
         <div className="min-h-44 aspect-[3/1] w-full flex justify-center items-center gap-4 lg:gap-6 mb-14 px-2 lg:px-0 animate-slideIn opacity-0" style={{ "--delay": 0.5 + "s" }}>
-          <div className="rounded-xl border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-16 w-16 md:h-20 md:w-20 rounded-full relative overflow-hidden border-4">
-              <Image className="bg-gray-200" fill src="" alt="Profile pict" />
+          <div className="rounded-lg border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
+            <div className="h-16 w-16 md:h-20 md:w-20 rounded-full relative overflow-hidden border-2">
+              <Image className="" fill src="" alt="Profile pict" />
             </div>
             <h4 className="lg:text-lg">Unknown<span></span></h4>
-
           </div>
-          <div className="rounded-xl border-2 w-56 h-full flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-20 w-20 md:h-24 md:w-24 rounded-full relative overflow-hidden border-4">
-              <Image className="bg-gray-200" fill src="/assets/img/profile.jpg" alt="Profile pict" />
+          <div className="rounded-lg border-2 w-56 h-full flex flex-col items-center gap-2.5 px-4 py-6">
+            <div className="h-20 w-20 md:h-24 md:w-24 rounded-full relative overflow-hidden border-2">
+              <Image className="" fill src="/assets/img/profile.jpg" alt="Profile pict" />
             </div>
             <h4 className="lg:text-lg">Rihito<span> ,GM</span></h4>
           </div>
-          <div className="rounded-xl border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-16 w-16 md:h-20 md:w-20 rounded-full relative overflow-hidden border-4">
-              <Image className="bg-gray-200" fill src="" alt="Profile pict" />
+          <div className="rounded-lg border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
+            <div className="h-16 w-16 md:h-20 md:w-20 rounded-full relative overflow-hidden border-2">
+              <Image className="" fill src="" alt="Profile pict" />
             </div>
             <h4 className="lg:text-lg">Unknown<span></span></h4>
           </div>

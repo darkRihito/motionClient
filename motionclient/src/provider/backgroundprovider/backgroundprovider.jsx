@@ -10,7 +10,7 @@ export const BackgroundContext = createContext();
 // Provider component
 export const BackgroundProvider = ({ children }) => {
   const [type, setType] = useState("");
-  console.log("BackgroundState", type);
+  // console.log("BackgroundState", type);
   return (
     <BackgroundContext.Provider value={{ type, setType }}>
       <div

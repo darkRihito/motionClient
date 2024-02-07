@@ -1,22 +1,42 @@
 "use client";
-import React, {useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 // Provider
-import { useModal } from "@/provider/modalprovider/modalprovider";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
-export default function page() {
+// Icon
+import { IoIosCloseCircle } from "react-icons/io";
 
+const ModalSeleksi = ({closeModal}) => {
+  return (
+    <>
+      <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
+      <div className="absolute z-30 max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <IoIosCloseCircle
+          onClick={closeModal}
+          className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
+        />
+        <h3 className="text-xl font-semibold mb-2">Mulai Seleksi?</h3>
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam deleniti asperiores nisi veritatis unde et?</p>
+      </div>
+    </>
+  );
+};
+
+export default function page() {
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
   }, []);
 
-  const { openModal } = useModal();
+  const [modalSeleksi, setModalSeleksi] = useState(false);
+  // Toggle Modal
+  const toggleModalSeleksi = () => setModalSeleksi(!modalSeleksi);
 
   return (
     <>
+      {modalSeleksi ? <ModalSeleksi  closeModal={toggleModalSeleksi}/> : null}
       <div className="max-w-screen-md mx-auto mt-24 mb-16">
         <div
           className="animate-slideIn opacity-0"
@@ -37,13 +57,7 @@ export default function page() {
             <div
               className={`bg-white/75 backdrop-blur-lg sm:h-full h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex sm:flex-col gap-4 animate-zoom opacity-0 cursor-pointer`}
               style={{ "--delay": 0.5 + "s" }}
-              onClick={() =>
-                openModal(
-                  <div className="w-[26rem] h-44 bg-white">
-                    <div className="">Mulai Seleksi?</div>
-                  </div>
-                )
-              }
+              onClick={toggleModalSeleksi}
             >
               <div className="relative aspect-square h-full sm:h-auto sm:w-full sm:order-2">
                 <Image alt="" fill src="/assets/icon/selectionc.png" />

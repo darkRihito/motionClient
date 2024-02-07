@@ -11,6 +11,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { GlobalContainer } from "@/components/globalcontainer/globalcontainer";
 import ButtonStyle from "@/components/mybutton/mybutton";
 import { InputStyle } from "@/components/myinput/myinput";
+import { GlobalBackground } from "@/components/globalbackground/globalbackground";
 
 // Styles
 import background from "@/styles/background/background.module.scss";
@@ -21,6 +22,7 @@ export default function page() {
   const Icon = shown ? FaEye : FaEyeSlash;
   return (
     <>
+      {/* <GlobalBackground type="bg-bkg0" /> */}
       <GlobalContainer>
         <div className="">
           <div className="flex flex-col justify-center items-center">
@@ -57,30 +59,30 @@ export default function page() {
                 {/* FORM */}
                 <Formik
                   initialValues={{
-                    firstname: "",
-                    lastname: "",
+                    first_name: "",
+                    last_name: "",
                     nickname: "",
                     email: "",
                     password: "",
-                    idnumber: "",
+                    no_ID: "",
                     roomcode: "",
-                    isadmin: "user",
+                    role: "user",
                   }}
                   validate={(values) => {
                     const errors = {};
 
                     // Validate nama
-                    if (!values.firstname) {
-                      errors.firstname = "Required";
+                    if (!values.first_name) {
+                      errors.first_name = "Required";
                     }
 
-                    // Validate isadmin
-                    if (!values.isadmin) {
-                      errors.isadmin = "Required";
+                    // Validate role
+                    if (!values.role) {
+                      errors.role = "Required";
                     }
 
                     // Validate nickname
-                    if (values.isadmin === "user") {
+                    if (values.role === "user") {
                       if (!values.nickname) {
                         errors.nickname = "Required";
                       } else if (values.nickname.includes(" ")) {
@@ -90,13 +92,13 @@ export default function page() {
                           "Nickname must be less than 15 characters";
                       }
 
-                      // Validate idnumber and roomcode
+                      // Validate no_ID and roomcode
                       const numberRegex = /^[0-9]+$/;
 
-                      if (!values.idnumber) {
-                        errors.idnumber = "Required";
-                      } else if (!numberRegex.test(values.idnumber)) {
-                        errors.idnumber = "Must contain only numbers";
+                      if (!values.no_ID) {
+                        errors.no_ID = "Required";
+                      } else if (!numberRegex.test(values.no_ID)) {
+                        errors.no_ID = "Must contain only numbers";
                       } else if (!values.roomcode) {
                         errors.roomcode = "Required";
                       }
@@ -151,45 +153,45 @@ export default function page() {
                       <div className="flex gap-4">
                         <div className="">
                           <label
-                            htmlFor="firstname"
+                            htmlFor="first_name"
                             className="block mb-2 text-md font-medium text-light-white "
                           >
                             Nama Depan
                           </label>
                           <div className="relative">
                             <input
-                              id="firstname"
+                              id="first_name"
                               type="text"
-                              name="firstname"
+                              name="first_name"
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={values.firstname}
+                              value={values.first_name}
                               placeholder="Ahmad John"
                               className={InputStyle}
                             />
                           </div>
                           <span className="text-sm mt-1">
                             {submitCount > 0 &&
-                              errors.firstname &&
-                              touched.firstname &&
-                              errors.firstname}
+                              errors.first_name &&
+                              touched.first_name &&
+                              errors.first_name}
                           </span>
                         </div>
                         <div className="">
                           <label
-                            htmlFor="lastname"
+                            htmlFor="last_name"
                             className="block mb-2 text-md font-medium text-light-white "
                           >
                             Nama Belakang
                           </label>
                           <div className="relative">
                             <input
-                              id="lastname"
+                              id="last_name"
                               type="text"
-                              name="lastname"
+                              name="last_name"
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={values.lastname}
+                              value={values.last_name}
                               placeholder="Doe"
                               className={InputStyle}
                             />
@@ -205,15 +207,15 @@ export default function page() {
                       </label>
                       <div id="radioadmin" className="flex gap-4">
                         <label
-                          htmlFor="isadmin1"
-                          className={`flex items-center h-12 p-4 bg-yellow-950 rounded-lg cursor-pointer ${values.isadmin == "user" && "border-2 border-light-white"}`}
+                          htmlFor="role1"
+                          className={`flex items-center h-12 p-4 bg-yellow-950 rounded-lg cursor-pointer ${values.role == "user" && "border-2 border-light-white"}`}
                         >
                           <div className="">
                             <Field
-                              id="isadmin1"
+                              id="role1"
                               type="radio"
                               value="user"
-                              name="isadmin"
+                              name="role"
                               className="w-4 h-4 text-yellow-950 bg-yellow-950 border-yellow-950 focus:ring-yellow-950 hidden peer"
                             />
                             <span className="w-full py-4 text-sm font-medium text-light-white dark:text-gray-300">
@@ -222,15 +224,15 @@ export default function page() {
                           </div>
                         </label>
                         <label
-                          htmlFor="isadmin2"
-                          className={`flex items-center h-12 p-4 bg-yellow-950 rounded-lg cursor-pointer ${values.isadmin == "admin" && "border-2 border-light-white"}`}
+                          htmlFor="role2"
+                          className={`flex items-center h-12 p-4 bg-yellow-950 rounded-lg cursor-pointer ${values.role == "admin" && "border-2 border-light-white"}`}
                         >
                           <div className="">
                             <Field
-                              id="isadmin2"
+                              id="role2"
                               type="radio"
                               value="admin"
-                              name="isadmin"
+                              name="role"
                               className="w-4 h-4 text-yellow-950 bg-yellow-950 border-yellow-950 focus:ring-yellow-950 hidden peer"
                             />
                             <span className="w-full py-4 text-sm font-medium text-light-white dark:text-gray-300">
@@ -241,14 +243,14 @@ export default function page() {
                       </div>
                       <span className="text-sm mt-1">
                         {submitCount > 0 &&
-                          errors.isadmin &&
-                          touched.isadmin &&
-                          errors.isadmin}
+                          errors.role &&
+                          touched.role &&
+                          errors.role}
                       </span>
-                      {/* <div>Picked: {values.isadmin}</div> */}
+                      {/* <div>Picked: {values.role}</div> */}
 
                       {/* NICKNAME */}
-                      {values.isadmin === "user" ? (
+                      {values.role === "user" ? (
                         <>
                           <label
                             htmlFor="nickname"
@@ -336,34 +338,34 @@ export default function page() {
                           touched.password &&
                           errors.password}
                       </span>
-                      {/* idnumber & KODE KELAS */}
-                      {values.isadmin === "user" ? (
+                      {/* no_ID & KODE KELAS */}
+                      {values.role === "user" ? (
                         <>
                           <div className="flex gap-4 mt-3">
                             <div className="flex-[3]">
                               <label
-                                htmlFor="idnumber"
+                                htmlFor="no_ID"
                                 className="block mb-2 text-md font-medium text-light-white "
                               >
                                 Nomor Identitas
                               </label>
                               <div className="relative">
                                 <input
-                                  id="idnumber"
+                                  id="no_ID"
                                   type="text"
-                                  name="idnumber"
+                                  name="no_ID"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.idnumber}
+                                  value={values.no_ID}
                                   placeholder="2004222"
                                   className={InputStyle}
                                 />
                               </div>
                               <span className="text-sm mt-1">
                                 {submitCount > 0 &&
-                                  errors.idnumber &&
-                                  touched.idnumber &&
-                                  errors.idnumber}
+                                  errors.no_ID &&
+                                  touched.no_ID &&
+                                  errors.no_ID}
                               </span>
                             </div>
                             <div className="flex-[2]">

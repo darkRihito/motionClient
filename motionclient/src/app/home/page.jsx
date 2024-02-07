@@ -6,6 +6,7 @@ import Image from "next/image";
 import { MdModeEditOutline } from "react-icons/md";
 import { useModal } from "@/provider/modalprovider/modalprovider";
 
+// Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
 export default function page() {

@@ -1,5 +1,7 @@
 import { Inter, Varela_Round } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 // Fonts
 const inter = Inter({ subsets: ["latin"] });
@@ -16,7 +18,9 @@ export default function RootLayout({ children }) {
   return (
     <html suppressHydrationWarning={true} lang="en">
       <body suppressHydrationWarning={true} className={`${round.className}`}>
-        <BackgroundProvider>{children}</BackgroundProvider>
+        <Suspense fallback={<Loading />}>
+          <BackgroundProvider>{children}</BackgroundProvider>
+        </Suspense>
       </body>
     </html>
   );

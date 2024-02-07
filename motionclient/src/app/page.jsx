@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Formik, Field } from "formik";
@@ -11,17 +11,28 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { GlobalContainer } from "@/components/globalcontainer/globalcontainer";
 import ButtonStyle from "@/components/mybutton/mybutton";
 import { InputStyleSVG } from "@/components/myinput/myinput";
+import { GlobalBackground } from "@/components/globalbackground/globalbackground";
 
 // Styles
 import background from "@/styles/background/background.module.scss";
 
+// Provider
+import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
+
 export default function page() {
+  const { setType } = useBackground();
+  useEffect(() => {
+    setType("bg-bkg0");
+  }, []);
+
   const [shown, setShown] = useState(false);
   const type = shown ? "text" : "password";
   const Icon = shown ? FaEye : FaEyeSlash;
 
   return (
+    
     <>
+      {/* <GlobalBackground type="bg-bkg0" /> */}
       <GlobalContainer>
         <div>
           <div className="flex items-center justify-center min-h-screen">

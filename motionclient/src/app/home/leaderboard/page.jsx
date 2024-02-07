@@ -24,22 +24,22 @@ export default function page() {
         </div>
         <div className="min-h-44 aspect-[3/1] w-full flex justify-center items-center gap-4 lg:gap-6 mb-14 px-2 lg:px-0 animate-slideIn opacity-0" style={{ "--delay": 0.5 + "s" }}>
           <div className="rounded-lg border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-16 w-16 md:h-20 md:w-20 rounded-full relative overflow-hidden border-2">
+            <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
               <Image className="" fill src="" alt="Profile pict" />
             </div>
-            <h4 className="lg:text-lg">Unknown<span></span></h4>
+            <h4 className="lg:text-lg font-semibold text-center">Unknown<span></span></h4>
           </div>
           <div className="rounded-lg border-2 w-56 h-full flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-20 w-20 md:h-24 md:w-24 rounded-full relative overflow-hidden border-2">
+            <div className="h-20 w-20 flex-none md:h-24 md:w-24 rounded-full relative overflow-hidden border-2">
               <Image className="" fill src="/assets/img/profile.jpg" alt="Profile pict" />
             </div>
-            <h4 className="lg:text-lg">Rihito<span> ,GM</span></h4>
+            <h4 className="lg:text-lg font-semibold text-center">Rihito<span> ,GM</span></h4>
           </div>
           <div className="rounded-lg border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-16 w-16 md:h-20 md:w-20 rounded-full relative overflow-hidden border-2">
+            <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
               <Image className="" fill src="" alt="Profile pict" />
             </div>
-            <h4 className="lg:text-lg">Unknown<span></span></h4>
+            <h4 className="lg:text-lg font-semibold text-center">Unknown<span></span></h4>
           </div>
         </div>
         <div className="px-2 lg:px-0 animate-slideIn opacity-0" style={{ "--delay": 0.75 + "s" }}>
@@ -95,10 +95,10 @@ export default function page() {
                         </div>
                       </div>
                       <div className="flex flex-col min-w-36">
-                        <span className="lg:text-base font-medium">
-                          Rihito, SS
-                        </span>
-                        <span className="text-sm">Maestro</span>
+                        <div className="lg:text-base font-semibold">
+                          Rihito<span className="text-sm"> ,GM</span>
+                        </div>
+                        <div className="text-sm">Maestro</div>
                       </div>
                     </div>
                   </td>

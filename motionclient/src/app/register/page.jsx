@@ -9,7 +9,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 // Component
 import { GlobalContainer } from "@/components/globalcontainer/globalcontainer";
-import ButtonStyle from "@/components/mybutton/mybutton";
+import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 import { InputStyle } from "@/components/myinput/myinput";
 import { GlobalBackground } from "@/components/globalbackground/globalbackground";
 

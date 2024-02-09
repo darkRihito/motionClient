@@ -15,7 +15,8 @@ const ModalSeleksi = ({ closeModal }) => {
   return (
     <>
       <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
-      <div className="fixed top-0 start-0 w-screen h-screen z-30 px-4">
+      <div className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
+              style={{ "--delay": 0 + "s" }}>
         <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <IoIosCloseCircle
             onClick={closeModal}
@@ -42,7 +43,8 @@ const ModalLatihan = ({ closeModal }) => {
   return (
     <>
       <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
-      <div className="fixed top-0 start-0 w-screen h-screen z-30 px-4">
+      <div className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
+              style={{ "--delay": 0 + "s" }}>
         <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <IoIosCloseCircle
             onClick={closeModal}
@@ -116,7 +118,7 @@ export default function page() {
           </div>
           <div className="col-span-3">
             <div
-              className="bg-white/75 backdrop-blur-lg h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex gap-4 animate-zoom opacity-0"
+              className="bg-white/75 backdrop-blur-lg h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex gap-4 animate-zoom opacity-0 cursor-pointer"
               style={{ "--delay": 0.75 + "s" }}
               onClick={toggleModalLatihan}
 

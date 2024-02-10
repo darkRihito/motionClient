@@ -1,6 +1,10 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
+// Components
+import { GlobalBackground } from "@/components/globalbackground/globalbackground";
+
+// Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
 export default function page() {
@@ -10,8 +14,9 @@ export default function page() {
   }, []);
   return (
     <>
+      <GlobalBackground type="/assets/bkg/background02.webp" />
+
       <div className="max-w-screen-md mx-auto mt-24 mb-16 px-3 flex flex-col md:flex-row gap-4">
-        
         <div className="flex-[4] order-2 md:order-2 bg-white/70 backdrop-blur-sm p-6 rounded-xl">
           <h3 className="text-base">
             <span className="text-2xl">1)</span> Lorem ipsum dolor sit amet
@@ -43,12 +48,12 @@ export default function page() {
           </div>
         </div>
 
-        {/* <div className="flex-[1] order-1 md:order-2 rounded-xl h-full p-4 lg:p-6">
+        <div className="flex-[1] order-1 md:order-2 rounded-xl h-full p-4 lg:p-6">
           <div className="text-center">
             <div className="">Sisa Waktu</div>
             <div className="text-xl font-semibold">2:00:00</div>
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   );

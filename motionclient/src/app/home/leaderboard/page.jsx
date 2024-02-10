@@ -3,14 +3,13 @@ import React, {useEffect} from "react";
 import Image from "next/image";
 
 import ContainerBlur from "@/styles/containerblur/containerblur.module.scss";
-import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
+import { GlobalBackground } from "@/components/globalbackground/globalbackground";
+
 export default function page() {
-  const { setType } = useBackground();
-  useEffect(() => {
-    setType("bg-bkg0");
-  }, []);
   return (
     <>
+      <GlobalBackground type="/assets/bkg/background01.webp" />
+
       <div className="max-w-screen-md mx-auto mt-24 mb-16">
         <div className="w-full mt-12 text-center mb-14 animate-slideIn opacity-0" style={{ "--delay": 0.25 + "s" }}>
           <p className="text-xl font-semibold mb-1">Selamat Datang!</p>

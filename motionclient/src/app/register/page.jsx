@@ -11,7 +11,6 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { GlobalContainer } from "@/components/globalcontainer/globalcontainer";
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 import { InputStyle } from "@/components/myinput/myinput";
-import { GlobalBackground } from "@/components/globalbackground/globalbackground";
 
 // Styles
 import background from "@/styles/background/background.module.scss";

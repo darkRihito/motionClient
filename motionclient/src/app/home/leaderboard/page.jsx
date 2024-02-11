@@ -1,17 +1,22 @@
 "use client";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 
-import ContainerBlur from "@/styles/containerblur/containerblur.module.scss";
-import { GlobalBackground } from "@/components/globalbackground/globalbackground";
+// Provider
+import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
 export default function page() {
+  const { setType } = useBackground();
+  useEffect(() => {
+    setType("bg-bkg0");
+  }, []);
   return (
     <>
-      <GlobalBackground type="/assets/bkg/background01.webp" />
-
       <div className="max-w-screen-md mx-auto mt-24 mb-16">
-        <div className="w-full mt-12 text-center mb-14 animate-slideIn opacity-0" style={{ "--delay": 0.25 + "s" }}>
+        <div
+          className="w-full mt-12 text-center mb-14 animate-slideIn opacity-0"
+          style={{ "--delay": 0.25 + "s" }}
+        >
           <p className="text-xl font-semibold mb-1">Selamat Datang!</p>
           <h2 className="text-4xl font-bold mb-4">Papan Peringkat</h2>
           <p>
@@ -21,27 +26,50 @@ export default function page() {
             iste asperiores!
           </p>
         </div>
-        <div className="min-h-44 aspect-[3/1] w-full flex justify-center items-center gap-4 lg:gap-6 mb-14 px-2 lg:px-0 animate-slideIn opacity-0" style={{ "--delay": 0.5 + "s" }}>
-          <div className="rounded-lg border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
-              <Image className="" fill src="" alt="Profile pict" />
+        <div
+          className="min-h-44 aspect-[3/1] w-full flex justify-center items-center gap-4 lg:gap-6 mb-14 px-2 lg:px-0 animate-slideIn opacity-0"
+          style={{ "--delay": 0.5 + "s" }}
+        >
+          <div className="rounded-lg border-2 w-56 px-2 py-3 lg:px-4 lg:py-6">
+            <div className="flex flex-col items-center gap-2.5 ">
+              <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
+                <Image className="" fill src="" alt="Profile pict" />
+              </div>
+              <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
+                Unknown<span></span>
+              </h4>
             </div>
-            <h4 className="lg:text-lg font-semibold text-center">Unknown<span></span></h4>
           </div>
-          <div className="rounded-lg border-2 w-56 h-full flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-20 w-20 flex-none md:h-24 md:w-24 rounded-full relative overflow-hidden border-2">
-              <Image className="" fill src="/assets/img/profile.jpg" alt="Profile pict" />
+          <div className="rounded-lg border-2 w-56 px-2 py-3 lg:px-4 lg:py-6">
+            <div className="flex flex-col items-center gap-2.5">
+              <div className="h-20 w-20 flex-none md:h-24 md:w-24 rounded-full relative overflow-hidden border-2">
+                <Image
+                  className=""
+                  fill
+                  src="/assets/img/profile.jpg"
+                  alt="Profile pict"
+                />
+              </div>
+              <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
+                Rihito<span> ,GM</span>
+              </h4>
             </div>
-            <h4 className="lg:text-lg font-semibold text-center">Rihito<span> ,GM</span></h4>
           </div>
-          <div className="rounded-lg border-2 w-56 h-[90%] flex flex-col items-center gap-2.5 px-4 py-6">
-            <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
-              <Image className="" fill src="" alt="Profile pict" />
+          <div className="rounded-lg border-2 w-56 px-2 py-3 lg:px-4 lg:py-6">
+            <div className="flex flex-col items-center gap-2.5">
+              <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
+                <Image className="" fill src="" alt="Profile pict" />
+              </div>
+              <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
+                Unknown<span></span>
+              </h4>
             </div>
-            <h4 className="lg:text-lg font-semibold text-center">Unknown<span></span></h4>
           </div>
         </div>
-        <div className="px-2 lg:px-0 animate-slideIn opacity-0" style={{ "--delay": 0.75 + "s" }}>
+        <div
+          className="px-2 lg:px-0 animate-slideIn opacity-0"
+          style={{ "--delay": 0.75 + "s" }}
+        >
           <div className={`relative overflow-x-auto rounded-lg`}>
             <table
               className={`w-full text-sm text-left rtl:text-right bg-light-white`}

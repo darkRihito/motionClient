@@ -70,6 +70,166 @@ export default function page() {
             </div>
           </div>
 
+          <div className="bg-light-white p-6  rounded-xl">
+            <h3 className="text-base">
+              <span className="text-2xl">1)</span> Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Quidem, magnam eaque? Est a
+              temporibus tenetur dicta, aliquam id laudantium repellendus
+              similique nam libero minus vel distinctio, molestiae optio cumque
+              nobis?
+            </h3>
+            <div className="mt-4 flex flex-wrap">
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-light-white p-6  rounded-xl">
+            <h3 className="text-base">
+              <span className="text-2xl">1)</span> Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Quidem, magnam eaque? Est a
+              temporibus tenetur dicta, aliquam id laudantium repellendus
+              similique nam libero minus vel distinctio, molestiae optio cumque
+              nobis?
+            </h3>
+            <div className="mt-4 flex flex-wrap">
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-light-white p-6  rounded-xl">
+            <h3 className="text-base">
+              <span className="text-2xl">1)</span> Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Quidem, magnam eaque? Est a
+              temporibus tenetur dicta, aliquam id laudantium repellendus
+              similique nam libero minus vel distinctio, molestiae optio cumque
+              nobis?
+            </h3>
+            <div className="mt-4 flex flex-wrap">
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-light-white p-6  rounded-xl">
+            <h3 className="text-base">
+              <span className="text-2xl">1)</span> Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Quidem, magnam eaque? Est a
+              temporibus tenetur dicta, aliquam id laudantium repellendus
+              similique nam libero minus vel distinctio, molestiae optio cumque
+              nobis?
+            </h3>
+            <div className="mt-4 flex flex-wrap">
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-light-white p-6  rounded-xl">
+            <h3 className="text-base">
+              <span className="text-2xl">1)</span> Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Quidem, magnam eaque? Est a
+              temporibus tenetur dicta, aliquam id laudantium repellendus
+              similique nam libero minus vel distinctio, molestiae optio cumque
+              nobis?
+            </h3>
+            <div className="mt-4 flex flex-wrap">
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+              <div className="w-full sm:w-1/2 p-1 sm:p-2">
+                <div className="flex flex-col sm:justify-center sm:items-center rounded-lg sm:min-h-24 border px-4 py-3 text-base">
+                  Lorem ipsum dolor sit amet.
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="mt-12 w-full rounded-xl bg-light-white p-6 text-center text-xl">
             Selesaikan!
           </div>

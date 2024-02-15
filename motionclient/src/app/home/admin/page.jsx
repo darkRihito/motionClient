@@ -1,9 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/react-splide/css";
-import { Formik, Form, Field } from "formik";
+
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+import { QuillToolbar, modules, formats } from "./EditorToolbar";
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+  loading: () => <p>Loading editor...</p>,
+});
 
 // Icon
 import { MdDelete } from "react-icons/md";
@@ -13,11 +19,12 @@ import { FaRegCopy } from "react-icons/fa6";
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
-// Component
-import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
-import { InputStyleColor } from "@/components/myinput/myinput";
-
-const ModalAddRoom = ({ closeModal }) => {
+const ModalAddQuestion = ({ closeModal }) => {
+  const [value, setValue] = useState("");
+  // Handler for changes in the editor
+  const handleChange = (content) => {
+    setValue(content);
+  };
   return (
     <>
       <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
@@ -25,91 +32,27 @@ const ModalAddRoom = ({ closeModal }) => {
         className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
         style={{ "--delay": 0 + "s" }}
       >
-        <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="relative max-w-lg w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <IoIosCloseCircle
             onClick={closeModal}
             className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
           />
-          <h3 className="text-xl font-semibold mb-2">Tambah Ruangan</h3>
+          <h3 className="text-xl font-semibold mb-2">Tambah Soal</h3>
           <p className="mb-6">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
             deleniti asperiores nisi veritatis unde et?
           </p>
-          {/* FORM */}
           <div className="">
-            <Formik
-              initialValues={{
-                roomname: "",
-              }}
-              validate={(values) => {
-                const errors = {};
-                if (!values.roomname) {
-                  errors.roomname = "Room name cannot be empty!";
-                }
-
-                return errors;
-              }}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
-                }, 400);
-              }}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-                submitCount,
-              }) => (
-                <form className="flex flex-col" onSubmit={handleSubmit}>
-                  <div className="mb-8">
-                    <label
-                      htmlFor="roomname"
-                      className="block mb-2 text-md font-medium text-black-100"
-                    >
-                      Nama Ruangan
-                    </label>
-                    <div className="relative">
-                      <input
-                        id="roomname"
-                        type="text"
-                        name="roomname"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.roomname}
-                        placeholder="Ruang A1"
-                        className={InputStyleColor({
-                          bgColor: "bg-gray-100",
-                          textColor: "text-black-100",
-                        })}
-                      />
-                    </div>
-                    <span className="text-sm mt-1">
-                      {submitCount > 0 &&
-                        errors.roomname &&
-                        touched.roomname &&
-                        errors.roomname}
-                    </span>
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={!isSubmitting}
-                    className={`${ButtonStyleColor(
-                      "bg-green-600 hover:bg-green-700"
-                    )} w-full`}
-                  >
-                    Tambahkan!
-                  </button>
-                </form>
-              )}
-            </Formik>
+            <QuillToolbar /> {/* Render the custom toolbar */}
+            <ReactQuill
+              theme="snow"
+              value={value}
+              onChange={handleChange}
+              modules={modules}
+              formats={formats}
+            />
           </div>
+          <button type="button" onClick={()=>{console.log(value)}}>TEST</button>
         </div>
       </div>
     </>
@@ -117,45 +60,32 @@ const ModalAddRoom = ({ closeModal }) => {
 };
 
 export default function page() {
-
-  const copyTextToClipboard = async () => {
-    const textToCopy = document.getElementById('copyable').textContent; // Get the text content
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-    } catch (err) {
-      console.error('Failed to copy: ', err);
-    }
-  };
-
   const [sectionActive, setSectionActive] = useState("userlist");
   const changeSectionActive = (section) => {
     setSectionActive(section);
   };
 
-  const [modalAddRoom, setModalAddRoom] = useState(false);
-  const toggleModalAddRoom = () => setModalAddRoom(!modalAddRoom);
+  const [modalAddQuestion, setModalAddQuestion] = useState(false);
+  const toggleModalAddQuestion = () => setModalAddQuestion(!modalAddQuestion);
+
+  const copyTextToClipboard = async () => {
+    const textToCopy = document.getElementById("copyable").textContent; // Get the text content
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
 
   const { setType } = useBackground();
-  const [perPage, setPerPage] = useState(3);
-
   useEffect(() => {
     setType("bg-bkg0");
-    const checkScreenSize = () => {
-      const isMdScreen = window.innerWidth >= 600;
-      if (isMdScreen) {
-        setPerPage(3);
-      } else {
-        setPerPage(2);
-      }
-    };
-
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
   return (
     <>
-      {modalAddRoom ? <ModalAddRoom closeModal={toggleModalAddRoom} /> : null}
+      {modalAddQuestion ? (
+        <ModalAddQuestion closeModal={toggleModalAddQuestion} />
+      ) : null}
       <div className="max-w-screen-md px-2 mx-auto mt-32 mb-8">
         <div
           className="w-full mt-12 text-start mb-8 animate-slideIn opacity-0"
@@ -205,39 +135,24 @@ export default function page() {
                 </div>
               </div>
             </div>
-            <div onClick={copyTextToClipboard} className="flex items-center justify-between sm:items-start w-full sm:w-1/2 bg-light-white sm:rounded-lg rounded-b-lg p-4 cursor-pointer">
+            <div
+              onClick={copyTextToClipboard}
+              className="flex items-center justify-between sm:items-start w-full sm:w-1/2 bg-light-white sm:rounded-lg rounded-b-lg p-4 cursor-pointer"
+            >
               <div className="flex items-center sm:flex-col gap-2">
                 <h4 className="min-w-max ">Kode Kelas :</h4>
-                <div id="copyable" className=" w-full h-full text-lg font-semibold">
+                <div
+                  id="copyable"
+                  className=" w-full h-full text-lg font-semibold"
+                >
                   ASD32F
                 </div>
               </div>
 
-              <FaRegCopy  className="text-2xl text-gray-400" />
+              <FaRegCopy className="text-2xl text-gray-400" />
             </div>
           </div>
         </div>
-
-        {/* <div
-          className="w-full animate-slideIn opacity-0 rounded-xl min-h-48 p-6 mt-12"
-          style={{ "--delay": 0.5 + "s" }}
-        >
-          <Splide
-            options={{
-              rewind: true,
-              gap: "1rem",
-              perPage: perPage,
-            }}
-            aria-label="My Favorite Images"
-          >
-            <SplideSlide>
-              <div className="w-full h-48 bg-light-white rounded-xl"></div>
-            </SplideSlide>
-            <SplideSlide>
-              <div className="w-full h-48 bg-light-white rounded-xl"></div>
-            </SplideSlide>
-          </Splide>
-        </div> */}
 
         {/* TABLE */}
         {sectionActive == "userlist" ? (
@@ -333,13 +248,13 @@ export default function page() {
           </>
         ) : sectionActive == "questionbank" ? (
           <>
-            <div className="flex rounded-xl min-h-48 mt-6">
+            <div className="flex rounded-xl min-h-24 mt-6">
               <div
-                onClick={toggleModalAddRoom}
-                className="w-full h-48 border-4 border-dashed rounded-xl flex flex-col justify-center items-center cursor-pointer"
+                onClick={toggleModalAddQuestion}
+                className="w-full h-24 border-4 border-dashed rounded-xl flex justify-center items-center cursor-pointer"
               >
-                <IoIosAdd className="text-7xl text-gray-600" />
-                <h4 className="text-lg text-gray-600 font-semibold">
+                <IoIosAdd className="text-7xl text-gray-200" />
+                <h4 className="text-lg text-gray-200 font-semibold">
                   Tambah Soal
                 </h4>
               </div>

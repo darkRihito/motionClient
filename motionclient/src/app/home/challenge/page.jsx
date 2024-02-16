@@ -116,7 +116,7 @@ export default function page() {
                 <Image alt="" fill src="/assets/icon/selectionc.png" />
               </div>
               <div className="text-[#D93644]">
-                <div className="sm:order-1">Seleksi</div>
+                <div className="sm:order-1">PreTest</div>
                 <p className="text-sm font-normal">
                   Tes terlebih dahulu untuk mengukur tingkat kemampuanmu!
                 </p>

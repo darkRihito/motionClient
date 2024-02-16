@@ -4,7 +4,7 @@
 
 body {
   background-color: #fafafa;
-  background-image: url("/assets/bkg/brick.jpg");
+  /* background-image: url("/assets/bkg/brick.jpg"); */
   background-size: 250px;
   background-repeat: repeat;
 }

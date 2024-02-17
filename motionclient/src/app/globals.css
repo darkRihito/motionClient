@@ -17,3 +17,22 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+h1 {
+  @apply text-2xl font-bold;
+}
+h2 {
+  @apply text-xl font-semibold;
+}
+strong {
+  @apply font-bold;
+}
+ol {
+  @apply list-decimal list-inside;
+}
+li {
+  @apply mb-2;
+}
+.ql-align-center {
+  @apply text-center;
+}

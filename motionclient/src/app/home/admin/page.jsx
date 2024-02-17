@@ -18,6 +18,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 // Icon
+import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { IoIosAdd, IoIosCloseCircle } from "react-icons/io";
 import { FaRegCopy } from "react-icons/fa6";
@@ -62,7 +63,8 @@ const ModalAddQuestion = ({ closeModal }) => {
           </p>
           <div className="">
             <QuillToolbar />
-            <ReactQuill className="h-[10rem] overflow-y-auto"
+            <ReactQuill
+              className="h-[10rem] overflow-y-auto"
               theme="snow"
               value={questionValue}
               onChange={handleChange}
@@ -79,10 +81,9 @@ const ModalAddQuestion = ({ closeModal }) => {
                 }}
                 validate={(values) => {
                   const errors = {};
-                  if (!questionValue){
+                  if (!questionValue) {
                     errors.answer = "Soal tidak boleh kosong!";
-                  }
-                  else if (!values.answer) {
+                  } else if (!values.answer) {
                     errors.answer = "Pilih satu jawaban benar!";
                   }
 
@@ -90,7 +91,8 @@ const ModalAddQuestion = ({ closeModal }) => {
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                   setTimeout(() => {
-                    alert(JSON.stringify(values, null, 2));
+                    // alert(JSON.stringify({values, questionValue}, null, 2));
+                    console.log(questionValue);
                     setSubmitting(false);
                   }, 400);
                 }}
@@ -202,7 +204,7 @@ const ModalAddQuestion = ({ closeModal }) => {
                       type="submit"
                       className={`${ButtonStyleColor(
                         "bg-green-600 hover:bg-green-700"
-                      )} max-w-48 w-full mt-12 self-end`}
+                      )} max-w-48 w-full mt-8 self-end`}
                     >
                       Tambahkan!
                     </button>
@@ -217,6 +219,27 @@ const ModalAddQuestion = ({ closeModal }) => {
     </>
   );
 };
+
+const dataPeserta = [
+  {
+    id: 1,
+    fotoProfil: "/assets/img/profile.jpg",
+    nama: "Rihito",
+    poinA: 50,
+    poinB: 50,
+  },
+  // Tambahkan objek lainnya sesuai dengan data peserta
+];
+
+const dataSoal = [
+  {
+    id: 1,
+    kesulitan: "Mudah",
+    soal: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam assumenda provident mollitia, suscipit veritatis rem.",
+    jawaban: "A",
+  },
+  // Bisa menambahkan lebih banyak objek soal di sini
+];
 
 export default function page() {
   const { sectionActive, setSectionActive } = useStore();
@@ -278,7 +301,7 @@ export default function page() {
                   <span className="relative block w-12 h-12">
                     <Image fill src="/assets/icon/users.png" alt="" />
                   </span>
-                  <h2 className="text-2xl font-semibold">20</h2>
+                  <h2 className="text-2xl font-semibold">{dataPeserta.length}</h2>
                 </div>
               </div>
               <div
@@ -292,7 +315,7 @@ export default function page() {
                   <span className="relative block w-12 h-12">
                     <Image fill src="/assets/icon/documents.png" alt="" />
                   </span>
-                  <h2 className="text-2xl font-semibold">20</h2>
+                  <h2 className="text-2xl font-semibold">{dataSoal.length}</h2>
                 </div>
               </div>
             </div>
@@ -363,44 +386,56 @@ export default function page() {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr className="">
-                        <th
-                          scope="row"
-                          className="px-6 py-3 font-medium text-center"
-                        >
-                          1
-                        </th>
-                        <td className="py-3 w-full">
-                          <div className="flex items-center gap-2 ">
-                            <div className="">
-                              <div className="border h-10 w-10 md:h-11 md:w-11 rounded-full relative overflow-hidden">
-                                <Image
-                                  fill
-                                  src="/assets/img/profile.jpg"
-                                  alt="Profile pict"
-                                />
+                      {dataPeserta.map((peserta) => (
+                        <tr key={peserta.id}>
+                          <th
+                            scope="row"
+                            className="px-6 py-3 font-medium text-center"
+                          >
+                            {peserta.id}
+                          </th>
+                          <td className="py-3 w-full">
+                            <div className="flex items-center gap-2">
+                              <div>
+                                {/* FOTO PROFIL */}
+                                <div className="border h-10 w-10 md:h-11 md:w-11 rounded-full relative overflow-hidden">
+                                  <img
+                                    src={peserta.fotoProfil}
+                                    alt="Profile pict"
+                                    style={{
+                                      width: "100%",
+                                      height: "100%",
+                                      objectFit: "cover",
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                              <div className="flex flex-col min-w-24 w-full">
+                                {/* NAMA */}
+                                <div className="lg:text-base font-semibold">
+                                  {peserta.nama}
+                                </div>
                               </div>
                             </div>
-                            <div className="flex flex-col min-w-24 w-full">
-                              <div className="lg:text-base font-semibold">
-                                Rihito
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-3 text-center w-full hidden md:table-cell">
-                          50
-                        </td>
-                        <td className="py-3 text-center w-full hidden md:table-cell">
-                          50
-                        </td>
-                        <td className=" px-4 py-3 text-center w-full md:hidden table-cell">
-                          50/50
-                        </td>
-                        <td className="px-6 py-3 text-center w-full cursor-pointer text-red-400  hover:text-red-500 ">
-                          <MdDelete className="text-2xl " />
-                        </td>
-                      </tr>
+                          </td>
+                          <td className="px-6 py-3 text-center w-full hidden md:table-cell">
+                            {/* POIN A */}
+                            {peserta.poinA}
+                          </td>
+                          <td className="py-3 text-center w-full hidden md:table-cell">
+                            {/* POIN B */}
+                            {peserta.poinB}
+                          </td>
+                          <td className="px-4 py-3 text-center w-full md:hidden table-cell">
+                            {/* POIN A / POIN B */}
+                            {`${peserta.poinA}/${peserta.poinB}`}
+                          </td>
+                          <td className="px-6 py-3 text-center w-full cursor-pointer text-red-400  hover:text-red-500 ">
+                            <MdDelete className="text-2xl " />
+                            {/* Ikon MdDelete harus diimpor */}
+                          </td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
@@ -410,17 +445,50 @@ export default function page() {
         ) : sectionActive == "questionbank" ? (
           <>
             <div
-              className="animate-slideIn opacity-0 flex rounded-xl min-h-24 mt-6"
+              className="animate-slideIn opacity-0 flex flex-col rounded-xl min-h-24 mt-6"
               style={{ "--delay": 0.25 + "s" }}
             >
               <div
                 onClick={toggleModalAddQuestion}
-                className="w-full h-24 border-4 border-dashed rounded-xl flex justify-center items-center cursor-pointer"
+                className="w-full h-24 border-4 border-dashed rounded-xl flex justify-center items-center cursor-pointer mb-8"
               >
                 <IoIosAdd className="text-7xl text-gray-200" />
                 <h4 className="text-lg text-gray-200 font-semibold">
                   Tambah Soal
                 </h4>
+              </div>
+              <p className="text-xl font-semibold mb-6">Daftar Soal</p>
+              {/* LIST */}
+              <div className="">
+                <div>
+                  {dataSoal.map((item) => (
+                    <div
+                      key={item.id}
+                      className="bg-light-white rounded-lg w-full min-h-20 p-4 gap-3 flex relative"
+                    >
+                      <div>
+                        <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-3 py-1 rounded-full absolute -top-2">
+                          {item.kesulitan}
+                        </span>
+                      </div>
+                      <div className="flex flex-col justify-between">
+                        <div className="mt-2">{item.soal}</div>
+                        <div>
+                          Jawaban:{" "}
+                          <span className="font-semibold">{item.jawaban}</span>
+                        </div>
+                      </div>
+                      <div className="w-max">
+                        <div className="cursor-pointer border rounded-md p-3 mb-1">
+                          <MdEdit className="text-2xl text-blue-400" />
+                        </div>
+                        <div className="cursor-pointer border rounded-md p-3">
+                          <MdDelete className="text-2xl text-red-400" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </>

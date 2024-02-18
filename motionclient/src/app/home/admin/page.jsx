@@ -235,7 +235,7 @@ const dataSoal = [
   {
     id: 1,
     kesulitan: "Mudah",
-    soal: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam assumenda provident mollitia, suscipit veritatis rem.",
+    soal: "<h2 class='ql-align-center'><strong>Test</strong></h2><p>lorem ipsum</p>",
     jawaban: "A",
   },
   // Bisa menambahkan lebih banyak objek soal di sini
@@ -399,14 +399,11 @@ export default function page() {
                               <div>
                                 {/* FOTO PROFIL */}
                                 <div className="border h-10 w-10 md:h-11 md:w-11 rounded-full relative overflow-hidden">
-                                  <img
+                                  <Image
                                     src={peserta.fotoProfil}
                                     alt="Profile pict"
-                                    style={{
-                                      width: "100%",
-                                      height: "100%",
-                                      objectFit: "cover",
-                                    }}
+                                    fill
+                                    className="relative"
                                   />
                                 </div>
                               </div>
@@ -471,8 +468,8 @@ export default function page() {
                           {item.kesulitan}
                         </span>
                       </div>
-                      <div className="flex flex-col justify-between">
-                        <div className="mt-2">{item.soal}</div>
+                      <div className="w-full flex flex-col justify-between">
+                        <div dangerouslySetInnerHTML={{ __html: item.soal }} className="mt-2"></div>
                         <div>
                           Jawaban:{" "}
                           <span className="font-semibold">{item.jawaban}</span>

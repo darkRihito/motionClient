@@ -1,28 +1,215 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { Formik, Field } from "formik";
 import Image from "next/image";
 
 // Icons
 import { MdModeEditOutline } from "react-icons/md";
 import { useModal } from "@/provider/modalprovider/modalprovider";
+import { IoIosCloseCircle } from "react-icons/io";
 
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
+// Component
+import { InputStyleColor } from "@/components/myinput/myinput";
+import { ButtonStyleColor } from "@/components/mybutton/mybutton";
+
+const ModalEditStatus = ({ closeModal }) => {
+  return (
+    <>
+      <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
+      <div
+        className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
+        style={{ "--delay": 0 + "s" }}
+      >
+        <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <IoIosCloseCircle
+            onClick={closeModal}
+            className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
+          />
+          <h3 className="text-xl font-semibold mb-2">Ubah Status</h3>
+          <p className="mb-4">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+            deleniti asperiores nisi veritatis unde et?
+          </p>
+          <Formik
+            initialValues={{
+              status: "",
+            }}
+            validate={(values) => {
+              const errors = {};
+              if (!values.status) {
+                errors.status = "Status tidak boleh kosong!";
+              }
+
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 400);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+              submitCount,
+            }) => (
+              <form className="flex flex-col" onSubmit={handleSubmit}>
+                <div className="mb-8">
+                  <div className="relative">
+                    <textarea
+                      id="status"
+                      type="text"
+                      name="status"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.status}
+                      placeholder="Bagaimana perasaanmu?"
+                      className={`${InputStyleColor({
+                        bgColor: "bg-gray-100",
+                        textColor: "text-black-100",
+                      })} min-h-20`}
+                    />
+                  </div>
+                  <span className="text-sm mt-1">
+                    {submitCount > 0 && errors.status && touched.status}
+                  </span>
+                </div>
+
+                <button
+                  type="submit"
+                  className={`${ButtonStyleColor(
+                    "bg-green-600 hover:bg-green-700"
+                  )} w-full`}
+                >
+                  Tambahkan!
+                </button>
+              </form>
+            )}
+          </Formik>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const ModalEditBiografi = ({ closeModal }) => {
+  return (
+    <>
+      <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
+      <div
+        className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
+        style={{ "--delay": 0 + "s" }}
+      >
+        <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <IoIosCloseCircle
+            onClick={closeModal}
+            className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
+          />
+          <h3 className="text-xl font-semibold mb-2">Ubah Biografi</h3>
+          <p className="mb-4">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
+            deleniti asperiores nisi veritatis unde et?
+          </p>
+          <Formik
+            initialValues={{
+              biografi: "",
+            }}
+            validate={(values) => {
+              const errors = {};
+              if (!values.biografi) {
+                errors.biografi = "Biografi tidak boleh kosong!";
+              }
+
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 400);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+              submitCount,
+            }) => (
+              <form className="flex flex-col" onSubmit={handleSubmit}>
+                <div className="mb-8">
+                  <div className="relative">
+                    <textarea
+                      id="biografi"
+                      type="text"
+                      name="biografi"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.biografi}
+                      placeholder="Jelaskan dirimu!"
+                      className={`${InputStyleColor({
+                        bgColor: "bg-gray-100",
+                        textColor: "text-black-100",
+                      })} min-h-20`}
+                    />
+                  </div>
+                  <span className="text-sm mt-1">
+                    {submitCount > 0 && errors.biografi && touched.biografi}
+                  </span>
+                </div>
+
+                <button
+                  type="submit"
+                  className={`${ButtonStyleColor(
+                    "bg-green-600 hover:bg-green-700"
+                  )} w-full`}
+                >
+                  Tambahkan!
+                </button>
+              </form>
+            )}
+          </Formik>
+        </div>
+      </div>
+    </>
+  );
+};
+
 export default function page() {
-  
+  const [modalEditStatus, setModalEditStatus] = useState(false);
+  const toggleModalEditStatus = () => setModalEditStatus(!modalEditStatus);
+
+  const [modalEditBiografi, setModalEditBiografi] = useState(false);
+  const toggleModalEditBiografi = () =>
+    setModalEditBiografi(!modalEditBiografi);
+
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
   }, []);
 
-  const [show, setShow] = React.useState(false);
-  const handleClick = () => setShow((prevState) => !prevState);
-
   const { openModal } = useModal();
 
   return (
     <>
+      {modalEditStatus ? (
+        <ModalEditStatus closeModal={toggleModalEditStatus} />
+      ) : null}
+      {modalEditBiografi ? (
+        <ModalEditBiografi closeModal={toggleModalEditBiografi} />
+      ) : null}
       <div
         className="max-w-screen-md mx-auto mt-64 mb-16 animate-slideIn opacity-0"
         style={{ "--delay": 0.25 + "s" }}
@@ -32,7 +219,9 @@ export default function page() {
           <div className={`w-full h-20 bg-light-white rounded-t-xl flex`}>
             <div className="w-44 flex-none h-full flex items-center justify-center">
               <div className="rounded-xl w-32 h-32 mb-14 bg-light-white relative ">
-                <div className="absolute rounded-xl w-full h-full hover: z-10 hover:brightness-10 hover:bg-black-100 hover:opacity-10 cursor-pointer"></div>
+                <div className="absolute rounded-xl w-full h-full z-10 cursor-pointer flex justify-center items-center hover:text-black-100 text-transparent hover:bg-black-100 hover:bg-opacity-10">
+                  Ubah Gambar
+                </div>
                 <Image
                   className="rounded-xl border-4 border-light-white"
                   fill
@@ -111,12 +300,7 @@ export default function page() {
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="p-2 rounded-lg cursor-pointer hover:bg-gray-100"
-                    onClick={() =>
-                      openModal(<div className="">Some modal content</div>)
-                    }
-                  >
+                  <div className="p-2 rounded-lg">
                     <p className="text-sm">Poin Keaktifan</p>
                     <div className="flex justify-center items-center gap-1">
                       <div className="h-8 w-8 relative">
@@ -138,15 +322,14 @@ export default function page() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="relative w-8 h-8">
-                        <Image
-                          src="/assets/icon/feather-pen.png"
-                          alt=""
-                          fill
-                        ></Image>
+                        <Image src="/assets/icon/feather-pen.png" alt="" fill />
                       </div>
                       <h3 className="text-xl font-semibold">Status</h3>
                     </div>
-                    <MdModeEditOutline className="text-xl place-self-start text-gray-600 cursor-pointer" />
+                    <MdModeEditOutline
+                      onClick={toggleModalEditStatus}
+                      className="text-xl place-self-start text-gray-600 cursor-pointer"
+                    />
                   </div>
                   <p className="">I feel happy today</p>
                 </div>
@@ -154,11 +337,14 @@ export default function page() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="relative w-8 h-8">
-                        <Image src="/assets/icon/user.png" alt="" fill></Image>
+                        <Image src="/assets/icon/user.png" alt="" fill />
                       </div>
                       <h3 className="text-xl font-semibold">Biografi</h3>
                     </div>
-                    <MdModeEditOutline className="text-xl place-self-start text-gray-600 cursor-pointer" />
+                    <MdModeEditOutline
+                      onClick={toggleModalEditBiografi}
+                      className="text-xl place-self-start text-gray-600 cursor-pointer"
+                    />
                   </div>
                   <p>
                     Salam kenal! Aku adalah Rihito, Asalku dari Purwakarta.

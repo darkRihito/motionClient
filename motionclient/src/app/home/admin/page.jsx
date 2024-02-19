@@ -22,7 +22,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { IoIosAdd, IoIosCloseCircle } from "react-icons/io";
 import { FaRegCopy } from "react-icons/fa6";
-
+// Styles
 import { InputStyleColor } from "@/components/myinput/myinput";
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 
@@ -39,6 +39,242 @@ const useStore = create(
   )
 );
 
+const ModalEditQuestion = ({
+  closeModal,
+  id,
+  kesulitan,
+  soal,
+  jawaban,
+  kategori,
+}) => {
+  const [questionValue, setQuestionValue] = useState(soal);
+  const handleChange = (content) => {
+    setQuestionValue(content);
+  };
+  return (
+    <>
+      <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
+      <div
+        className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
+        style={{ "--delay": 0 + "s" }}
+      >
+        <div className="relative max-w-lg w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <IoIosCloseCircle
+            onClick={closeModal}
+            className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
+          />
+          <h3 className="text-xl font-semibold mb-4">Tambah Soal</h3>
+          <div className="">
+            <QuillToolbar />
+            <ReactQuill
+              className="h-[10rem] overflow-y-auto"
+              theme="snow"
+              value={questionValue}
+              onChange={handleChange}
+              modules={modules}
+              formats={formats}
+            ></ReactQuill>
+          </div>
+          <div className="">
+            {/* Tingkat Kesulitan */}
+            <div className="">
+              <Formik
+                initialValues={{
+                  answer: jawaban,
+                  difficulty: kesulitan,
+                  category: kategori,
+                }}
+                validate={(values) => {
+                  const errors = {};
+                  if (!questionValue || !values.answer) {
+                    errors.answer = "Soal atau jawaban tidak boleh kosong!";
+                  }
+                  if (!values.difficulty) {
+                    errors.difficulty = "Kesulitan tidak boleh kosong!";
+                  }
+                  if (!values.category) {
+                    errors.category = `Kategori tidak boleh kosong!`;
+                  }
+                  return errors;
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                  let payload = {
+                    answer: values.answer,
+                    difficulty: values.difficulty,
+                    category: values.category,
+                  };
+
+                  const question = questionValue;
+                  payload.question = question;
+
+                  setTimeout(() => {
+                    alert(JSON.stringify({ payload }, null, 2));
+                    setSubmitting(false);
+                  }, 400);
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                  submitCount,
+                }) => (
+                  <form className="flex flex-col" onSubmit={handleSubmit}>
+                    <div className="mt-4">
+                      <div id="radioadmin" className="flex gap-3">
+                        <label
+                          htmlFor="opt1"
+                          className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border rounded-lg ${
+                            values.answer == "a" && "border border-green-400"
+                          }`}
+                        >
+                          <div className="">
+                            <Field
+                              id="opt1"
+                              type="radio"
+                              value="a"
+                              name="answer"
+                              className="w-4 h-4 hidden peer"
+                            />
+                            <span className="w-full py-4 text-sm font-semibold">
+                              A
+                            </span>
+                          </div>
+                        </label>
+                        <label
+                          htmlFor="opt2"
+                          className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border rounded-lg ${
+                            values.answer == "b" && "border border-green-400"
+                          }`}
+                        >
+                          <div className="">
+                            <Field
+                              id="opt2"
+                              type="radio"
+                              value="b"
+                              name="answer"
+                              className="w-4 h-4 hidden peer"
+                            />
+                            <span className="w-full py-4 text-sm font-semibold">
+                              B
+                            </span>
+                          </div>
+                        </label>
+                        <label
+                          htmlFor="opt3"
+                          className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border rounded-lg ${
+                            values.answer == "c" && "border border-green-400"
+                          }`}
+                        >
+                          <div className="">
+                            <Field
+                              id="opt3"
+                              type="radio"
+                              value="c"
+                              name="answer"
+                              className="w-4 h-4 hidden peer"
+                            />
+                            <span className="w-full py-4 text-sm font-semibold">
+                              C
+                            </span>
+                          </div>
+                        </label>
+                        <label
+                          htmlFor="opt4"
+                          className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border rounded-lg ${
+                            values.answer == "d" && "border border-green-400"
+                          }`}
+                        >
+                          <div className="">
+                            <Field
+                              id="opt4"
+                              type="radio"
+                              value="d"
+                              name="answer"
+                              className="w-4 h-4 hidden peer"
+                            />
+                            <span className="w-full py-4 text-sm font-semibold">
+                              D
+                            </span>
+                          </div>
+                        </label>
+                      </div>
+                      <span className="text-sm mt-1">
+                        {submitCount > 0 && touched.answer && errors.answer}
+                      </span>
+
+                      <div className="flex gap-3 mt-4">
+                        <div className="flex-1">
+                          <div className="relative">
+                            <select
+                              id="category"
+                              name="category"
+                              onChange={handleChange}
+                              value={values.category}
+                              className="text-black-100 bg-light-white focus:ring-transparent focus:outline-none focus:border border-none rounded-lg block w-full h-12 px-3"
+                            >
+                              <option className="hidden">Pilih Kategori</option>
+                              <option value="grammar">Grammar</option>
+                            </select>
+                          </div>
+
+                          <span className="text-sm mt-1">
+                            {submitCount > 0 &&
+                              touched.category &&
+                              errors.category}
+                          </span>
+                        </div>
+
+                        <div className="flex-1">
+                          <div className="relative">
+                            <select
+                              id="difficulty"
+                              name="difficulty"
+                              onChange={handleChange}
+                              value={values.difficulty}
+                              className="text-black-100 bg-light-white focus:ring-transparent focus:outline-none focus:border border-none rounded-lg block w-full h-12 px-3"
+                            >
+                              <option className="hidden">
+                                Tingkat Kesulitan
+                              </option>
+                              <option value="mudah">Mudah</option>
+                              <option value="sedang">Sedang</option>
+                              <option value="sulit">Sulit</option>
+                            </select>
+                          </div>
+                          <span className="text-sm mt-1">
+                            {submitCount > 0 &&
+                              touched.difficulty &&
+                              errors.difficulty}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className={`${ButtonStyleColor(
+                        "bg-green-600 hover:bg-green-700"
+                      )} max-w-48 w-full mt-8 self-end justify-self-end me-0 mb-0`}
+                    >
+                      Tambahkan!
+                    </button>
+                  </form>
+                )}
+              </Formik>
+            </div>
+            {/*  */}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
 const ModalAddQuestion = ({ closeModal }) => {
   const [questionValue, setQuestionValue] = useState("");
   const handleChange = (content) => {
@@ -51,16 +287,12 @@ const ModalAddQuestion = ({ closeModal }) => {
         className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
         style={{ "--delay": 0 + "s" }}
       >
-        <div className="relative max-w-xl w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="relative max-w-lg w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <IoIosCloseCircle
             onClick={closeModal}
             className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
           />
-          <h3 className="text-xl font-semibold mb-2">Tambah Soal</h3>
-          <p className="mb-6">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-            deleniti asperiores nisi veritatis unde et?
-          </p>
+          <h3 className="text-xl font-semibold mb-4">Tambah Soal</h3>
           <div className="">
             <QuillToolbar />
             <ReactQuill
@@ -78,21 +310,34 @@ const ModalAddQuestion = ({ closeModal }) => {
               <Formik
                 initialValues={{
                   answer: "",
+                  difficulty: "",
+                  category: "",
                 }}
                 validate={(values) => {
                   const errors = {};
-                  if (!questionValue) {
-                    errors.answer = "Soal tidak boleh kosong!";
-                  } else if (!values.answer) {
-                    errors.answer = "Pilih satu jawaban benar!";
+                  if (!questionValue || !values.answer) {
+                    errors.answer = "Soal atau jawaban tidak boleh kosong!";
                   }
-
+                  if (!values.difficulty) {
+                    errors.difficulty = "Kesulitan tidak boleh kosong!";
+                  }
+                  if (!values.category) {
+                    errors.category = `Kategori tidak boleh kosong!`;
+                  }
                   return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
+                  let payload = {
+                    answer: values.answer,
+                    difficulty: values.difficulty,
+                    category: values.category,
+                  };
+
+                  const question = questionValue;
+                  payload.question = question;
+
                   setTimeout(() => {
-                    // alert(JSON.stringify({values, questionValue}, null, 2));
-                    console.log(questionValue);
+                    alert(JSON.stringify({ payload }, null, 2));
                     setSubmitting(false);
                   }, 400);
                 }}
@@ -108,103 +353,142 @@ const ModalAddQuestion = ({ closeModal }) => {
                   submitCount,
                 }) => (
                   <form className="flex flex-col" onSubmit={handleSubmit}>
-                    <label
-                      htmlFor="radioadmin"
-                      className="block mt-3 mb-2 text-md font-medium"
-                    >
-                      Pilih Jawaban Benar
-                    </label>
-                    <div id="radioadmin" className="flex gap-3">
-                      <label
-                        htmlFor="opt1"
-                        className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border-2 ${
-                          values.answer == "a" && "border-2 border-green-400"
-                        }`}
-                      >
-                        <div className="">
-                          <Field
-                            id="opt1"
-                            type="radio"
-                            value="a"
-                            name="answer"
-                            className="w-4 h-4 hidden peer"
-                          />
-                          <span className="w-full py-4 text-sm font-semibold">
-                            A
+                    <div className="mt-4">
+                      <div id="radioadmin" className="flex gap-3">
+                        <label
+                          htmlFor="opt1"
+                          className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border rounded-lg ${
+                            values.answer == "a" && "border border-green-400"
+                          }`}
+                        >
+                          <div className="">
+                            <Field
+                              id="opt1"
+                              type="radio"
+                              value="a"
+                              name="answer"
+                              className="w-4 h-4 hidden peer"
+                            />
+                            <span className="w-full py-4 text-sm font-semibold">
+                              A
+                            </span>
+                          </div>
+                        </label>
+                        <label
+                          htmlFor="opt2"
+                          className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border rounded-lg ${
+                            values.answer == "b" && "border border-green-400"
+                          }`}
+                        >
+                          <div className="">
+                            <Field
+                              id="opt2"
+                              type="radio"
+                              value="b"
+                              name="answer"
+                              className="w-4 h-4 hidden peer"
+                            />
+                            <span className="w-full py-4 text-sm font-semibold">
+                              B
+                            </span>
+                          </div>
+                        </label>
+                        <label
+                          htmlFor="opt3"
+                          className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border rounded-lg ${
+                            values.answer == "c" && "border border-green-400"
+                          }`}
+                        >
+                          <div className="">
+                            <Field
+                              id="opt3"
+                              type="radio"
+                              value="c"
+                              name="answer"
+                              className="w-4 h-4 hidden peer"
+                            />
+                            <span className="w-full py-4 text-sm font-semibold">
+                              C
+                            </span>
+                          </div>
+                        </label>
+                        <label
+                          htmlFor="opt4"
+                          className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border rounded-lg ${
+                            values.answer == "d" && "border border-green-400"
+                          }`}
+                        >
+                          <div className="">
+                            <Field
+                              id="opt4"
+                              type="radio"
+                              value="d"
+                              name="answer"
+                              className="w-4 h-4 hidden peer"
+                            />
+                            <span className="w-full py-4 text-sm font-semibold">
+                              D
+                            </span>
+                          </div>
+                        </label>
+                      </div>
+                      <span className="text-sm mt-1">
+                        {submitCount > 0 && touched.answer && errors.answer}
+                      </span>
+
+                      <div className="flex gap-3 mt-4">
+                        <div className="flex-1">
+                          <div className="relative">
+                            <select
+                              id="category"
+                              name="category"
+                              onChange={handleChange}
+                              value={values.category}
+                              className="text-black-100 bg-light-white focus:ring-transparent focus:outline-none focus:border border-none rounded-lg block w-full h-12 px-3"
+                            >
+                              <option className="hidden">Pilih Kategori</option>
+                              <option value="grammar">Grammar</option>
+                            </select>
+                          </div>
+
+                          <span className="text-sm mt-1">
+                            {submitCount > 0 &&
+                              touched.category &&
+                              errors.category}
                           </span>
                         </div>
-                      </label>
-                      <label
-                        htmlFor="opt2"
-                        className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border-2 ${
-                          values.answer == "b" && "border-2 border-green-400"
-                        }`}
-                      >
-                        <div className="">
-                          <Field
-                            id="opt2"
-                            type="radio"
-                            value="b"
-                            name="answer"
-                            className="w-4 h-4 hidden peer"
-                          />
-                          <span className="w-full py-4 text-sm font-semibold">
-                            B
+
+                        <div className="flex-1">
+                          <div className="relative">
+                            <select
+                              id="difficulty"
+                              name="difficulty"
+                              onChange={handleChange}
+                              value={values.difficulty}
+                              className="text-black-100 bg-light-white focus:ring-transparent focus:outline-none focus:border border-none rounded-lg block w-full h-12 px-3"
+                            >
+                              <option className="hidden">
+                                Tingkat Kesulitan
+                              </option>
+                              <option value="mudah">Mudah</option>
+                              <option value="sedang">Sedang</option>
+                              <option value="sulit">Sulit</option>
+                            </select>
+                          </div>
+                          <span className="text-sm mt-1">
+                            {submitCount > 0 &&
+                              touched.difficulty &&
+                              errors.difficulty}
                           </span>
                         </div>
-                      </label>
-                      <label
-                        htmlFor="opt3"
-                        className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border-2 ${
-                          values.answer == "c" && "border-2 border-green-400"
-                        }`}
-                      >
-                        <div className="">
-                          <Field
-                            id="opt3"
-                            type="radio"
-                            value="c"
-                            name="answer"
-                            className="w-4 h-4 hidden peer"
-                          />
-                          <span className="w-full py-4 text-sm font-semibold">
-                            C
-                          </span>
-                        </div>
-                      </label>
-                      <label
-                        htmlFor="opt4"
-                        className={`flex flex-1 items-center justify-center h-12 p-4 cursor-pointer border-2 ${
-                          values.answer == "d" && "border-2 border-green-400"
-                        }`}
-                      >
-                        <div className="">
-                          <Field
-                            id="opt4"
-                            type="radio"
-                            value="d"
-                            name="answer"
-                            className="w-4 h-4 hidden peer"
-                          />
-                          <span className="w-full py-4 text-sm font-semibold">
-                            D
-                          </span>
-                        </div>
-                      </label>
+                      </div>
                     </div>
-                    <span className="text-sm mt-2">
-                      {submitCount > 0 &&
-                        errors.answer &&
-                        touched.answer &&
-                        errors.answer}
-                    </span>
-                    {/* <div>Picked: {values.answer}</div> */}
 
                     <button
                       type="submit"
                       className={`${ButtonStyleColor(
                         "bg-green-600 hover:bg-green-700"
-                      )} max-w-48 w-full mt-8 self-end`}
+                      )} max-w-48 w-full mt-8 self-end justify-self-end me-0 mb-0`}
                     >
                       Tambahkan!
                     </button>
@@ -234,9 +518,10 @@ const dataPeserta = [
 const dataSoal = [
   {
     id: 1,
-    kesulitan: "Mudah",
-    soal: "<h2 class='ql-align-center'><strong>Test</strong></h2><p>lorem ipsum</p>",
-    jawaban: "A",
+    kesulitan: "mudah",
+    soal: "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
+    jawaban: "c",
+    kategori: "grammar",
   },
   // Bisa menambahkan lebih banyak objek soal di sini
 ];
@@ -251,6 +536,14 @@ export default function page() {
   const [modalAddQuestion, setModalAddQuestion] = useState(false);
   const toggleModalAddQuestion = () => setModalAddQuestion(!modalAddQuestion);
 
+  const [modalEditQuestion, setModalEditQuestion] = useState(false);
+
+  const [currentEditItem, setCurrentEditItem] = useState(null);
+  const toggleModalEditQuestion = (item) => {
+    setCurrentEditItem(item);
+    setModalEditQuestion(true);
+  };
+
   const copyTextToClipboard = async () => {
     const textToCopy = document.getElementById("copyable").textContent;
     try {
@@ -264,11 +557,30 @@ export default function page() {
   useEffect(() => {
     setType("bg-bkg0");
   }, []);
+
+  useEffect(() => {
+    const sessionActiveValue = sessionStorage.getItem("adminsectionstate");
+    const parsedValue = JSON.parse(sessionActiveValue);
+    const sectionActive = parsedValue.state.sectionActive;
+    if (sectionActive === "") {
+      changeSectionActive("userlist");
+    }
+  }, []);
   return (
     <>
       {modalAddQuestion ? (
         <ModalAddQuestion closeModal={toggleModalAddQuestion} />
       ) : null}
+      {modalEditQuestion && currentEditItem && (
+        <ModalEditQuestion
+          closeModal={() => setModalEditQuestion(false)}
+          id={currentEditItem.id}
+          kesulitan={currentEditItem.kesulitan}
+          soal={currentEditItem.soal}
+          jawaban={currentEditItem.jawaban}
+          kategori={currentEditItem.kategori}
+        />
+      )}
       <div className="max-w-screen-md px-2 mx-auto mt-32 mb-8">
         <div
           className="w-full mt-12 text-start mb-8 animate-slideIn opacity-0"
@@ -301,7 +613,9 @@ export default function page() {
                   <span className="relative block w-12 h-12">
                     <Image fill src="/assets/icon/users.png" alt="" />
                   </span>
-                  <h2 className="text-2xl font-semibold">{dataPeserta.length}</h2>
+                  <h2 className="text-2xl font-semibold">
+                    {dataPeserta.length}
+                  </h2>
                 </div>
               </div>
               <div
@@ -449,8 +763,8 @@ export default function page() {
                 onClick={toggleModalAddQuestion}
                 className="w-full h-24 border-4 border-dashed rounded-xl flex justify-center items-center cursor-pointer mb-8"
               >
-                <IoIosAdd className="text-7xl text-gray-200" />
-                <h4 className="text-lg text-gray-200 font-semibold">
+                <IoIosAdd className="text-7xl text-black-100" />
+                <h4 className="text-lg text-black-100 font-semibold">
                   Tambah Soal
                 </h4>
               </div>
@@ -468,15 +782,23 @@ export default function page() {
                           {item.kesulitan}
                         </span>
                       </div>
-                      <div className="w-full flex flex-col justify-between">
-                        <div dangerouslySetInnerHTML={{ __html: item.soal }} className="mt-2"></div>
+                      <div className="w-full flex flex-col justify-between gap-2">
+                        <div
+                          dangerouslySetInnerHTML={{ __html: item.soal }}
+                          className="mt-2"
+                        ></div>
                         <div>
                           Jawaban:{" "}
-                          <span className="font-semibold">{item.jawaban}</span>
+                          <span className="font-semibold text-sm ">
+                            {item.jawaban}
+                          </span>
                         </div>
                       </div>
                       <div className="w-max">
-                        <div className="cursor-pointer border rounded-md p-3 mb-1">
+                        <div
+                          onClick={() => toggleModalEditQuestion(item)}
+                          className="cursor-pointer border rounded-md p-3 mb-1"
+                        >
                           <MdEdit className="text-2xl text-blue-400" />
                         </div>
                         <div className="cursor-pointer border rounded-md p-3">

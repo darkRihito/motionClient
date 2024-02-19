@@ -18,6 +18,13 @@ body {
   -ms-overflow-style: none;
 }
 
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}
+
 h1 {
   @apply text-2xl font-bold;
 }

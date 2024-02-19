@@ -39,7 +39,7 @@ const LeftNavigation = () => {
       >
         <ul className="flex flex-col lg:ms-8 lg:items-start items-end gap-4 text-md">
           <div
-            className={`transition duration-500 ease-in-out flex flex-col lg:items-start items-end gap-4 text-md  mt-8 ${
+            className={`transition duration-500 ease-in-out flex flex-col lg:items-start items-end gap-3 text-md  mt-8 ${
               isMenuVisible ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -52,7 +52,7 @@ const LeftNavigation = () => {
                   className="block cursor-pointer transition duration-150 hover:scale-[1.05]"
                 >
                   <li
-                    className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
+                    className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
                       isActive("/home") ? "font-semibold" : ""
                     }`}
                   >
@@ -70,7 +70,7 @@ const LeftNavigation = () => {
                   className="block cursor-pointer hover:scale-[1.05] transition duration-150"
                 >
                   <li
-                    className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
+                    className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
                       isActive("/home/admin") ? "font-semibold" : ""
                     }`}
                   >
@@ -88,7 +88,7 @@ const LeftNavigation = () => {
                   className="block cursor-pointer hover:scale-[1.05] transition duration-150"
                 >
                   <li
-                    className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
+                    className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
                       isActive("/home/challenge") ? "font-semibold" : ""
                     }`}
                   >
@@ -106,7 +106,7 @@ const LeftNavigation = () => {
                   className="block cursor-pointer hover:scale-[1.05]"
                 >
                   <li
-                    className={`flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl ${
+                    className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
                       isActive("/home/leaderboard") ? "font-semibold" : ""
                     }`}
                   >
@@ -121,9 +121,9 @@ const LeftNavigation = () => {
           </div>
           <li
             onClick={toggleMenuVisibility}
-            className="flex gap-2 w-max bg-light-white p-3 lg:px-4 rounded-2xl cursor-pointer hover:scale-[1.05]"
+            className="flex gap-2 w-max bg-green-500 p-3 lg:px-4 rounded-2xl cursor-pointer hover:scale-[1.05]"
           >
-            <BsThreeDots className="text-2xl text-gray-300" />
+            <BsThreeDots className="text-2xl text-white" />
           </li>
         </ul>
       </div>

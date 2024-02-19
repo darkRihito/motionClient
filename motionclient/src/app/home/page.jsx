@@ -1,11 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Formik, Field } from "formik";
 import Image from "next/image";
 
 // Icons
 import { MdModeEditOutline } from "react-icons/md";
-import { useModal } from "@/provider/modalprovider/modalprovider";
 import { IoIosCloseCircle } from "react-icons/io";
 
 // Provider
@@ -200,7 +199,41 @@ export default function page() {
     setType("bg-bkg0");
   }, []);
 
-  const { openModal } = useModal();
+  // Image Handler
+  const [imageUrl, setImageUrl] = useState("/assets/img/profile.jpg");
+  const fileInputRef = useRef(null);
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      uploadFile(file);
+    }
+  };
+
+  const uploadFile = (file) => {
+    const formData = new FormData();
+    formData.append("file", file); // Adjust the 'file' field based on your backend API
+
+    console.log(formData);
+
+    // axios
+    //   .post("YOUR_BACKEND_ENDPOINT", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     // Assuming the backend responds with the URL of the uploaded image
+    //     setImageUrl(response.data.imageUrl); // Adjust based on actual response structure
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error uploading file:", error);
+    //   });
+  };
 
   return (
     <>
@@ -218,15 +251,24 @@ export default function page() {
         <div className="">
           <div className={`w-full h-20 bg-light-white rounded-t-xl flex`}>
             <div className="w-44 flex-none h-full flex items-center justify-center">
-              <div className="rounded-xl w-32 h-32 mb-14 bg-light-white relative ">
-                <div className="absolute rounded-xl w-full h-full z-10 cursor-pointer flex justify-center items-center hover:text-black-100 text-transparent hover:bg-black-100 hover:bg-opacity-10">
+              <div
+                className="rounded-xl w-32 h-32 mb-14 bg-light-white relative cursor-pointer"
+                onClick={triggerFileInput}
+              >
+                <div className="absolute rounded-xl w-full h-full z-10 flex justify-center items-center hover:text-black text-transparent hover:bg-black hover:bg-opacity-10">
                   Ubah Gambar
                 </div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  style={{ display: "none" }}
+                />
                 <Image
                   className="rounded-xl border-4 border-light-white"
                   fill
                   alt=""
-                  src="/assets/img/profile.jpg"
+                  src={imageUrl}
                 />
               </div>
             </div>

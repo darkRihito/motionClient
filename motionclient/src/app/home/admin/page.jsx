@@ -527,23 +527,22 @@ const dataSoal = [
 ];
 
 export default function page() {
+  // SECTION MENU
   const { sectionActive, setSectionActive } = useStore();
-
   const changeSectionActive = (section) => {
     setSectionActive(section);
   };
-
+  // ADD QUESTION MODAL HANDLER
   const [modalAddQuestion, setModalAddQuestion] = useState(false);
   const toggleModalAddQuestion = () => setModalAddQuestion(!modalAddQuestion);
-
+  // EDIT QUESTION MODAL HANDLER
   const [modalEditQuestion, setModalEditQuestion] = useState(false);
-
   const [currentEditItem, setCurrentEditItem] = useState(null);
   const toggleModalEditQuestion = (item) => {
     setCurrentEditItem(item);
     setModalEditQuestion(true);
   };
-
+  // COPY CLIPBOARD
   const copyTextToClipboard = async () => {
     const textToCopy = document.getElementById("copyable").textContent;
     try {
@@ -552,7 +551,7 @@ export default function page() {
       console.error("Failed to copy: ", err);
     }
   };
-
+  // BACKGROUND
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
@@ -594,8 +593,6 @@ export default function page() {
             itaque quibusdam!
           </p>
         </div>
-
-        {/* TABS */}
         <div
           className="animate-slideIn opacity-0"
           style={{ "--delay": 0.25 + "s" }}
@@ -646,7 +643,6 @@ export default function page() {
                   ASD32F
                 </div>
               </div>
-
               <FaRegCopy className="text-2xl text-gray-400" />
             </div>
           </div>

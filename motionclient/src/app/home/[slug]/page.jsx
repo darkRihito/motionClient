@@ -2,17 +2,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Formik, Field } from "formik";
 import Image from "next/image";
-
+import axios from "axios";
 // Icons
 import { MdModeEditOutline } from "react-icons/md";
 import { IoIosCloseCircle } from "react-icons/io";
-
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
-
 // Component
 import { InputStyleColor } from "@/components/myinput/myinput";
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
+// Store
+import useUserStore from "@/store/useUserStore";
 
 const ModalEditStatus = ({ closeModal }) => {
   return (
@@ -101,6 +101,27 @@ const ModalEditStatus = ({ closeModal }) => {
 };
 
 export default function page() {
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "https://octaverse-be.vercel.app/api/users",
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("DATA:", response);
+    } catch (error) {
+      console.error("Failed:", error.message);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // const userData = useUserStore((state) => state.userData);
+  // console.log(userData);
+
   const [modalEditStatus, setModalEditStatus] = useState(false);
   const toggleModalEditStatus = () => setModalEditStatus(!modalEditStatus);
 

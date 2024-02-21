@@ -2,24 +2,32 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Formik, Field } from "formik";
-
+import { Formik } from "formik";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+// Action
+import create from "./actions/createcookies";
 // Icons
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
 // Component
 import { GlobalContainer } from "@/components/globalcontainer/globalcontainer";
-import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
+import { ButtonStyle } from "@/components/mybutton/mybutton";
 import { InputStyleSVG } from "@/components/myinput/myinput";
-import { GlobalBackground } from "@/components/globalbackground/globalbackground";
-
+import Loader from "@/components/loader/loader";
 // Styles
 import background from "@/styles/background/background.module.scss";
-
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
+// Store
+import useUserStore from "@/store/useUserStore";
 
 export default function page() {
+  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const setUserData = useUserStore((state) => state.setUserData);
+
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
@@ -30,16 +38,14 @@ export default function page() {
   const Icon = shown ? FaEye : FaEyeSlash;
 
   return (
-    
     <>
-      {/* <GlobalBackground type="bg-bkg0" /> */}
+      {isLoading && <Loader />}
       <GlobalContainer>
         <div>
           <div className="flex items-center justify-center min-h-screen">
             <div
               className={`flex flex-col justify-center items-center bg-bkg1 ${background.patternBackground} w-max px-8 py-10 relative rounded-2xl border-4 border-yellow-950 text-light-white`}
             >
-              {/* HEADER */}
               <div className="relative w-20 h-20">
                 <Image src="/assets/logo-motion.png" fill alt="Motion Logo" />
               </div>
@@ -51,7 +57,6 @@ export default function page() {
                   Harap isi rincian Anda untuk mengakses akun Anda.
                 </p>
               </div>
-              {/* FORM USING FORMIK */}
               <div className="w-full max-w-sm">
                 <Formik
                   initialValues={{
@@ -68,24 +73,38 @@ export default function page() {
                       )
                     ) {
                       errors.email = "Invalid email address";
-                    }
-
-                    // Validate password
-                    else if (!values.password) {
+                    } else if (!values.password) {
                       errors.password = "Required";
                     } else if (values.password.includes(" ")) {
                       errors.password = "No spaces are allowed";
-                    } else if (values.password.length < 8) {
+                    } else if (values.password.length < 4) {
                       errors.password =
                         "Pass must be greater than 8 characters";
                     }
                     return errors;
                   }}
-                  onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                      alert(JSON.stringify(values, null, 2));
-                      setSubmitting(false);
-                    }, 400);
+                  onSubmit={async (values, { setSubmitting, setErrors }) => {
+                    setIsLoading(true);
+                    try {
+                      const response = await axios.post(
+                        "https://octaverse-be.vercel.app/api/users/login",
+                        values,
+                        {
+                          withCredentials: true,
+                        }
+                      );
+                      setUserData(response.data.user);
+                      const token = response.data.accessToken;
+                      create(token);
+                      toast.success(`Hello ${response.data.user.name}!`);
+                      router.push(`/home/${response.data.user.name}`);
+                      console.log("Login successful:", response.data);
+                    } catch (error) {
+                      console.error("Login failed:", error.response.data);
+                      setErrors({ password: "Invalid email or password" });
+                    }
+                    setIsLoading(false);
+                    setSubmitting(false);
                   }}
                 >
                   {({
@@ -102,7 +121,6 @@ export default function page() {
                       className="flex flex-col mt-16"
                       onSubmit={handleSubmit}
                     >
-                      {/* EMAIL */}
                       <div className="">
                         <label className="block mb-2 text-md font-medium text-light-white">
                           Email Anda
@@ -138,7 +156,6 @@ export default function page() {
                             errors.email}
                         </span>
                       </div>
-                      {/* PASSWORD */}
                       <div className="mb-16">
                         <label className="block mb-2 mt-4 text-md font-medium text-light-white ">
                           Password
@@ -197,7 +214,6 @@ export default function page() {
                             errors.password}
                         </span>
                       </div>
-
                       <button
                         type="submit"
                         disabled={isSubmitting}
@@ -205,7 +221,6 @@ export default function page() {
                       >
                         Masuk
                       </button>
-
                       <p className="mt-2 mb-6 text-light-white text-sm text-center">
                         Tidak memiliki akun?{" "}
                         <Link

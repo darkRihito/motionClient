@@ -116,7 +116,7 @@ export default function page() {
                 <Image alt="" fill src="/assets/icon/selectionc.png" />
               </div>
               <div className="text-[#D93644]">
-                <div className="sm:order-1">PreTest</div>
+                <div className="sm:order-1">Pre-Test</div>
                 <p className="text-sm font-normal">
                   Tes terlebih dahulu untuk mengukur tingkat kemampuanmu!
                 </p>
@@ -135,7 +135,7 @@ export default function page() {
               <div className="text-[#7197BA]">
                 <h4>Latihan</h4>
                 <p className="text-sm font-normal">
-                  Asah kemampuanmu dengan latihan terus menerus
+                  Asah kemampuanmu dengan latihan dengan sistem adaptif
                 </p>
               </div>
             </div>
@@ -149,9 +149,9 @@ export default function page() {
                 <Image alt="" fill src="/assets/icon/abyssc.png" />
               </div>
               <div className="text-[#FF9B0B]">
-                <h4>Kejuaraan</h4>
+                <h4>Post-Test</h4>
                 <p className="text-sm font-normal">
-                  Tantang para sesepuh untuk mengambil alih posisi papan
+                  Ukur hasil latihanmu dan tantang para sesepuh untuk mengambil alih posisi papan
                   peringkat
                 </p>
               </div>

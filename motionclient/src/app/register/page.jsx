@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Formik, Field } from "formik";
@@ -15,7 +15,14 @@ import { InputStyle } from "@/components/myinput/myinput";
 // Styles
 import background from "@/styles/background/background.module.scss";
 
+// Provider
+import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
+
 export default function page() {
+  const { setType } = useBackground();
+  useEffect(() => {
+    setType("bg-bkg0");
+  }, []);
   const [shown, setShown] = useState(false);
   const type = shown ? "text" : "password";
   const Icon = shown ? FaEye : FaEyeSlash;
@@ -44,9 +51,9 @@ export default function page() {
               </div>
             </div>
             <div
-              className={`flex flex-col items-center bg-bkg1 ${background.patternBackground} relative text-light-white px-4 py-5 lg:px-8 lg:py-10 mb-8 rounded-2xl border-4 border-yellow-950`}
+              className={`flex flex-col items-center bg-bkg1 ${background.patternBackground} relative text-light-white px-4 py-5 lg:px-8 lg:py-10 mb-8 rounded-2xl border-4 border-yellow-950 max-w-lg w-full` }
             >
-              <div className="text-start mt-3 w-full max-w-md">
+              <div className="text-start mt-3 w-full max-w-md p-3">
                 <h2 className="text-4xl lg:text-5xl font-bold mb-4">
                   Registrasi Akun
                 </h2>
@@ -54,25 +61,23 @@ export default function page() {
                   Harap isi rincian Anda untuk membuat akun.
                 </p>
               </div>
-              <div className="w-full max-w-md">
+              <div className="w-full max-w-md px-3">
                 {/* FORM */}
                 <Formik
                   initialValues={{
-                    first_name: "",
-                    last_name: "",
+                    name: "",
                     nickname: "",
                     email: "",
                     password: "",
-                    no_ID: "",
-                    roomcode: "",
+                    invitationcode: "",
                     role: "user",
                   }}
                   validate={(values) => {
                     const errors = {};
 
                     // Validate nama
-                    if (!values.first_name) {
-                      errors.first_name = "Required";
+                    if (!values.name) {
+                      errors.name = "Required";
                     }
 
                     // Validate role
@@ -91,15 +96,8 @@ export default function page() {
                           "Nickname must be less than 15 characters";
                       }
 
-                      // Validate no_ID and roomcode
-                      const numberRegex = /^[0-9]+$/;
-
-                      if (!values.no_ID) {
-                        errors.no_ID = "Required";
-                      } else if (!numberRegex.test(values.no_ID)) {
-                        errors.no_ID = "Must contain only numbers";
-                      } else if (!values.roomcode) {
-                        errors.roomcode = "Required";
+                      if (!values.invitationcode) {
+                        errors.invitationcode = "Required";
                       }
                     }
 
@@ -150,53 +148,34 @@ export default function page() {
                     >
                       {/* FULLNAME (FIRST & LAST) */}
                       <div className="flex gap-4">
-                        <div className="">
+                        <div className="w-full">
                           <label
-                            htmlFor="first_name"
+                            htmlFor="name"
                             className="block mb-2 text-md font-medium text-light-white "
                           >
-                            Nama Depan
+                            Nama Lengkap
                           </label>
                           <div className="relative">
                             <input
-                              id="first_name"
+                              id="name"
                               type="text"
-                              name="first_name"
+                              name="name"
                               onChange={handleChange}
                               onBlur={handleBlur}
-                              value={values.first_name}
+                              value={values.name}
                               placeholder="Ahmad John"
                               className={InputStyle}
                             />
                           </div>
                           <span className="text-sm mt-1">
                             {submitCount > 0 &&
-                              errors.first_name &&
-                              touched.first_name &&
-                              errors.first_name}
+                              errors.name &&
+                              touched.name &&
+                              errors.name}
                           </span>
                         </div>
-                        <div className="">
-                          <label
-                            htmlFor="last_name"
-                            className="block mb-2 text-md font-medium text-light-white "
-                          >
-                            Nama Belakang
-                          </label>
-                          <div className="relative">
-                            <input
-                              id="last_name"
-                              type="text"
-                              name="last_name"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.last_name}
-                              placeholder="Doe"
-                              className={InputStyle}
-                            />
-                          </div>
-                        </div>
                       </div>
+
                       {/* RADIO ADMIN */}
                       <label
                         htmlFor="radioadmin"
@@ -204,10 +183,13 @@ export default function page() {
                       >
                         Daftar Sebagai
                       </label>
-                      <div id="radioadmin" className="flex gap-4">
+                      <div id="radioadmin" className="flex gap-4 w-full">
                         <label
                           htmlFor="role1"
-                          className={`flex items-center h-12 p-4 bg-yellow-950 rounded-lg cursor-pointer ${values.role == "user" && "border-2 border-light-white"}`}
+                          className={`flex items-center h-12 p-4 bg-yellow-950 rounded-lg cursor-pointer w-full ${
+                            values.role == "user" &&
+                            "border-2 border-light-white"
+                          }`}
                         >
                           <div className="">
                             <Field
@@ -224,7 +206,10 @@ export default function page() {
                         </label>
                         <label
                           htmlFor="role2"
-                          className={`flex items-center h-12 p-4 bg-yellow-950 rounded-lg cursor-pointer ${values.role == "admin" && "border-2 border-light-white"}`}
+                          className={`flex items-center h-12 p-4 bg-yellow-950 rounded-lg cursor-pointer w-full ${
+                            values.role == "admin" &&
+                            "border-2 border-light-white"
+                          }`}
                         >
                           <div className="">
                             <Field
@@ -337,60 +322,34 @@ export default function page() {
                           touched.password &&
                           errors.password}
                       </span>
-                      {/* no_ID & KODE KELAS */}
+                      {/* KODE UNDANGAN */}
                       {values.role === "user" ? (
                         <>
                           <div className="flex gap-4 mt-3">
-                            <div className="flex-[3]">
-                              <label
-                                htmlFor="no_ID"
-                                className="block mb-2 text-md font-medium text-light-white "
-                              >
-                                Nomor Identitas
-                              </label>
-                              <div className="relative">
-                                <input
-                                  id="no_ID"
-                                  type="text"
-                                  name="no_ID"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.no_ID}
-                                  placeholder="2004222"
-                                  className={InputStyle}
-                                />
-                              </div>
-                              <span className="text-sm mt-1">
-                                {submitCount > 0 &&
-                                  errors.no_ID &&
-                                  touched.no_ID &&
-                                  errors.no_ID}
-                              </span>
-                            </div>
                             <div className="flex-[2]">
                               <label
-                                htmlFor="roomcode"
+                                htmlFor="invitationcode"
                                 className="block mb-2 text-md font-medium text-light-white "
                               >
-                                Kode Ruangan
+                                Kode Undangan
                               </label>
                               <div className="relative">
                                 <input
-                                  id="roomcode"
+                                  id="invitationcode"
                                   type="text"
-                                  name="roomcode"
+                                  name="invitationcode"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.roomcode}
+                                  value={values.invitationcode}
                                   placeholder="K001"
                                   className={InputStyle}
                                 />
                               </div>
                               <span className="text-sm mt-1">
                                 {submitCount > 0 &&
-                                  errors.roomcode &&
-                                  touched.roomcode &&
-                                  errors.roomcode}
+                                  errors.invitationcode &&
+                                  touched.invitationcode &&
+                                  errors.invitationcode}
                               </span>
                             </div>
                           </div>

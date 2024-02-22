@@ -15,6 +15,7 @@ export const GlobalBackground = ({ type }) => {
         <Image
           src={type}
           fill
+          sizes="100%"
           priority
           className="object-cover object-center bg-no-repeat dark:bg-black"
           onLoad={() => setLoading(false)}

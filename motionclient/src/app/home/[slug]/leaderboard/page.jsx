@@ -33,7 +33,13 @@ export default function page() {
           <div className="rounded-lg border-2 w-56 px-2 py-3 lg:px-4 lg:py-6">
             <div className="flex flex-col items-center gap-2.5 ">
               <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
-                <Image className="" fill src="" alt="Profile pict" />
+                <Image
+                  className=""
+                  fill
+                  sizes="100%"
+                  src=""
+                  alt="Profile pict"
+                />
               </div>
               <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
                 Unknown<span></span>
@@ -46,6 +52,7 @@ export default function page() {
                 <Image
                   className=""
                   fill
+                  sizes="100%"
                   src="/assets/img/profile.jpg"
                   alt="Profile pict"
                 />
@@ -58,7 +65,13 @@ export default function page() {
           <div className="rounded-lg border-2 w-56 px-2 py-3 lg:px-4 lg:py-6">
             <div className="flex flex-col items-center gap-2.5">
               <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
-                <Image className="" fill src="" alt="Profile pict" />
+                <Image
+                  className=""
+                  fill
+                  sizes="100%"
+                  src=""
+                  alt="Profile pict"
+                />
               </div>
               <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
                 Unknown<span></span>
@@ -116,6 +129,7 @@ export default function page() {
                         <div className="border h-10 w-10 md:h-11 md:w-11 rounded-full relative overflow-hidden">
                           <Image
                             fill
+                            sizes="100%"
                             src="/assets/img/profile.jpg"
                             alt="Profile pict"
                           />
@@ -136,6 +150,7 @@ export default function page() {
                           src="/assets/img/rank.png"
                           alt="rank picture"
                           fill
+                          sizes="100%"
                         />
                       </div>
                     </div>

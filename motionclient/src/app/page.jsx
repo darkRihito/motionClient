@@ -6,8 +6,6 @@ import { Formik } from "formik";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-// Action
-import create from "./actions/createcookies";
 // Icons
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 // Component
@@ -47,7 +45,7 @@ export default function page() {
               className={`flex flex-col justify-center items-center bg-bkg1 ${background.patternBackground} w-max px-8 py-10 relative rounded-2xl border-4 border-yellow-950 text-light-white`}
             >
               <div className="relative w-20 h-20">
-                <Image src="/assets/logo-motion.png" fill alt="Motion Logo" />
+                <Image src="/assets/logo-motion.png" fill sizes="100%" alt="Motion Logo" />
               </div>
               <div className={`text-start mt-12 w-full max-w-sm`}>
                 <h2 className={`text-4xl font-bold mb-4 text-light-white`}>
@@ -95,11 +93,11 @@ export default function page() {
                       );
                       // setUserData(response.data.user);
                       toast.success(`Hello ${response.data.data.name}!`);
-                      // router.push(`/home/${response.data.user.name}`);
+                      router.push(`/home/${response.data.data.name}`);
                       console.log("Login successful:", response.data);
                     } catch (error) {
-                      console.error("Login failed:", error);
-                      setErrors({ password: "Invalid email or password" });
+                      console.error("Login failed:", error.response);
+                      toast.error(`${error.response.data.message}!`);
                       setIsLoading(false);
                     }
                     setIsLoading(false);

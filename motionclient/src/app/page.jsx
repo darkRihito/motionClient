@@ -87,21 +87,20 @@ export default function page() {
                     setIsLoading(true);
                     try {
                       const response = await axios.post(
-                        "https://octaverse-be.vercel.app/api/users/login",
+                        "http://localhost:8000/api/login",
                         values,
                         {
                           withCredentials: true,
                         }
                       );
-                      setUserData(response.data.user);
-                      const token = response.data.accessToken;
-                      create(token);
-                      toast.success(`Hello ${response.data.user.name}!`);
-                      router.push(`/home/${response.data.user.name}`);
+                      // setUserData(response.data.user);
+                      toast.success(`Hello ${response.data.data.name}!`);
+                      // router.push(`/home/${response.data.user.name}`);
                       console.log("Login successful:", response.data);
                     } catch (error) {
-                      console.error("Login failed:", error.response.data);
+                      console.error("Login failed:", error);
                       setErrors({ password: "Invalid email or password" });
+                      setIsLoading(false);
                     }
                     setIsLoading(false);
                     setSubmitting(false);

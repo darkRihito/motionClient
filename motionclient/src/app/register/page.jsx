@@ -3,22 +3,21 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Formik, Field } from "formik";
-
+import axios from "axios";
 // Icons
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
 // Component
 import { GlobalContainer } from "@/components/globalcontainer/globalcontainer";
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 import { InputStyle } from "@/components/myinput/myinput";
-
+import Loader from "@/components/loader/loader";
 // Styles
 import background from "@/styles/background/background.module.scss";
-
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
 export default function page() {
+  const [isLoading, setIsLoading] = useState(false);
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
@@ -29,6 +28,7 @@ export default function page() {
   return (
     <>
       {/* <GlobalBackground type="bg-bkg0" /> */}
+      {isLoading && <Loader />}
       <GlobalContainer>
         <div className="">
           <div className="flex flex-col justify-center items-center">
@@ -51,7 +51,7 @@ export default function page() {
               </div>
             </div>
             <div
-              className={`flex flex-col items-center bg-bkg1 ${background.patternBackground} relative text-light-white px-4 py-5 lg:px-8 lg:py-10 mb-8 rounded-2xl border-4 border-yellow-950 max-w-lg w-full` }
+              className={`flex flex-col items-center bg-bkg1 ${background.patternBackground} relative text-light-white px-4 py-5 lg:px-8 lg:py-10 mb-8 rounded-2xl border-4 border-yellow-950 max-w-lg w-full`}
             >
               <div className="text-start mt-3 w-full max-w-md p-3">
                 <h2 className="text-4xl lg:text-5xl font-bold mb-4">
@@ -69,23 +69,17 @@ export default function page() {
                     nickname: "",
                     email: "",
                     password: "",
-                    invitationcode: "",
+                    room: "",
                     role: "user",
                   }}
                   validate={(values) => {
                     const errors = {};
-
-                    // Validate nama
                     if (!values.name) {
                       errors.name = "Required";
                     }
-
-                    // Validate role
                     if (!values.role) {
                       errors.role = "Required";
                     }
-
-                    // Validate nickname
                     if (values.role === "user") {
                       if (!values.nickname) {
                         errors.nickname = "Required";
@@ -95,13 +89,10 @@ export default function page() {
                         errors.nickname =
                           "Nickname must be less than 15 characters";
                       }
-
-                      if (!values.invitationcode) {
-                        errors.invitationcode = "Required";
+                      if (!values.room) {
+                        errors.room = "Required";
                       }
                     }
-
-                    // Validate email
                     if (!values.email) {
                       errors.email = "Required";
                     } else if (
@@ -111,8 +102,6 @@ export default function page() {
                     ) {
                       errors.email = "Invalid email address";
                     }
-
-                    // Validate password
                     if (!values.password) {
                       errors.password = "Required";
                     } else if (values.password.includes(" ")) {
@@ -121,14 +110,24 @@ export default function page() {
                       errors.password =
                         "Pass must be greater than 8 characters";
                     }
-
                     return errors;
                   }}
-                  onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                      alert(JSON.stringify(values, null, 2));
-                      setSubmitting(false);
-                    }, 400);
+                  onSubmit={async (values, { setSubmitting, setErrors }) => {
+                    setIsLoading(true);
+                    try {
+                      const response = await axios.post(
+                        "http://localhost:8000/api/register",
+                        values
+                      );
+                      // toast.success(`Hello ${response.data.user.name}!`);
+                      // router.push(`/home/${response.data.user.name}`);
+                      console.log("Register successful:", response);
+                    } catch (error) {
+                      console.error("Register failed:", error);
+                      setIsLoading(false);
+                    }
+                    setIsLoading(false);
+                    setSubmitting(false);
                   }}
                 >
                   {({
@@ -140,7 +139,6 @@ export default function page() {
                     handleSubmit,
                     isSubmitting,
                     submitCount,
-                    /* and other goodies */
                   }) => (
                     <form
                       className="flex flex-col mt-12"
@@ -175,7 +173,6 @@ export default function page() {
                           </span>
                         </div>
                       </div>
-
                       {/* RADIO ADMIN */}
                       <label
                         htmlFor="radioadmin"
@@ -232,7 +229,6 @@ export default function page() {
                           errors.role}
                       </span>
                       {/* <div>Picked: {values.role}</div> */}
-
                       {/* NICKNAME */}
                       {values.role === "user" ? (
                         <>
@@ -256,7 +252,6 @@ export default function page() {
                           </div>
                         </>
                       ) : null}
-
                       <span className="text-sm mt-1">
                         {submitCount > 0 &&
                           errors.nickname &&
@@ -328,34 +323,33 @@ export default function page() {
                           <div className="flex gap-4 mt-3">
                             <div className="flex-[2]">
                               <label
-                                htmlFor="invitationcode"
+                                htmlFor="room"
                                 className="block mb-2 text-md font-medium text-light-white "
                               >
                                 Kode Undangan
                               </label>
                               <div className="relative">
                                 <input
-                                  id="invitationcode"
+                                  id="room"
                                   type="text"
-                                  name="invitationcode"
+                                  name="room"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.invitationcode}
+                                  value={values.room}
                                   placeholder="K001"
                                   className={InputStyle}
                                 />
                               </div>
                               <span className="text-sm mt-1">
                                 {submitCount > 0 &&
-                                  errors.invitationcode &&
-                                  touched.invitationcode &&
-                                  errors.invitationcode}
+                                  errors.room &&
+                                  touched.room &&
+                                  errors.room}
                               </span>
                             </div>
                           </div>
                         </>
                       ) : null}
-
                       <div className="flex items-start mb-12 mt-3"></div>
                       <button
                         type="submit"

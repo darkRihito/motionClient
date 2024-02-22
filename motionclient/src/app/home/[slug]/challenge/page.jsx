@@ -113,7 +113,7 @@ export default function page() {
               onClick={toggleModalSeleksi}
             >
               <div className="relative aspect-square h-full sm:h-auto sm:w-full sm:order-2">
-                <Image alt="" fill src="/assets/icon/selectionc.png" />
+                <Image alt="" fill sizes="100%" src="/assets/icon/selectionc.png" />
               </div>
               <div className="text-[#D93644]">
                 <div className="sm:order-1">Pre-Test</div>
@@ -130,7 +130,7 @@ export default function page() {
               onClick={toggleModalLatihan}
             >
               <div className="relative aspect-square h-full ">
-                <Image alt="" fill src="/assets/icon/dungeonc.png" />
+                <Image alt="" fill sizes="100%" src="/assets/icon/dungeonc.png" />
               </div>
               <div className="text-[#7197BA]">
                 <h4>Latihan</h4>
@@ -146,7 +146,7 @@ export default function page() {
               style={{ "--delay": 1 + "s" }}
             >
               <div className="relative aspect-square h-full ">
-                <Image alt="" fill src="/assets/icon/abyssc.png" />
+                <Image alt="" fill sizes="100%" src="/assets/icon/abyssc.png" />
               </div>
               <div className="text-[#FF9B0B]">
                 <h4>Post-Test</h4>

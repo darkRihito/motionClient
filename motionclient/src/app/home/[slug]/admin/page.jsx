@@ -608,7 +608,7 @@ export default function page() {
                 <h4 className="min-w-max ">Jumlah Pengguna</h4>
                 <div className="flex items-center gap-3">
                   <span className="relative block w-12 h-12">
-                    <Image fill src="/assets/icon/users.png" alt="" />
+                    <Image fill sizes="100%" src="/assets/icon/users.png" alt="" />
                   </span>
                   <h2 className="text-2xl font-semibold">
                     {dataPeserta.length}
@@ -624,7 +624,7 @@ export default function page() {
                 <h4 className="min-w-max ">Total Soal</h4>
                 <div className="flex items-center gap-3">
                   <span className="relative block w-12 h-12">
-                    <Image fill src="/assets/icon/documents.png" alt="" />
+                    <Image sizes="100%" fill src="/assets/icon/documents.png" alt="" />
                   </span>
                   <h2 className="text-2xl font-semibold">{dataSoal.length}</h2>
                 </div>
@@ -713,6 +713,7 @@ export default function page() {
                                     src={peserta.fotoProfil}
                                     alt="Profile pict"
                                     fill
+                                    sizes="100%"
                                     className="relative"
                                   />
                                 </div>

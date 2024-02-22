@@ -102,22 +102,22 @@ const ModalEditStatus = ({ closeModal }) => {
 
 export default function page() {
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        "https://octaverse-be.vercel.app/api/users",
-        {
-          withCredentials: true,
-        }
-      );
-      console.log("DATA:", response);
-    } catch (error) {
-      console.error("Failed:", error.message);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "https://octaverse-be.vercel.app/api/users",
+  //       {
+  //         withCredentials: true,
+  //       }
+  //     );
+  //     console.log("DATA:", response);
+  //   } catch (error) {
+  //     console.error("Failed:", error.message);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   // const userData = useUserStore((state) => state.userData);
   // console.log(userData);
@@ -195,6 +195,7 @@ export default function page() {
                 <Image
                   className="rounded-xl border-4 border-light-white"
                   fill
+                  sizes="100%"
                   alt=""
                   src={imageUrl}
                 />
@@ -219,7 +220,7 @@ export default function page() {
                   Rank: <span>Grandmaster</span>
                 </p>
                 <div className="w-32 h-32 rounded-xl mb-2 relative">
-                  <Image src="/assets/img/rank.png" alt="rank picture" fill />
+                  <Image src="/assets/img/rank.png" alt="rank picture" fill  sizes="100%" />
                 </div>
                 <p>Bintang Terkumpul</p>
                 <div className="flex justify-center items-center gap-2 text-2xl font-semibold mt-2 mb-4 rounded-full px-4 py-2">
@@ -263,6 +264,7 @@ export default function page() {
                           src="/assets/icon/target.png"
                           alt="challenge icon"
                           fill
+                          sizes="100%"
                         />
                       </div>
                       <div className="text-xl font-semibold">
@@ -278,6 +280,7 @@ export default function page() {
                           src="/assets/icon/active.png"
                           alt="active icon"
                           fill
+                          sizes="100%"
                         />
                       </div>
                       <div className="text-xl font-semibold">
@@ -292,7 +295,7 @@ export default function page() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="relative w-8 h-8">
-                        <Image src="/assets/icon/feather-pen.png" alt="" fill />
+                        <Image src="/assets/icon/feather-pen.png" alt="" fill sizes="100%" />
                       </div>
                       <h3 className="text-xl font-semibold">Status</h3>
                     </div>
@@ -307,7 +310,7 @@ export default function page() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="relative w-8 h-8">
-                        <Image src="/assets/icon/user.png" alt="" fill />
+                        <Image src="/assets/icon/user.png" alt="" fill sizes="100%" />
                       </div>
                       <h3 className="text-xl font-semibold">Biografi</h3>
                     </div>
@@ -346,7 +349,7 @@ export default function page() {
               <div className="">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="relative w-10 h-10">
-                    <Image src="/assets/icon/history.webp" alt="" fill></Image>
+                    <Image src="/assets/icon/history.webp" alt="" fill sizes="100%"></Image>
                   </div>
                   <h3 className="text-xl font-semibold">Riwayat</h3>
                 </div>

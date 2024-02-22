@@ -4,15 +4,18 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
-
-
+import axios from "axios";
 // Icons
 import { GrCircleQuestion } from "react-icons/gr";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { BsThreeDots } from "react-icons/bs";
+// Components
+import Loader from "@/components/loader/loader";
 
 // LEFT NAVIGATION
 const LeftNavigation = () => {
+  const userName = "user";
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -57,7 +60,7 @@ const LeftNavigation = () => {
                     }`}
                   >
                     <div className="inline-block relative w-6 h-6">
-                      <Image alt="" fill src="/assets/icon/house.png" />
+                      <Image alt="" fill sizes="100%" src="/assets/icon/house.png" />
                     </div>
                     <span className="hidden md:block">Beranda</span>
                   </li>
@@ -65,8 +68,8 @@ const LeftNavigation = () => {
 
                 {/* Admin Link */}
                 <Link
-                  href={"/home/admin"}
-                  onClick={() => handleLinkClick("/home/admin")}
+                  href={`/home/${userName}/admin`}
+                  onClick={() => handleLinkClick(`/home/${userName}/admin`)}
                   className="block cursor-pointer hover:scale-[1.05] transition duration-150"
                 >
                   <li
@@ -75,7 +78,7 @@ const LeftNavigation = () => {
                     }`}
                   >
                     <div className="inline-block relative w-6 h-6">
-                      <Image alt="" fill src="/assets/icon/settings.png" />
+                      <Image alt="" fill sizes="100%" src="/assets/icon/settings.png" />
                     </div>
                     <span className="hidden md:block">Pengelolaan</span>
                   </li>
@@ -93,7 +96,7 @@ const LeftNavigation = () => {
                     }`}
                   >
                     <div className="inline-block relative w-6 h-6">
-                      <Image alt="" fill src="/assets/icon/flag.png" />
+                      <Image alt="" fill sizes="100%" src="/assets/icon/flag.png" />
                     </div>
                     <span className="hidden md:block">Tantangan</span>
                   </li>
@@ -111,7 +114,7 @@ const LeftNavigation = () => {
                     }`}
                   >
                     <div className="inline-block relative w-6 h-6">
-                      <Image alt="" fill src="/assets/icon/trophy.png" />
+                      <Image alt="" fill sizes="100%" src="/assets/icon/trophy.png" />
                     </div>
                     <span className="hidden md:block">Papan Peringkat</span>
                   </li>
@@ -131,37 +134,35 @@ const LeftNavigation = () => {
   );
 };
 
-
-const TopNavigationDropdown = () => {
+const TopNavigationDropdown = ({ onLogOutClicked }) => {
   return (
     <>
       <div className="z-20 absolute right-4 top-24">
         <div className="relative rounded-lg flex flex-col gap-2 items-end">
           <div className="cursor-auto px-4 py-3 text-sm text-end bg-light-white rounded-xl">
             <div>Pengguna</div>
-            <div className="font-medium">
-              muhammadrafishidiq@gmail.com
-            </div>
+            <div className="font-medium">muhammadrafishidiq@gmail.com</div>
           </div>
           <ul className="text-sm flex flex-col gap-2">
             <li>
-              <Link href="#" className="px-4 py-3 bg-light-white rounded-xl hover:bg-gray-100 block">
+              <Link
+                href="#"
+                className="px-4 py-3 bg-light-white rounded-xl hover:bg-gray-100 block"
+              >
                 <GrCircleQuestion className="text-xl inline-block me-2" />
                 Dukungan
               </Link>
             </li>
           </ul>
-          <a href="/">
-            <div className="px-4 py-3 rounded-xl block bg-red-400 hover:bg-red-500">
-              <button
-                type="button"
-                className="text-sm text-white"
-              >
-                <RiLogoutBoxLine className="text-xl inline-block me-2" />
-                Keluar
-              </button>
-            </div>
-          </a>
+          <div
+            className="px-4 py-3 rounded-xl block bg-red-400 hover:bg-red-500"
+            onClick={onLogOutClicked}
+          >
+            <button type="button" className="text-sm text-white">
+              <RiLogoutBoxLine className="text-xl inline-block me-2" />
+              Keluar
+            </button>
+          </div>
         </div>
       </div>
     </>
@@ -170,19 +171,41 @@ const TopNavigationDropdown = () => {
 
 // TOP NAVIGATION
 const TopNavigation = () => {
+
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const logoutHandler = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post("http://localhost:8000/api/logout", "", {
+        withCredentials: true,
+      });
+      console.log(response.data);
+      setIsLoading(false);
+      router.push(`/`);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
   const [isDropdown, setDropdown] = useState(false);
   const toggleDropdown = () => {
     setDropdown(!isDropdown);
   };
+
   return (
     <>
+      {isLoading && <Loader />}
       <div className="fixed z-20 mx-auto max-w-screen-xl w-full top-0">
         <div className="relative pt-4 float-end w-max top-6 right-4">
           <nav className="">
-            <div onClick={toggleDropdown} className="flex flex-wrap items-center justify-between mx-auto py-3 ps-8 pe-4 rounded-full bg-light-white cursor-pointer">
-              <div
-                className="flex items-center gap-3 md:gap-4"
-              >
+            <div
+              onClick={toggleDropdown}
+              className="flex flex-wrap items-center justify-between mx-auto py-3 ps-8 pe-4 rounded-full bg-light-white cursor-pointer"
+            >
+              <div className="flex items-center gap-3 md:gap-4">
                 <div className="text-sm md:text-base text-end">
                   <div className="font-semibold text-black-100">
                     Muhammad Rafi Shidiq
@@ -195,10 +218,8 @@ const TopNavigation = () => {
                   alt="Avatar"
                 />
                 {isDropdown ? (
-                <>
-                  <TopNavigationDropdown />
-                </>
-              ) : null}
+                  <TopNavigationDropdown onLogOutClicked={logoutHandler} /> // Pass logoutHandler as prop
+                ) : null}
               </div>
             </div>
           </nav>

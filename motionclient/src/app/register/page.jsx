@@ -37,6 +37,7 @@ export default function page() {
                 <Image
                   src="/assets/logo-motion-text.png"
                   fill
+                  sizes="100%"
                   alt="Motion Logo"
                   className="relative"
                 />
@@ -45,6 +46,7 @@ export default function page() {
                 <Image
                   src="/assets/logo-motion-text.png"
                   fill
+                  sizes="100%"
                   alt="Motion Logo"
                   className="relative"
                 />
@@ -70,6 +72,7 @@ export default function page() {
                     email: "",
                     password: "",
                     room: "",
+                    adminroomname: "",
                     role: "user",
                   }}
                   validate={(values) => {
@@ -144,7 +147,7 @@ export default function page() {
                       className="flex flex-col mt-12"
                       onSubmit={handleSubmit}
                     >
-                      {/* FULLNAME (FIRST & LAST) */}
+                      {/* FULLNAME */}
                       <div className="flex gap-4">
                         <div className="w-full">
                           <label
@@ -228,6 +231,38 @@ export default function page() {
                           touched.role &&
                           errors.role}
                       </span>
+                      {/* ADMIN ROOM NAME */}
+                      {values.role === "admin" ? (
+                        <div className="flex gap-4 mt-3">
+                          <div className="w-full">
+                            <label
+                              htmlFor="adminroomname"
+                              className="block mb-2 text-md font-medium text-light-white "
+                            >
+                              Nama Ruangan
+                            </label>
+                            <div className="relative">
+                              <input
+                                id="adminroomname"
+                                type="text"
+                                name="adminroomname"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.adminroomname}
+                                placeholder="Ahmad John"
+                                className={InputStyle}
+                              />
+                            </div>
+                            <span className="text-sm mt-1">
+                              {submitCount > 0 &&
+                                errors.adminroomname &&
+                                touched.adminroomname &&
+                                errors.adminroomname}
+                            </span>
+                          </div>
+                        </div>
+                      ) : null}
+
                       {/* <div>Picked: {values.role}</div> */}
                       {/* NICKNAME */}
                       {values.role === "user" ? (

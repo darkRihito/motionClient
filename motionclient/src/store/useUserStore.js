@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from "zustand";
 
 // Define a Zustand store to hold user data
 const useUserStore = create((set) => ({

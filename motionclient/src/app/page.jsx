@@ -91,7 +91,7 @@ export default function page() {
                           withCredentials: true,
                         }
                       );
-                      // setUserData(response.data.user);
+                      setUserData(response.data.data);
                       toast.success(`Hello ${response.data.data.name}!`);
                       router.push(`/home/${response.data.data.name}`);
                       console.log("Login successful:", response.data);

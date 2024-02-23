@@ -8,7 +8,6 @@ import {
   TopNavigation,
 } from "@/components/navigation/navigation";
 import { GlobalContainer } from "@/components/globalcontainer/globalcontainer";
-import { GlobalBackground } from "@/components/globalbackground/globalbackground";
 
 import { ModalProvider } from "@/provider/modalprovider/modalprovider";
 

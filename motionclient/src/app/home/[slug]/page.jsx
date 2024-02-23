@@ -101,26 +101,26 @@ const ModalEditStatus = ({ closeModal }) => {
 };
 
 export default function page() {
+  const setUserData = useUserStore((state) => state.setUserData);
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://octaverse-be.vercel.app/api/users",
-  //       {
-  //         withCredentials: true,
-  //       }
-  //     );
-  //     console.log("DATA:", response);
-  //   } catch (error) {
-  //     console.error("Failed:", error.message);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/user/getuser", {
+        withCredentials: true,
+      });
+      let star_collected = response.data.data.challenge_point / 2;
+      setUserData({ ...response.data.data, star_collected });
+    } catch (error) {
+      console.error("Failed:", error.message);
+    }
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  // const userData = useUserStore((state) => state.userData);
-  // console.log(userData);
+  const userData = useUserStore((state) => state.userData);
+  console.log(userData);
 
   const [modalEditStatus, setModalEditStatus] = useState(false);
   const toggleModalEditStatus = () => setModalEditStatus(!modalEditStatus);
@@ -203,9 +203,12 @@ export default function page() {
             </div>
             <div className="w-full h-full py-3">
               <p className="text-base">Hello,</p>
-              <h4 className="text-3xl font-semibold">
-                Rihito <span className="text-base text-blue-500">,GM</span>
-              </h4>
+              {userData && (
+                <h4 className="text-3xl font-semibold">
+                  {userData.nickname}{" "}
+                  <span className="text-base text-blue-500">,GM</span>
+                </h4>
+              )}
             </div>
           </div>
 
@@ -220,7 +223,12 @@ export default function page() {
                   Rank: <span>Grandmaster</span>
                 </p>
                 <div className="w-32 h-32 rounded-xl mb-2 relative">
-                  <Image src="/assets/img/rank.png" alt="rank picture" fill  sizes="100%" />
+                  <Image
+                    src="/assets/img/rank.png"
+                    alt="rank picture"
+                    fill
+                    sizes="100%"
+                  />
                 </div>
                 <p>Bintang Terkumpul</p>
                 <div className="flex justify-center items-center gap-2 text-2xl font-semibold mt-2 mb-4 rounded-full px-4 py-2">
@@ -253,7 +261,7 @@ export default function page() {
                       ></polygon>
                     </svg>
                   </span>
-                  12
+                  {userData && <p>{userData.star_collected} </p>}
                 </div>
                 <div className="flex gap-4">
                   <div className="p-2 rounded-lg">
@@ -268,7 +276,8 @@ export default function page() {
                         />
                       </div>
                       <div className="text-xl font-semibold">
-                        210 <span className="text-lg font-normal">pt</span>
+                        {userData && <>{userData.challenge_point}</>}{" "}
+                        <span className="text-lg font-normal">pt</span>
                       </div>
                     </div>
                   </div>
@@ -283,9 +292,7 @@ export default function page() {
                           sizes="100%"
                         />
                       </div>
-                      <div className="text-xl font-semibold">
-                        Int
-                      </div>
+                      <div className="text-xl font-semibold">Int</div>
                     </div>
                   </div>
                 </div>
@@ -295,7 +302,12 @@ export default function page() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="relative w-8 h-8">
-                        <Image src="/assets/icon/feather-pen.png" alt="" fill sizes="100%" />
+                        <Image
+                          src="/assets/icon/feather-pen.png"
+                          alt=""
+                          fill
+                          sizes="100%"
+                        />
                       </div>
                       <h3 className="text-xl font-semibold">Status</h3>
                     </div>
@@ -310,7 +322,12 @@ export default function page() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
                       <div className="relative w-8 h-8">
-                        <Image src="/assets/icon/user.png" alt="" fill sizes="100%" />
+                        <Image
+                          src="/assets/icon/user.png"
+                          alt=""
+                          fill
+                          sizes="100%"
+                        />
                       </div>
                       <h3 className="text-xl font-semibold">Biografi</h3>
                     </div>
@@ -349,7 +366,12 @@ export default function page() {
               <div className="">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="relative w-10 h-10">
-                    <Image src="/assets/icon/history.webp" alt="" fill sizes="100%"></Image>
+                    <Image
+                      src="/assets/icon/history.webp"
+                      alt=""
+                      fill
+                      sizes="100%"
+                    ></Image>
                   </div>
                   <h3 className="text-xl font-semibold">Riwayat</h3>
                 </div>
@@ -383,13 +405,13 @@ export default function page() {
                         <th scope="col" className="px-6 py-3">
                           Skor
                         </th>
-                        <th scope="col" className="px-6 py-3 hidden sm:table-cell">
-                          Poin
-                        </th>
                         <th
                           scope="col"
-                          className="px-6 py-3"
+                          className="px-6 py-3 hidden sm:table-cell"
                         >
+                          Poin
+                        </th>
+                        <th scope="col" className="px-6 py-3">
                           Hasil
                         </th>
                         <th
@@ -410,9 +432,7 @@ export default function page() {
                         </th>
                         <td className="px-6 py-4">50</td>
                         <td className="px-6 py-4 hidden sm:table-cell">50</td>
-                        <td className="px-6 py-4 ">
-                          Intermediate
-                        </td>
+                        <td className="px-6 py-4 ">Intermediate</td>
                         <td className="px-6 py-4 hidden sm:table-cell">
                           12/04/2023
                         </td>
@@ -426,9 +446,7 @@ export default function page() {
                         </th>
                         <td className="px-6 py-4">50</td>
                         <td className="px-6 py-4 hidden sm:table-cell">50</td>
-                        <td className="px-6 py-4">
-                          Belum Berhasil
-                        </td>
+                        <td className="px-6 py-4">Belum Berhasil</td>
                         <td className="px-6 py-4 hidden sm:table-cell">
                           12/04/2023
                         </td>
@@ -442,9 +460,7 @@ export default function page() {
                         </th>
                         <td className="px-6 py-4 hidden sm:table-cell">50</td>
                         <td className="px-6 py-4">50</td>
-                        <td className="px-6 py-4">
-                          Berhasil
-                        </td>
+                        <td className="px-6 py-4">Berhasil</td>
                         <td className="px-6 py-4 hidden sm:table-cell">
                           12/04/2023
                         </td>

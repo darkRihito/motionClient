@@ -11,10 +11,12 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 import { BsThreeDots } from "react-icons/bs";
 // Components
 import Loader from "@/components/loader/loader";
+// Store
+import { useUserStore } from "@/store/useUserStore";
 
 // LEFT NAVIGATION
 const LeftNavigation = () => {
-  const userName = "user";
+  const userData = useUserStore((state) => state.userData);
 
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -49,76 +51,115 @@ const LeftNavigation = () => {
             {isMenuVisible ? (
               <>
                 {/* Home Link */}
-                <Link
-                  href={"/home"}
-                  onClick={() => handleLinkClick("/home")}
-                  className="block cursor-pointer transition duration-150 hover:scale-[1.05]"
-                >
-                  <li
-                    className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
-                      isActive("/home") ? "font-semibold" : ""
-                    }`}
-                  >
-                    <div className="inline-block relative w-6 h-6">
-                      <Image alt="" fill sizes="100%" src="/assets/icon/house.png" />
-                    </div>
-                    <span className="hidden md:block">Beranda</span>
-                  </li>
-                </Link>
+                {userData.role === "user" && (
+                  <>
+                    <Link
+                      href={`/home/${userData.nickname}`}
+                      onClick={() =>
+                        handleLinkClick(`/home/${userData.nickname}`)
+                      }
+                      className="block cursor-pointer transition duration-150 hover:scale-[1.05]"
+                    >
+                      <li
+                        className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
+                          isActive(`/home/${userData.nickname}`)
+                            ? "font-semibold"
+                            : ""
+                        }`}
+                      >
+                        <div className="inline-block relative w-6 h-6">
+                          <Image
+                            alt=""
+                            fill
+                            sizes="100%"
+                            src="/assets/icon/house.png"
+                          />
+                        </div>
+                        <span className="hidden md:block">Beranda</span>
+                      </li>
+                    </Link>
+                    {/* Challenge Link */}
+                    <Link
+                      href={`/home/${userData.nickname}/challenge`}
+                      onClick={() => handleLinkClick("/home/challenge")}
+                      className="block cursor-pointer hover:scale-[1.05] transition duration-150"
+                    >
+                      <li
+                        className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
+                          isActive(`/home/${userData.nickname}/challenge`)
+                            ? "font-semibold"
+                            : ""
+                        }`}
+                      >
+                        <div className="inline-block relative w-6 h-6">
+                          <Image
+                            alt=""
+                            fill
+                            sizes="100%"
+                            src="/assets/icon/flag.png"
+                          />
+                        </div>
+                        <span className="hidden md:block">Tantangan</span>
+                      </li>
+                    </Link>
+
+                    {/* Leaderboard Link */}
+                    <Link
+                      href={`/home/${userData.nickname}/leaderboard`}
+                      onClick={() => handleLinkClick("/home/leaderboard")}
+                      className="block cursor-pointer hover:scale-[1.05]"
+                    >
+                      <li
+                        className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
+                          isActive(`/home/${userData.nickname}/leaderboard`)
+                            ? "font-semibold"
+                            : ""
+                        }`}
+                      >
+                        <div className="inline-block relative w-6 h-6">
+                          <Image
+                            alt=""
+                            fill
+                            sizes="100%"
+                            src="/assets/icon/trophy.png"
+                          />
+                        </div>
+                        <span className="hidden md:block">Papan Peringkat</span>
+                      </li>
+                    </Link>
+                  </>
+                )}
 
                 {/* Admin Link */}
-                <Link
-                  href={`/home/${userName}/admin`}
-                  onClick={() => handleLinkClick(`/home/${userName}/admin`)}
-                  className="block cursor-pointer hover:scale-[1.05] transition duration-150"
-                >
-                  <li
-                    className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
-                      isActive("/home/admin") ? "font-semibold" : ""
-                    }`}
-                  >
-                    <div className="inline-block relative w-6 h-6">
-                      <Image alt="" fill sizes="100%" src="/assets/icon/settings.png" />
-                    </div>
-                    <span className="hidden md:block">Pengelolaan</span>
-                  </li>
-                </Link>
-
-                {/* Challenge Link */}
-                <Link
-                  href={"/home/challenge"}
-                  onClick={() => handleLinkClick("/home/challenge")}
-                  className="block cursor-pointer hover:scale-[1.05] transition duration-150"
-                >
-                  <li
-                    className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
-                      isActive("/home/challenge") ? "font-semibold" : ""
-                    }`}
-                  >
-                    <div className="inline-block relative w-6 h-6">
-                      <Image alt="" fill sizes="100%" src="/assets/icon/flag.png" />
-                    </div>
-                    <span className="hidden md:block">Tantangan</span>
-                  </li>
-                </Link>
-
-                {/* Leaderboard Link */}
-                <Link
-                  href={"/home/leaderboard"}
-                  onClick={() => handleLinkClick("/home/leaderboard")}
-                  className="block cursor-pointer hover:scale-[1.05]"
-                >
-                  <li
-                    className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
-                      isActive("/home/leaderboard") ? "font-semibold" : ""
-                    }`}
-                  >
-                    <div className="inline-block relative w-6 h-6">
-                      <Image alt="" fill sizes="100%" src="/assets/icon/trophy.png" />
-                    </div>
-                    <span className="hidden md:block">Papan Peringkat</span>
-                  </li>
-                </Link>
+                {userData.role === "admin" && (
+                  <>
+                    <Link
+                      href={`/home/${userData.nickname}/admin`}
+                      onClick={() =>
+                        handleLinkClick(`/home/${userData.nickname}/admin`)
+                      }
+                      className="block cursor-pointer hover:scale-[1.05] transition duration-150"
+                    >
+                      <li
+                        className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
+                          isActive(`/home/${userData.nickname}/admin`)
+                            ? "font-semibold"
+                            : ""
+                        }`}
+                      >
+                        <div className="inline-block relative w-6 h-6">
+                          <Image
+                            alt=""
+                            fill
+                            sizes="100%"
+                            src="/assets/icon/settings.png"
+                          />
+                        </div>
+                        <span className="hidden md:block">Pengelolaan</span>
+                      </li>
+                    </Link>
+                  </>
+                )}
               </>
             ) : null}
           </div>
@@ -134,14 +175,14 @@ const LeftNavigation = () => {
   );
 };
 
-const TopNavigationDropdown = ({ onLogOutClicked }) => {
+const TopNavigationDropdown = ({ onLogOutClicked, data }) => {
   return (
     <>
       <div className="z-20 absolute right-4 top-24">
         <div className="relative rounded-lg flex flex-col gap-2 items-end">
           <div className="cursor-auto px-4 py-3 text-sm text-end bg-light-white rounded-xl">
-            <div>Pengguna</div>
-            <div className="font-medium">muhammadrafishidiq@gmail.com</div>
+            <div>{data.role}</div>
+            <div className="font-medium">{data.email}</div>
           </div>
           <ul className="text-sm flex flex-col gap-2">
             <li>
@@ -171,6 +212,7 @@ const TopNavigationDropdown = ({ onLogOutClicked }) => {
 
 // TOP NAVIGATION
 const TopNavigation = () => {
+  const userData = useUserStore((state) => state.userData);
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -178,9 +220,13 @@ const TopNavigation = () => {
   const logoutHandler = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/api/logout", "", {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        "http://localhost:8000/api/logout",
+        "",
+        {
+          withCredentials: true,
+        }
+      );
       console.log(response.data);
       setIsLoading(false);
       router.push(`/`);
@@ -218,7 +264,10 @@ const TopNavigation = () => {
                   alt="Avatar"
                 />
                 {isDropdown ? (
-                  <TopNavigationDropdown onLogOutClicked={logoutHandler} /> // Pass logoutHandler as prop
+                  <TopNavigationDropdown
+                    onLogOutClicked={logoutHandler}
+                    data={userData}
+                  /> // Pass logoutHandler as prop
                 ) : null}
               </div>
             </div>

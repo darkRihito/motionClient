@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, Suspense } from "react";
 import { Formik, Field } from "formik";
 import Image from "next/image";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 // Icons
 import { MdModeEditOutline } from "react-icons/md";
 import { IoIosCloseCircle } from "react-icons/io";
@@ -12,7 +13,7 @@ import { useBackground } from "@/provider/backgroundprovider/backgroundprovider"
 import { InputStyleColor } from "@/components/myinput/myinput";
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
-import useUserStore from "@/store/useUserStore";
+import { useUserStore } from "@/store/useUserStore";
 
 const ModalEditStatus = ({ closeModal }) => {
   return (
@@ -101,24 +102,6 @@ const ModalEditStatus = ({ closeModal }) => {
 };
 
 export default function page() {
-  const setUserData = useUserStore((state) => state.setUserData);
-
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("http://localhost:8000/user/getuser", {
-        withCredentials: true,
-      });
-      let star_collected = response.data.data.challenge_point / 2;
-      setUserData({ ...response.data.data, star_collected });
-    } catch (error) {
-      console.error("Failed:", error.message);
-    }
-  };
-  
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const userData = useUserStore((state) => state.userData);
   console.log(userData);
 
@@ -148,22 +131,20 @@ export default function page() {
   const uploadFile = (file) => {
     const formData = new FormData();
     formData.append("file", file); // Adjust the 'file' field based on your backend API
-
     console.log(formData);
-
-    // axios
-    //   .post("YOUR_BACKEND_ENDPOINT", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //   .then((response) => {
-    //     // Assuming the backend responds with the URL of the uploaded image
-    //     setImageUrl(response.data.imageUrl); // Adjust based on actual response structure
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error uploading file:", error);
-    //   });
+    axios
+      .post("YOUR_BACKEND_ENDPOINT", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        // Assuming the backend responds with the URL of the uploaded image
+        setImageUrl(response.data.imageUrl); // Adjust based on actual response structure
+      })
+      .catch((error) => {
+        console.error("Error uploading file:", error);
+      });
   };
 
   return (
@@ -220,7 +201,7 @@ export default function page() {
               >
                 <h4 className="text-xl font-semibold mb-2">Pencapaian</h4>
                 <p className="text-lg mb-2">
-                  Rank: <span>Grandmaster</span>
+                  Rank: {userData && <span>{userData.rank}</span>}
                 </p>
                 <div className="w-32 h-32 rounded-xl mb-2 relative">
                   <Image
@@ -292,7 +273,9 @@ export default function page() {
                           sizes="100%"
                         />
                       </div>
-                      <div className="text-xl font-semibold">Int</div>
+                      <div className="text-xl font-semibold">
+                        {userData && <>{userData.qualification}</>}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -316,7 +299,13 @@ export default function page() {
                       className="text-xl place-self-start text-gray-600 cursor-pointer"
                     />
                   </div>
-                  <p className="">I feel happy today</p>
+                  <p className="">
+                    {userData == "" ? (
+                      <>{userData.status}</>
+                    ) : (
+                      <>Belum menulis status.</>
+                    )}
+                  </p>
                 </div>
                 <div className="mb-2">
                   <div className="flex items-center justify-between mb-4">
@@ -346,13 +335,15 @@ export default function page() {
                 <div className="text-base">
                   <ul className="space-y-1 text-gray-500 list-none list-inside">
                     <li>
-                      Nama Lengkap : <span>Muhammad Rafi Shidiq</span>
+                      Nama Lengkap :{" "}
+                      <span>{userData && <>{userData.name}</>}</span>
                     </li>
                     <li>
-                      Email : <span>muhammadrafishidiq@gmail.com</span>
+                      Email : <span>{userData && <>{userData.email}</>}</span>
                     </li>
                     <li>
-                      Kode Undangan : <span>R001</span>
+                      Kode Undangan :{" "}
+                      <span>{userData && <>{userData.room}</>}</span>
                     </li>
                   </ul>
                 </div>

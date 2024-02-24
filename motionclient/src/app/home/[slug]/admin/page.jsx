@@ -15,6 +15,7 @@ const ReactQuill = dynamic(() => import("react-quill"), {
 });
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import axios from "axios";
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 // Icon
@@ -25,6 +26,8 @@ import { FaRegCopy } from "react-icons/fa6";
 // Styles
 import { InputStyleColor } from "@/components/myinput/myinput";
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
+// Store
+import { useUserStore } from "@/store/useUserStore";
 
 const useStore = create(
   persist(
@@ -527,6 +530,9 @@ const dataSoal = [
 ];
 
 export default function page() {
+
+  const userData = useUserStore((state) => state.userData);
+  console.log(userData);
   // SECTION MENU
   const { sectionActive, setSectionActive } = useStore();
   const changeSectionActive = (section) => {

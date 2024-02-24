@@ -17,14 +17,11 @@ import Loader from "@/components/loader/loader";
 import background from "@/styles/background/background.module.scss";
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
-// Store
-import useUserStore from "@/store/useUserStore";
 
 export default function page() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const setUserData = useUserStore((state) => state.setUserData);
 
   const { setType } = useBackground();
   useEffect(() => {
@@ -45,7 +42,12 @@ export default function page() {
               className={`flex flex-col justify-center items-center bg-bkg1 ${background.patternBackground} w-max px-8 py-10 relative rounded-2xl border-4 border-yellow-950 text-light-white`}
             >
               <div className="relative w-20 h-20">
-                <Image src="/assets/logo-motion.png" fill sizes="100%" alt="Motion Logo" />
+                <Image
+                  src="/assets/logo-motion.png"
+                  fill
+                  sizes="100%"
+                  alt="Motion Logo"
+                />
               </div>
               <div className={`text-start mt-12 w-full max-w-sm`}>
                 <h2 className={`text-4xl font-bold mb-4 text-light-white`}>
@@ -91,9 +93,14 @@ export default function page() {
                           withCredentials: true,
                         }
                       );
-                      setUserData(response.data.data);
-                      toast.success(`Hello ${response.data.data.name}!`);
-                      router.push(`/home/${response.data.data.name}`);
+                      toast.success(`Hello ${response.data.data.nickname}!`);
+                      if (response.data.data.role === "admin") {
+                        router.push(
+                          `/home/${response.data.data._id}/admin`
+                        );
+                      } else {
+                        router.push(`/home/${response.data.data.nickname}`);
+                      }
                       console.log("Login successful:", response.data);
                     } catch (error) {
                       console.error("Login failed:", error.response);

@@ -221,7 +221,7 @@ const TopNavigation = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://motionapp-backend.vercel.app/api/logout",
+        "http://localhost:8000/api/logout",
         "",
         {
           withCredentials: true,

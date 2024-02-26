@@ -8,6 +8,8 @@ import { useBackground } from "@/provider/backgroundprovider/backgroundprovider"
 // Styles
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 
+import useAnswerStore from "@/store/useAnswerStore";
+
 const dataSoal = [
   {
     id: 1,
@@ -46,16 +48,14 @@ const dataSoal = [
   },
 ];
 
-const ToggleableRadioButton = ({ name, option, index, setFieldValue, currentValue }) => {
+const ToggleableRadioButton = ({ questionId, name, option, index, setFieldValue }) => {
+  const { answers, toggleAnswer } = useAnswerStore();
   const inputId = `opt${option}-${index}`;
-
-  // This function toggles the radio button's value
+  const currentValue = answers[questionId];
   const toggleValue = (e) => {
-    // Prevent the default radio button click behavior
     e.preventDefault();
-    // Check if the radio button is already selected
+    toggleAnswer(questionId, option);
     const newValue = currentValue === option ? '' : option;
-    // Update Formik's state with the new value
     setFieldValue(name, newValue);
   };
 
@@ -68,8 +68,7 @@ const ToggleableRadioButton = ({ name, option, index, setFieldValue, currentValu
           value={option}
           id={inputId}
           checked={currentValue === option}
-          onChange={() => setFieldValue(name, option)} // Normally updates Formik's state
-          onClick={toggleValue} // Custom handler to toggle the selection
+          onChange={toggleValue}
           className="w-4 h-4 opacity-0 absolute"
         />
         {option.toUpperCase()}
@@ -79,6 +78,17 @@ const ToggleableRadioButton = ({ name, option, index, setFieldValue, currentValu
 };
 
 export default function page() {
+  const { answers, clearAnswers } = useAnswerStore();
+
+  const getInitialValues = (dataSoal, answers) => {
+    const initialValues = { answers: {} };
+    dataSoal.forEach((item) => {
+      initialValues.answers[item.id] = answers[item.id] || "";
+    });
+    return initialValues;
+  };
+  const initialValues = getInitialValues(dataSoal, answers);
+  console.log(initialValues);
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg2");
@@ -89,27 +99,20 @@ export default function page() {
         {/* SOAL */}
         <>
           <Formik
-            initialValues={{
-              answers: dataSoal.map(() => ""),
-            }}
+            initialValues={initialValues}
             onSubmit={(values, { setSubmitting }) => {
-              const formattedAnswers = values.answers.map((answer, index) => ({
-                [dataSoal[index].id]: answer,
+              // const formattedAnswers = values.answers.map((answer, index) => ({
+              //   [dataSoal[index].id]: answer,
+              // }));
+              // alert(JSON.stringify(formattedAnswers, null, 2));
+              // console.log(formattedAnswers);
+              // setSubmitting(false);
+              const formattedAnswers = Object.entries(answers).map(([questionId, answer]) => ({
+                [questionId]: answer,
               }));
               alert(JSON.stringify(formattedAnswers, null, 2));
               console.log(formattedAnswers);
-              setSubmitting(false);
             }}
-            // onSubmit={(values, { setSubmitting }) => {
-            //   const formattedAnswers = values.answers.map(
-            //     (answer, index) => ({
-            //       id: dataSoal[index].id,
-            //       selectedAnswer: answer,
-            //     })
-            //   );
-            //   alert(JSON.stringify(formattedAnswers, null, 2));
-            //   setSubmitting(false);
-            // }}
           >
             {({ values, handleSubmit, setFieldValue }) => (
               <>
@@ -171,6 +174,7 @@ export default function page() {
                             <div id="radioadmin" className="flex gap-3">
                               {["a", "b", "c", "d"].map((option) => (
                                 <ToggleableRadioButton
+                                questionId={item.id}
                                 key={option}
                                 name={`answers[${index}]`}
                                 option={option}

@@ -24,7 +24,6 @@ function getRank(points) {
   }
 }
 
-
 // Define a Zustand store to hold user data
 const useUserStore = create((set) => ({
   userData: null,
@@ -34,7 +33,7 @@ const useUserStore = create((set) => ({
 // Fetch data function
 const fetchData = async (setUserData) => {
   try {
-    const response = await axios.get("https://motionapp-backend.vercel.app/user/getuser", {
+    const response = await axios.get("http://localhost:8000/user/getuser", {
       withCredentials: true,
     });
     let star_collected = response.data.data.challenge_point / 2;

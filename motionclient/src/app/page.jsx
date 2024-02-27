@@ -20,18 +20,14 @@ import { useBackground } from "@/provider/backgroundprovider/backgroundprovider"
 
 export default function page() {
   const router = useRouter();
-
   const [isLoading, setIsLoading] = useState(false);
-
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
   }, []);
-
   const [shown, setShown] = useState(false);
   const type = shown ? "text" : "password";
   const Icon = shown ? FaEye : FaEyeSlash;
-
   return (
     <>
       {isLoading && <Loader />}
@@ -87,17 +83,15 @@ export default function page() {
                     setIsLoading(true);
                     try {
                       const response = await axios.post(
-                        "http://localhost:8000/api/login",
+                        "https://motionapp-backend.vercel.app/api/login",
                         values,
                         {
                           withCredentials: true,
                         }
                       );
-                      toast.success(`Hello ${response.data.data.nickname}!`);
+                      toast.success(`Hello ${response.data.data.role}!`);
                       if (response.data.data.role === "admin") {
-                        router.push(
-                          `/home/${response.data.data._id}/admin`
-                        );
+                        router.push(`/home/${response.data.data._id}/admin`);
                       } else {
                         router.push(`/home/${response.data.data.nickname}`);
                       }

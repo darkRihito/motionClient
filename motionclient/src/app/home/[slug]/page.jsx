@@ -42,7 +42,6 @@ const ModalEditStatus = ({ closeModal }) => {
               if (!values.status) {
                 errors.status = "Status tidak boleh kosong!";
               }
-
               return errors;
             }}
             onSubmit={(values, { setSubmitting }) => {
@@ -104,30 +103,24 @@ const ModalEditStatus = ({ closeModal }) => {
 export default function page() {
   const userData = useUserStore((state) => state.userData);
   console.log(userData);
-
   const [modalEditStatus, setModalEditStatus] = useState(false);
   const toggleModalEditStatus = () => setModalEditStatus(!modalEditStatus);
-
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
   }, []);
-
   // Image Handler
   const [imageUrl, setImageUrl] = useState("/assets/img/profile.jpg");
   const fileInputRef = useRef(null);
-
   const triggerFileInput = () => {
     fileInputRef.current.click();
   };
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       uploadFile(file);
     }
   };
-
   const uploadFile = (file) => {
     const formData = new FormData();
     formData.append("file", file); // Adjust the 'file' field based on your backend API
@@ -146,7 +139,6 @@ export default function page() {
         console.error("Error uploading file:", error);
       });
   };
-
   return (
     <>
       {modalEditStatus ? (
@@ -192,7 +184,6 @@ export default function page() {
               )}
             </div>
           </div>
-
           {/* BODY */}
           <div className="w-full p-6 lg:p-8 bg-light-white rounded-b-xl flex">
             <div className="md:flex gap-8 w-full">
@@ -350,7 +341,6 @@ export default function page() {
               </div>
             </div>
           </div>
-
           {/* HISTORY */}
           <div className="mt-6">
             <div className="w-full md:flex flex-col  px-6 bg-light-white py-8 rounded-2xl border">

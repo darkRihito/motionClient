@@ -1,13 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
-
 // Icon
 import { IoIosCloseCircle } from "react-icons/io";
-
 // Component
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 
@@ -29,7 +26,7 @@ const ModalSeleksi = ({ closeModal }) => {
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
             deleniti asperiores nisi veritatis unde et?
           </p>
-          <a href="challenge/a">
+          <a href="challenge/pretest">
             <button
             type="button"
             className={`${ButtonStyleColor("bg-green-600")} w-full`}

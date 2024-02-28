@@ -102,7 +102,9 @@ const ModalEditStatus = ({ closeModal }) => {
 
 export default function page() {
   const userData = useUserStore((state) => state.userData);
+  const userHistory = useUserStore((state) => state.userHistory);
   console.log(userData);
+  // console.log(userHistory);
   const [modalEditStatus, setModalEditStatus] = useState(false);
   const toggleModalEditStatus = () => setModalEditStatus(!modalEditStatus);
   const { setType } = useBackground();
@@ -110,7 +112,14 @@ export default function page() {
     setType("bg-bkg0");
   }, []);
   // Image Handler
-  const [imageUrl, setImageUrl] = useState("/assets/img/profile.jpg");
+  const [imageUrl, setImageUrl] = useState("");
+  const [rankUrl, setRankUrl] = useState("");
+  useEffect(() => {
+    if (userData) {
+      setImageUrl(userData.pict_url);
+      setRankUrl(userData.rank_url);
+    }
+  }, [userData]);
   const fileInputRef = useRef(null);
   const triggerFileInput = () => {
     fileInputRef.current.click();
@@ -165,13 +174,13 @@ export default function page() {
                   onChange={handleFileChange}
                   style={{ display: "none" }}
                 />
-                <Image
-                  className="rounded-xl border-4 border-light-white"
-                  fill
-                  sizes="100%"
-                  alt=""
-                  src={imageUrl}
-                />
+                {userData && (
+                  <img
+                    src={imageUrl}
+                    className="rounded-xl border-4 border-light-white"
+                    alt=""
+                  />
+                )}
               </div>
             </div>
             <div className="w-full h-full py-3">
@@ -195,12 +204,9 @@ export default function page() {
                   Rank: {userData && <span>{userData.rank}</span>}
                 </p>
                 <div className="w-32 h-32 rounded-xl mb-2 relative">
-                  <Image
-                    src="/assets/img/rank.png"
-                    alt="rank picture"
-                    fill
-                    sizes="100%"
-                  />
+                  {userData ? (
+                    <img src={rankUrl} alt="rank picture" />
+                  ):null}
                 </div>
                 <p>Bintang Terkumpul</p>
                 <div className="flex justify-center items-center gap-2 text-2xl font-semibold mt-2 mb-4 rounded-full px-4 py-2">
@@ -377,77 +383,68 @@ export default function page() {
               </div>
               <div className="">
                 <div className="relative overflow-x-auto rounded-lg">
-                  <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3">
-                          Nama
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Skor
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 hidden sm:table-cell"
-                        >
-                          Poin
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Hasil
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 hidden sm:table-cell"
-                        >
-                          Tanggal
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="bg-light-white border-b">
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900"
-                        >
-                          Pre-Test
-                        </th>
-                        <td className="px-6 py-4">50</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">50</td>
-                        <td className="px-6 py-4 ">Intermediate</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">
-                          12/04/2023
-                        </td>
-                      </tr>
-                      <tr className="bg-light-white border-b">
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900"
-                        >
-                          Latihan
-                        </th>
-                        <td className="px-6 py-4">50</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">50</td>
-                        <td className="px-6 py-4">Belum Berhasil</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">
-                          12/04/2023
-                        </td>
-                      </tr>
-                      <tr className="bg-light-white border-b">
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900"
-                        >
-                          Latihan
-                        </th>
-                        <td className="px-6 py-4 hidden sm:table-cell">50</td>
-                        <td className="px-6 py-4">50</td>
-                        <td className="px-6 py-4">Berhasil</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">
-                          12/04/2023
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  {userHistory ? (
+                    userHistory.length > 0 ? (
+                      <>
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                              <th scope="col" className="px-6 py-3">
+                                Nama
+                              </th>
+                              <th scope="col" className="px-6 py-3">
+                                Skor
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 hidden sm:table-cell"
+                              >
+                                Poin
+                              </th>
+                              <th scope="col" className="px-6 py-3">
+                                Hasil
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 hidden sm:table-cell"
+                              >
+                                Tanggal
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <>
+                              {userHistory.map((item, index) => (
+                                <tr
+                                  key={index}
+                                  className="bg-light-white border-b"
+                                >
+                                  <th
+                                    scope="row"
+                                    className="px-6 py-4 font-medium text-gray-900"
+                                  >
+                                    {item.name}
+                                  </th>
+                                  <td className="px-6 py-4">{item.score}</td>
+                                  <td className="px-6 py-4 hidden sm:table-cell">
+                                    {item.point}
+                                  </td>
+                                  <td className="px-6 py-4">{item.result}</td>
+                                  <td className="px-6 py-4 hidden sm:table-cell">
+                                    {item.createdAt}
+                                  </td>
+                                </tr>
+                              ))}
+                            </>
+                          </tbody>
+                        </table>
+                      </>
+                    ) : (
+                      <div className="">Belum ada riwayat kegiatan!</div>
+                    )
+                  ) : (
+                    <>Loading...</>
+                  )}
                 </div>
               </div>
             </div>

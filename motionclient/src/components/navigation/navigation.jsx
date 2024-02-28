@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
+import toast from "react-hot-toast";
 // Icons
 import { GrCircleQuestion } from "react-icons/gr";
 import { RiLogoutBoxLine } from "react-icons/ri";
@@ -181,8 +182,8 @@ const TopNavigationDropdown = ({ onLogOutClicked, data }) => {
       <div className="z-20 absolute right-4 top-24">
         <div className="relative rounded-lg flex flex-col gap-2 items-end">
           <div className="cursor-auto px-4 py-3 text-sm text-end bg-light-white rounded-xl">
-            <div>{data.role}</div>
-            <div className="font-medium">{data.email}</div>
+            <div>{data && <>{data.role}</>}</div>
+            <div className="font-medium">{data && <>{data.email}</>}</div>
           </div>
           <ul className="text-sm flex flex-col gap-2">
             <li>
@@ -227,10 +228,12 @@ const TopNavigation = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
+      toast.success(`Logout Berhasil!`);
+      // console.log(response.data);
       setIsLoading(false);
       router.push(`/`);
     } catch (error) {
+      toast.error(`Logout Gagal!`);
       console.log(error);
       setIsLoading(false);
     }
@@ -254,15 +257,17 @@ const TopNavigation = () => {
               <div className="flex items-center gap-3 md:gap-4">
                 <div className="text-sm md:text-base text-end">
                   <div className="font-semibold text-black-100">
-                    Muhammad Rafi Shidiq
+                    {userData && userData.name}
                   </div>
                   <div className="text-sm text-gray-500">Ruangan A1</div>
                 </div>
-                <img
-                  className="w-9 h-9 md:w-10 md:h-10 rounded-full"
-                  src="https://api.dicebear.com/7.x/fun-emoji/svg?seed=Kiki"
-                  alt="Avatar"
-                />
+                {userData && (
+                  <img
+                    src={userData.pict_url}
+                    className="w-9 h-9 md:w-10 md:h-10 rounded-full"
+                    alt="Avatar"
+                  />
+                )}
                 {isDropdown ? (
                   <TopNavigationDropdown
                     onLogOutClicked={logoutHandler}

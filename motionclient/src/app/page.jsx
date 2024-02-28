@@ -83,25 +83,25 @@ export default function page() {
                     setIsLoading(true);
                     try {
                       const response = await axios.post(
-                        "https://motionapp-backend.vercel.app/api/login",
+                        "http://localhost:8000/api/login",
                         values,
                         {
                           withCredentials: true,
                         }
                       );
-                      toast.success(`Hello ${response.data.data.role}!`);
+                      toast.success(`Hello ${response.data.data.nickname}!`);
                       if (response.data.data.role === "admin") {
                         router.push(`/home/${response.data.data._id}/admin`);
                       } else {
                         router.push(`/home/${response.data.data.nickname}`);
                       }
-                      console.log("Login successful:", response.data);
+                      // console.log("Login successful:", response.data);
                     } catch (error) {
+                      setIsLoading(false);
                       console.error("Login failed:", error.response);
                       toast.error(`${error.response.data.message}!`);
-                      setIsLoading(false);
                     }
-                    setIsLoading(false);
+                    // setIsLoading(false);
                     setSubmitting(false);
                   }}
                 >

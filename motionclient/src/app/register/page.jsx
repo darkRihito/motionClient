@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Formik, Field } from "formik";
 import axios from "axios";
+import toast from "react-hot-toast";
 // Icons
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 // Component
@@ -115,19 +116,19 @@ export default function page() {
                     }
                     return errors;
                   }}
-                  onSubmit={async (values, { setSubmitting, setErrors }) => {
+                  onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
                     setIsLoading(true);
                     try {
                       const response = await axios.post(
-                        "https://motionapp-backend.vercel.app/api/register",
+                        "http://localhost:8000/api/register",
                         values
                       );
-                      // toast.success(`Hello ${response.data.user.name}!`);
-                      // router.push(`/home/${response.data.user.name}`);
-                      console.log("Register successful:", response);
+                      toast.success(`Registrasi Berhasil. Silakan Login!`);
+                      router.push(`/`);
+                      // console.log("Register successful:", response);
                     } catch (error) {
-                      console.error("Register failed:", error);
                       setIsLoading(false);
+                      console.error("Register failed:", error);
                     }
                     setIsLoading(false);
                     setSubmitting(false);

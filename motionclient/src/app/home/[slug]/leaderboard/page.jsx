@@ -6,8 +6,7 @@ import { useBackground } from "@/provider/backgroundprovider/backgroundprovider"
 import { useLeaderboardStore } from "@/store/useLeaderboardStore";
 
 export default function page() {
-  const userData = useLeaderboardStore((state) => state.userData);
-  console.log(userData);
+  const leaderboardData = useLeaderboardStore((state) => state.leaderboardData);
 
   const { setType } = useBackground();
   useEffect(() => {
@@ -29,9 +28,9 @@ export default function page() {
             iste asperiores!
           </p>
         </div>
-        {userData && (
+        {leaderboardData && (
           <>
-            {userData.length >= 3 && (
+            {leaderboardData.length >= 3 && (
               <div
                 className="min-h-44 aspect-[3/1] w-full flex justify-center items-center gap-4 lg:gap-6 mb-14 px-2 lg:px-0 animate-slideIn opacity-0"
                 style={{ "--delay": 0.5 + "s" }}
@@ -39,33 +38,33 @@ export default function page() {
                 <div className="rounded-lg border-2 w-56 px-2 py-3 lg:px-4 lg:py-6">
                   <div className="flex flex-col items-center gap-2.5 ">
                     <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
-                      <img src={userData[1].pict_url} alt="Profile pict" />
+                      <img src={leaderboardData[1].pict_url} alt="Profile pict" />
                     </div>
                     <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
-                      {userData[1].nickname}
-                      <span> ,GM</span>
+                      {leaderboardData[1].nickname}
+                      <span> {leaderboardData[1].title}</span>
                     </h4>
                   </div>
                 </div>
                 <div className="rounded-lg border-2 w-56 px-2 py-3 lg:px-4 lg:py-6">
                   <div className="flex flex-col items-center gap-2.5">
                     <div className="h-20 w-20 flex-none md:h-24 md:w-24 rounded-full relative overflow-hidden border-2">
-                      <img src={userData[0].pict_url} alt="Profile pict" />
+                      <img src={leaderboardData[0].pict_url} alt="Profile pict" />
                     </div>
                     <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
-                      {userData[0].nickname}
-                      <span> ,GM</span>
+                      {leaderboardData[0].nickname}
+                      <span> {leaderboardData[0].title}</span>
                     </h4>
                   </div>
                 </div>
                 <div className="rounded-lg border-2 w-56 px-2 py-3 lg:px-4 lg:py-6">
                   <div className="flex flex-col items-center gap-2.5">
                     <div className="h-16 w-16 md:h-20 flex-none md:w-20 rounded-full relative overflow-hidden border-2">
-                      <img src={userData[2].pict_url} alt="Profile pict" />
+                      <img src={leaderboardData[2].pict_url} alt="Profile pict" />
                     </div>
                     <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
-                      {userData[2].nickname}
-                      <span> ,GM</span>
+                      {leaderboardData[2].nickname}
+                      <span> {leaderboardData[2].title}</span>
                     </h4>
                   </div>
                 </div>
@@ -79,9 +78,9 @@ export default function page() {
           style={{ "--delay": 0.75 + "s" }}
         >
           <div className={`relative overflow-x-auto rounded-lg`}>
-            {userData ? (
+            {leaderboardData ? (
               <>
-                {userData.length > 0 ? (
+                {leaderboardData.length > 0 ? (
                   <>
                     <table
                       className={`w-full text-sm text-left rtl:text-right bg-light-white`}
@@ -115,7 +114,7 @@ export default function page() {
                         </tr>
                       </thead>
                       <tbody>
-                        {userData.map((item, index) => (
+                        {leaderboardData.map((item, index) => (
                           <tr key={index} className="">
                             <th
                               scope="row"
@@ -136,7 +135,7 @@ export default function page() {
                                 <div className="flex flex-col min-w-36">
                                   <div className="lg:text-base font-semibold">
                                     {item.nickname}
-                                    <span className="text-sm"> ,GM</span>
+                                    <span className="text-sm"> {item.title}</span>
                                   </div>
                                   <div className="text-sm">{item.rank}</div>
                                 </div>

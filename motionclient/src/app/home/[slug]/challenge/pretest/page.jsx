@@ -1,13 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Formik, Field } from "formik";
+import axios from "axios";
+import toast from "react-hot-toast";
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 // Styles
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
+// Store
 import useAnswerStore from "@/store/useAnswerStore";
-// Icons
-import { IoIosCloseCircle } from "react-icons/io";
 
 const dataSoal = [
   {
@@ -48,7 +49,37 @@ const dataSoal = [
 ];
 
 export default function page() {
-  const { answers, setAnswer } = useAnswerStore();
+  const { answers, setAnswer, countdown, decrementCountdown, resetCountdown } =
+    useAnswerStore();
+  useEffect(() => {
+    let timer;
+    if (countdown > 0) {
+      timer = setInterval(() => {
+        decrementCountdown();
+      }, 1000);
+    } else {
+      // When countdown reaches zero, make a POST request
+      axios
+        .post("http://localhost:8000/challenge/end/pretest", "", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          // Handle response if needed
+          console.log("Post request successful:", response);
+        })
+        .catch((error) => {
+          // Handle error if needed
+          console.error("Error making post request:", error);
+        });
+    }
+
+    return () => clearInterval(timer);
+  }, [countdown, decrementCountdown]);
+  // Convert countdown to hours, minutes, and seconds
+  const hours = Math.floor(countdown / 3600);
+  const minutes = Math.floor((countdown % 3600) / 60);
+  const seconds = countdown % 60;
+
   const [modalQuestionView, setModalQuestionView] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -96,7 +127,13 @@ export default function page() {
         <div className="fixed block md:hidden z-20 mx-auto max-w-screen-xl w-lg top-0 left-0">
           <div className="relative w-max top-11 left-3 rounded-lg bg-light-white py-3 px-4">
             <div className="text-center">
-              <div className="text-xl font-semibold">2:00:00</div>
+              <div className="text-xl font-semibold">{`${hours
+                .toString()
+                .padStart(2, "0")}:${minutes
+                .toString()
+                .padStart(2, "0")}:${seconds
+                .toString()
+                .padStart(2, "0")}`}</div>
             </div>
           </div>
           <button
@@ -117,7 +154,13 @@ export default function page() {
               <div className="rounded-xl h-20 bg-light-white flex justify-center items-center">
                 <div className="text-center">
                   <div className="">Sisa Waktu</div>
-                  <div className="text-xl font-semibold">2:00:00</div>
+                  <div className="text-xl font-semibold">{`${hours
+                    .toString()
+                    .padStart(2, "0")}:${minutes
+                    .toString()
+                    .padStart(2, "0")}:${seconds
+                    .toString()
+                    .padStart(2, "0")}`}</div>
                 </div>
               </div>
               <div className="w-full grid grid-cols-3 gap-2 justify-center items-center mt-4">

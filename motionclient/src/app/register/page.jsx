@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Formik, Field } from "formik";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 // Icons
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 // Component
@@ -18,6 +19,8 @@ import background from "@/styles/background/background.module.scss";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
 export default function page() {
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const { setType } = useBackground();
   useEffect(() => {
@@ -125,8 +128,9 @@ export default function page() {
                       );
                       toast.success(`Registrasi Berhasil. Silakan Login!`);
                       router.push(`/`);
-                      // console.log("Register successful:", response);
+                      console.log("Register successful:", response);
                     } catch (error) {
+                      toast.error(error.response.data.message);
                       setIsLoading(false);
                       console.error("Register failed:", error);
                     }

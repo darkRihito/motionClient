@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, Suspense } from "react";
 import { Formik, Field } from "formik";
 import Image from "next/image";
 import axios from "axios";
+import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 // Icons
 import { MdModeEditOutline } from "react-icons/md";
@@ -10,12 +11,13 @@ import { IoIosCloseCircle } from "react-icons/io";
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 // Component
+import Loader from "@/components/loader/loader";
 import { InputStyleColor } from "@/components/myinput/myinput";
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
 import { useUserStore } from "@/store/useUserStore";
 
-const ModalEditStatus = ({ closeModal }) => {
+const ModalEditStatus = ({ closeModal, status, setIsLoading }) => {
   return (
     <>
       <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
@@ -30,12 +32,11 @@ const ModalEditStatus = ({ closeModal }) => {
           />
           <h3 className="text-xl font-semibold mb-2">Ubah Status</h3>
           <p className="mb-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-            deleniti asperiores nisi veritatis unde et?
+            Status bersifat publik dan akan terlihat di papan peringkat!
           </p>
           <Formik
             initialValues={{
-              status: "",
+              status: status,
             }}
             validate={(values) => {
               const errors = {};
@@ -44,11 +45,24 @@ const ModalEditStatus = ({ closeModal }) => {
               }
               return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
+            onSubmit={async (values, { setSubmitting, setErrors }) => {
+              setIsLoading(true);
+              try {
+                const response = await axios.patch(
+                  "http://localhost:8000/user/userstatus",
+                  values,
+                  {
+                    withCredentials: true,
+                  }
+                );
+                useUserStore.getState().updateUserStatus(values.status);
+                toast.success(`Status berhasil diupdate!`);
+                setIsLoading(false);
+              } catch (error) {
+                setIsLoading(false);
+                toast.error(error);
+              }
+              setSubmitting(false);
             }}
           >
             {({
@@ -82,14 +96,13 @@ const ModalEditStatus = ({ closeModal }) => {
                     {submitCount > 0 && errors.status && touched.status}
                   </span>
                 </div>
-
                 <button
                   type="submit"
                   className={`${ButtonStyleColor(
                     "bg-green-600 hover:bg-green-700"
                   )} w-full`}
                 >
-                  Tambahkan!
+                  Ubah!
                 </button>
               </form>
             )}
@@ -101,8 +114,12 @@ const ModalEditStatus = ({ closeModal }) => {
 };
 
 export default function page() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const userData = useUserStore((state) => state.userData);
-  console.log(userData);
+  const userHistory = useUserStore((state) => state.userHistory);
+  // console.log(userData);
+  // console.log(userHistory);
   const [modalEditStatus, setModalEditStatus] = useState(false);
   const toggleModalEditStatus = () => setModalEditStatus(!modalEditStatus);
   const { setType } = useBackground();
@@ -110,7 +127,14 @@ export default function page() {
     setType("bg-bkg0");
   }, []);
   // Image Handler
-  const [imageUrl, setImageUrl] = useState("/assets/img/profile.jpg");
+  const [imageUrl, setImageUrl] = useState("");
+  const [rankUrl, setRankUrl] = useState("");
+  useEffect(() => {
+    if (userData) {
+      setImageUrl(userData.pict_url);
+      setRankUrl(userData.rank_url);
+    }
+  }, [userData]);
   const fileInputRef = useRef(null);
   const triggerFileInput = () => {
     fileInputRef.current.click();
@@ -141,8 +165,13 @@ export default function page() {
   };
   return (
     <>
+      {isLoading && <Loader />}
       {modalEditStatus ? (
-        <ModalEditStatus closeModal={toggleModalEditStatus} />
+        <ModalEditStatus
+          closeModal={toggleModalEditStatus}
+          status={userData.status}
+          setIsLoading={setIsLoading}
+        />
       ) : null}
       <div
         className="max-w-screen-md mx-auto mt-64 mb-16 animate-slideIn opacity-0"
@@ -165,13 +194,13 @@ export default function page() {
                   onChange={handleFileChange}
                   style={{ display: "none" }}
                 />
-                <Image
-                  className="rounded-xl border-4 border-light-white"
-                  fill
-                  sizes="100%"
-                  alt=""
-                  src={imageUrl}
-                />
+                {userData && (
+                  <img
+                    src={imageUrl}
+                    className="rounded-xl border-4 border-light-white"
+                    alt=""
+                  />
+                )}
               </div>
             </div>
             <div className="w-full h-full py-3">
@@ -179,7 +208,7 @@ export default function page() {
               {userData && (
                 <h4 className="text-3xl font-semibold">
                   {userData.nickname}{" "}
-                  <span className="text-base text-blue-500">,GM</span>
+                  <span className="text-base text-blue-500">{userData.title}</span>
                 </h4>
               )}
             </div>
@@ -195,12 +224,7 @@ export default function page() {
                   Rank: {userData && <span>{userData.rank}</span>}
                 </p>
                 <div className="w-32 h-32 rounded-xl mb-2 relative">
-                  <Image
-                    src="/assets/img/rank.png"
-                    alt="rank picture"
-                    fill
-                    sizes="100%"
-                  />
+                  {userData ? <img src={rankUrl} alt="rank picture" /> : null}
                 </div>
                 <p>Bintang Terkumpul</p>
                 <div className="flex justify-center items-center gap-2 text-2xl font-semibold mt-2 mb-4 rounded-full px-4 py-2">
@@ -291,10 +315,14 @@ export default function page() {
                     />
                   </div>
                   <p className="">
-                    {userData == "" ? (
-                      <>{userData.status}</>
-                    ) : (
-                      <>Belum menulis status.</>
+                    {userData && (
+                      <>
+                        {userData.status == "" ? (
+                          <>Belum menulis status.</>
+                        ) : (
+                          <>{userData.status}</>
+                        )}
+                      </>
                     )}
                   </p>
                 </div>
@@ -377,77 +405,68 @@ export default function page() {
               </div>
               <div className="">
                 <div className="relative overflow-x-auto rounded-lg">
-                  <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                      <tr>
-                        <th scope="col" className="px-6 py-3">
-                          Nama
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Skor
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 hidden sm:table-cell"
-                        >
-                          Poin
-                        </th>
-                        <th scope="col" className="px-6 py-3">
-                          Hasil
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-3 hidden sm:table-cell"
-                        >
-                          Tanggal
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="bg-light-white border-b">
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900"
-                        >
-                          Pre-Test
-                        </th>
-                        <td className="px-6 py-4">50</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">50</td>
-                        <td className="px-6 py-4 ">Intermediate</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">
-                          12/04/2023
-                        </td>
-                      </tr>
-                      <tr className="bg-light-white border-b">
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900"
-                        >
-                          Latihan
-                        </th>
-                        <td className="px-6 py-4">50</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">50</td>
-                        <td className="px-6 py-4">Belum Berhasil</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">
-                          12/04/2023
-                        </td>
-                      </tr>
-                      <tr className="bg-light-white border-b">
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900"
-                        >
-                          Latihan
-                        </th>
-                        <td className="px-6 py-4 hidden sm:table-cell">50</td>
-                        <td className="px-6 py-4">50</td>
-                        <td className="px-6 py-4">Berhasil</td>
-                        <td className="px-6 py-4 hidden sm:table-cell">
-                          12/04/2023
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  {userHistory ? (
+                    userHistory.length > 0 ? (
+                      <>
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                          <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                              <th scope="col" className="px-6 py-3">
+                                Nama
+                              </th>
+                              <th scope="col" className="px-6 py-3">
+                                Skor
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 hidden sm:table-cell"
+                              >
+                                Poin
+                              </th>
+                              <th scope="col" className="px-6 py-3">
+                                Hasil
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 hidden sm:table-cell"
+                              >
+                                Tanggal
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <>
+                              {userHistory.map((item, index) => (
+                                <tr
+                                  key={index}
+                                  className="bg-light-white border-b"
+                                >
+                                  <th
+                                    scope="row"
+                                    className="px-6 py-4 font-medium text-gray-900"
+                                  >
+                                    {item.name}
+                                  </th>
+                                  <td className="px-6 py-4">{item.score}</td>
+                                  <td className="px-6 py-4 hidden sm:table-cell">
+                                    {item.point}
+                                  </td>
+                                  <td className="px-6 py-4">{item.result}</td>
+                                  <td className="px-6 py-4 hidden sm:table-cell">
+                                    {item.createdAt}
+                                  </td>
+                                </tr>
+                              ))}
+                            </>
+                          </tbody>
+                        </table>
+                      </>
+                    ) : (
+                      <div className="">Belum ada riwayat kegiatan!</div>
+                    )
+                  ) : (
+                    <>Loading...</>
+                  )}
                 </div>
               </div>
             </div>

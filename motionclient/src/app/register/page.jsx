@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Formik, Field } from "formik";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 // Icons
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 // Component
@@ -17,6 +19,8 @@ import background from "@/styles/background/background.module.scss";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
 export default function page() {
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const { setType } = useBackground();
   useEffect(() => {
@@ -115,19 +119,20 @@ export default function page() {
                     }
                     return errors;
                   }}
-                  onSubmit={async (values, { setSubmitting, setErrors }) => {
+                  onSubmit={async (values, { setSubmitting, setErrors, resetForm }) => {
                     setIsLoading(true);
                     try {
                       const response = await axios.post(
-                        "https://motionapp-backend.vercel.app/api/register",
+                        "http://localhost:8000/api/register",
                         values
                       );
-                      // toast.success(`Hello ${response.data.user.name}!`);
-                      // router.push(`/home/${response.data.user.name}`);
+                      toast.success(`Registrasi Berhasil. Silakan Login!`);
+                      router.push(`/`);
                       console.log("Register successful:", response);
                     } catch (error) {
-                      console.error("Register failed:", error);
+                      toast.error(error.response.data.message);
                       setIsLoading(false);
+                      console.error("Register failed:", error);
                     }
                     setIsLoading(false);
                     setSubmitting(false);

@@ -5,6 +5,14 @@ const useAnswerStore = create(
   persist(
     (set) => ({
       answers: {},
+      type: '',
+      isFinished: '',
+      countdown: 3600,
+      decrementCountdown: () => set((state) => ({ countdown: state.countdown - 1 })),
+      resetCountdown: (value) => set({ countdown: value }),
+      setIsFinished: (value) => set({ isFinished: value }),
+      setType: (value) => set({ type: value }),
+      setCountdownFromResponse: (newCountdown) => set({ countdown: newCountdown }),
       setAnswer: (questionId, answer) =>
         set((state) => {
           const newState = { ...state.answers };
@@ -15,7 +23,7 @@ const useAnswerStore = create(
     }),
     {
       name: "quiz-storage",
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

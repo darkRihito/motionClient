@@ -2,40 +2,37 @@ import { create } from "zustand";
 import axios from "axios";
 
 // Define a Zustand store to hold user data
-const useUserStore = create((set) => ({
-  userData: null,
-  userHistory: null,
-  setUserData: (data) => set({ userData: data }),
-  setUserHistory: (data) => set({ userHistory: data }),
-  updateUserStatus: (status) => set((state) => ({
-    userData: {
-      ...state.userData,
-      status: status,
-    }
-  })),
+const useLeaderboardStore = create((set) => ({
+  leaderboardData: null,
+  setleaderboardData: (data) => set({ leaderboardData: data }),
 }));
 
 // Fetch data function
 const fetchData = async () => {
   try {
-    // Make concurrent requests to fetch user data and history data
-    const [userDataResponse, historyDataResponse] = await Promise.all([
-      axios.get("http://localhost:8000/user/user", {
-        withCredentials: true,
-      }),
-      axios.get("http://localhost:8000/history/historyid", {
-        withCredentials: true,
-      }),
-    ]);
+    // Make request to fetch user data
+    const leaderboardDataResponse = await axios.get("http://localhost:8000/leaderboard/data", {
+      withCredentials: true,
+    });
 
-    const userData = userDataResponse.data.data;
+    const leaderboardData = leaderboardDataResponse.data.message; // Assuming user data is stored in the message field
+    
+    // Update state with the fetched data
+    useLeaderboardStore.setState({
+      leaderboardData: leaderboardData.map(user => ({
+        ...user,
+        star_collected: user.challenge_point / 2,
+        ...getRankData(user.challenge_point)
+      }))
+    });
+  } catch (error) {
+    console.error("Failed:", error.message);
+  }
+};
 
-    if (userData.role == "user") {
-      const challengePoint = userData.challenge_point;
-      const star_collected = challengePoint / 2;
-
-      // Determine rank and rank URL
-      let rank, rank_url, title;
+// Helper function to determine rank based on challenge points
+const getRankData = (challengePoint) => {
+  let rank, rank_url, title;
       if (challengePoint >= 0 && challengePoint <= 10) {
         rank = "Journeyman";
         rank_url = "/assets/rank/rank1.png";
@@ -67,20 +64,8 @@ const fetchData = async () => {
         rank_url = "/assets/rank/rank8.png";
         title = ",SR"
       }
-
-      // Update state with the fetched data
-      useUserStore.setState({
-        userData: { ...userData, star_collected, rank, rank_url, title },
-        userHistory: historyDataResponse.data.data,
-      });
-    }else {
-      useUserStore.setState({
-        userData: userData ,
-      });
-    }
-  } catch (error) {
-    console.error("Failed:", error.message);
-  }
+  return { rank, rank_url, title };
 };
 
-export { useUserStore, fetchData };
+export { useLeaderboardStore, fetchData };
+

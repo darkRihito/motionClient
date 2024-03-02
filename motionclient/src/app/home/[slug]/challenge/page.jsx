@@ -12,10 +12,10 @@ import { IoIosCloseCircle } from "react-icons/io";
 // Component
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
-import useAnswerStore from "@/store/useAnswerStore";
+import { useChallengeStore } from "@/store/useChallengeStore";
 
 const ModalPreTest = ({ closeModal }) => {
-  const { isFinished, type } = useAnswerStore();
+  const { isFinished, type } = useChallengeStore();
   const router = useRouter();
 
   const startHandler = () => {
@@ -58,7 +58,10 @@ const ModalPreTest = ({ closeModal }) => {
 };
 
 const ModalLatihan = ({ closeModal }) => {
-  const { isFinished, type } = useAnswerStore();
+
+ 
+
+  const { isFinished, type } = useChallengeStore();
   const router = useRouter();
 
   const startHandler = () => {
@@ -131,6 +134,7 @@ const ModalPostTest = ({ closeModal }) => {
 };
 
 export default function page() {
+
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");

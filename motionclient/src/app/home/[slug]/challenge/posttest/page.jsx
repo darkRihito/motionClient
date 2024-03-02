@@ -5,7 +5,7 @@ import { Formik, Field } from "formik";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 // Styles
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
-import useAnswerStore from "@/store/useAnswerStore";
+import useAnswerStore from "@/store/useChallengeStore";
 
 const dataSoal = [
   {

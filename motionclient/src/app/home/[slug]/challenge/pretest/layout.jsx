@@ -1,22 +1,24 @@
 "use client";
 import React, { useEffect } from "react";
-import { useChallengeStore, useQuestionStore } from "@/store/useChallengeStore";
+import {
+  useChallengeStore,
+  useQuestionStore,
+  useChallengeInfo,
+} from "@/store/useChallengeStore";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function layout({ children }) {
   const router = useRouter();
-  const { setIsFinished, setType } = useChallengeStore();
+  const { setIsFinished, setType, setCountdownFromResponse } =
+    useChallengeInfo();
 
-  const setCountdownFromResponse = useChallengeStore(
-    (state) => state.setCountdownFromResponse
-  );
   useEffect(() => {
     const fetchData = async () => {
       try {
         const challengeInfo = await axios.post(
-          "http://localhost:8000/challenge/start/pretest",
+          "https://motionapp-backend.vercel.app/challenge/start/pretest",
           "",
           {
             withCredentials: true,
@@ -34,19 +36,16 @@ export default function layout({ children }) {
         }
         setCountdownFromResponse(timeLeft);
         setType(challengeInfo.data.data.type);
-        setIsFinished(challengeInfo.data.data.is_finished);
-
-        // Fetch Question
+        setIsFinished(false);
         try {
           const response = await axios.get(
-            "http://localhost:8000/question/pretestquestion",
+            "https://motionapp-backend.vercel.app/question/pretestquestion",
             {
               withCredentials: true,
             }
           );
           const questions = response.data.data;
           useQuestionStore.getState().setQuestions(questions);
-          // console.log("uwu",questions)
         } catch (error) {
           console.error("Error fetching questions:", error);
         }

@@ -12,10 +12,10 @@ import { IoIosCloseCircle } from "react-icons/io";
 // Component
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
-import { useChallengeStore } from "@/store/useChallengeStore";
+import { useChallengeInfo } from "@/store/useChallengeStore";
 
 const ModalPreTest = ({ closeModal }) => {
-  const { isFinished, type } = useChallengeStore();
+  const { isFinished, type } = useChallengeInfo();
   const router = useRouter();
 
   const startHandler = () => {
@@ -59,16 +59,17 @@ const ModalPreTest = ({ closeModal }) => {
 
 const ModalLatihan = ({ closeModal }) => {
 
- 
 
-  const { isFinished, type } = useChallengeStore();
+  const { isFinished, type } = useChallengeInfo();
   const router = useRouter();
 
   const startHandler = () => {
-    if (!(type == "latihan") && !isFinished) {
+    if (type == "" && isFinished == "") {
+      router.push("challenge/pretest");
+    } else if (!(type == "posttest") && !isFinished) {
       console.log("sedang mengerjakan kuis lain!");
     } else {
-      router.push("challenge/pretest");
+      router.push("challenge/posttest");
     }
   };
   return (

@@ -7,30 +7,27 @@ import { useBackground } from "@/provider/backgroundprovider/backgroundprovider"
 // Styles
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
-import { useChallengeStore, useQuestionStore } from "@/store/useChallengeStore";
+import {
+  useChallengeStore,
+  useQuestionStore,
+  useChallengeInfo,
+} from "@/store/useChallengeStore";
 
 export default function page() {
-  const {
-    answers,
-    setAnswer,
-    countdown,
-    decrementCountdown,
-    isFinished,
-    setIsFinished,
-    resetCountdown,
-  } = useChallengeStore();
+  const { answers, setAnswer } = useChallengeStore();
+  const { countdown, decrementCountdown, isFinished, setIsFinished } =
+    useChallengeInfo();
 
   const { questions } = useQuestionStore();
-  // console.log(questions);
-
   const [modalFinish, setmodalFinish] = useState({
     isOpened: false,
     score: 0,
   });
+
   const sendAnswer = async () => {
     await axios
       .post(
-        "http://localhost:8000/challenge/end/pretest",
+        "https://motionapp-backend.vercel.app/challenge/end/pretest",
         { answer: answers },
         {
           withCredentials: true,
@@ -59,7 +56,7 @@ export default function page() {
       }, 1000);
     } else if (!isFinished) {
       // When countdown reaches zero, make a POST request
-      sendAnswer();
+      // sendAnswer();
     }
 
     return () => clearInterval(timer);

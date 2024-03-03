@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Formik, Field } from "formik";
 import axios from "axios";
 import toast from "react-hot-toast";
 // Provider
@@ -8,74 +7,63 @@ import { useBackground } from "@/provider/backgroundprovider/backgroundprovider"
 // Styles
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
-import useAnswerStore from "@/store/useAnswerStore";
-
-const dataSoal = [
-  {
-    id: 1,
-    kesulitan: "mudah",
-    soal: "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-    jawaban: "c",
-    kategori: "grammar",
-  },
-  {
-    id: 2,
-    kesulitan: "mudah",
-    soal: "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-    jawaban: "c",
-    kategori: "grammar",
-  },
-  {
-    id: 3,
-    kesulitan: "mudah",
-    soal: "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-    jawaban: "c",
-    kategori: "grammar",
-  },
-  {
-    id: 4,
-    kesulitan: "mudah",
-    soal: "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-    jawaban: "c",
-    kategori: "grammar",
-  },
-  {
-    id: 5,
-    kesulitan: "mudah",
-    soal: "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-    jawaban: "c",
-    kategori: "grammar",
-  },
-];
+import { useChallengeStore, useQuestionStore } from "@/store/useChallengeStore";
 
 export default function page() {
-  const { answers, setAnswer, countdown, decrementCountdown, resetCountdown } =
-    useAnswerStore();
+  const {
+    answers,
+    setAnswer,
+    countdown,
+    decrementCountdown,
+    isFinished,
+    setIsFinished,
+    resetCountdown,
+  } = useChallengeStore();
+
+  const { questions } = useQuestionStore();
+  // console.log(questions);
+
+  const [modalFinish, setmodalFinish] = useState({
+    isOpened: false,
+    score: 0,
+  });
+  const sendAnswer = async () => {
+    await axios
+      .post(
+        "http://localhost:8000/challenge/end/pretest",
+        { answer: answers },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        // localStorage.removeItem("challenge-storage");
+        setIsFinished(true);
+        console.log("Post request successful:", response);
+        setmodalFinish((prevState) => ({
+          ...prevState,
+          isOpened: true,
+          score: response.data.data.score,
+        }));
+      })
+      .catch((error) => {
+        console.error("Error making post request:", error);
+      });
+  };
+
   useEffect(() => {
     let timer;
-    if (countdown > 0) {
+    if (countdown > 0 && !isFinished) {
       timer = setInterval(() => {
         decrementCountdown();
       }, 1000);
-    } else {
+    } else if (!isFinished) {
       // When countdown reaches zero, make a POST request
-      axios
-        .post("http://localhost:8000/challenge/end/pretest", "", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          // Handle response if needed
-          console.log("Post request successful:", response);
-        })
-        .catch((error) => {
-          // Handle error if needed
-          console.error("Error making post request:", error);
-        });
+      sendAnswer();
     }
 
     return () => clearInterval(timer);
   }, [countdown, decrementCountdown]);
-  // Convert countdown to hours, minutes, and seconds
   const hours = Math.floor(countdown / 3600);
   const minutes = Math.floor((countdown % 3600) / 60);
   const seconds = countdown % 60;
@@ -83,7 +71,7 @@ export default function page() {
   const [modalQuestionView, setModalQuestionView] = useState(false);
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(answers);
+    sendAnswer();
   };
   const { setType } = useBackground();
   useEffect(() => {
@@ -91,6 +79,29 @@ export default function page() {
   }, []);
   return (
     <>
+      {modalFinish.isOpened ? (
+        <div>
+          <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
+          <div
+            className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
+            style={{ "--delay": 0 + "s" }}
+          >
+            <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <h3 className="text-xl font-semibold mb-2">Pre-Test Selesai!</h3>
+              <p className="mb-4">
+                Skor akurasi kamu sebesar {modalFinish.score}!
+              </p>
+              <button
+                onClick={() => {
+                  setmodalFinish(false);
+                }}
+              >
+                Selesai!
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       {modalQuestionView ? (
         <div>
           <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
@@ -101,15 +112,15 @@ export default function page() {
             <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               <h3 className="text-xl font-semibold mb-2">Pilih Soal</h3>
               <div className="w-full flex flex-wrap gap-2 justify-center items-center">
-                {dataSoal.map((item, index) => (
+                {questions.map((item, index) => (
                   <a
-                    key={item.id}
+                    key={item._id}
                     href={`#${index}`}
                     onClick={() => {
                       setModalQuestionView(false);
                     }}
                     className={`rounded-lg w-14 aspect-square gap-3 flex-col relative flex justify-center items-center ${
-                      answers[item.id]
+                      answers[item._id]
                         ? "bg-green-500 text-white"
                         : "bg-light-white "
                     }`}
@@ -164,12 +175,12 @@ export default function page() {
                 </div>
               </div>
               <div className="w-full grid grid-cols-3 gap-2 justify-center items-center mt-4">
-                {dataSoal.map((item, index) => (
+                {questions.map((item, index) => (
                   <a
-                    key={item.id}
+                    key={item._id}
                     href={`#${index}`}
                     className={`rounded-lg w-full aspect-square gap-3 flex-col relative flex justify-center items-center ${
-                      answers[item.id]
+                      answers[item._id]
                         ? "bg-green-500 text-white"
                         : "bg-light-white "
                     }`}
@@ -183,65 +194,71 @@ export default function page() {
         </div>
         <div className="flex-[4] order-2 space-y-2 md:order-2">
           <div className="bg-light-white p-4 rounded-xl">
-            <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-              {dataSoal.map((item, index) => (
-                <div
-                  id={index}
-                  key={item.id}
-                  className="bg-light-white rounded-lg w-full min-h-20 gap-3 flex flex-col relative"
-                >
-                  <div
-                    className="text-base w-full"
-                    dangerouslySetInnerHTML={{
-                      __html: `<div style="display: flex; align-items: start;"><span style="font-size: 1.5rem; margin-right: 8px;">${
-                        index + 1
-                      })</span><div>${item.soal}</div></div>`,
-                    }}
-                  ></div>
-                  <div className="mt-2">
-                    <div id="radioadmin" className="flex gap-3">
-                      {["a", "b", "c", "d"].map((option, index) => (
-                        <div key={index} className="w-full">
-                          <label
-                            htmlFor={item.id}
-                            onClick={() => {
-                              if (answers[item.id] === option) {
-                                setAnswer(item.id, undefined);
-                              } else {
-                                setAnswer(item.id, option);
-                              }
-                            }}
-                            className={`flex flex-1 items-center justify-center text-center h-12 p-4 cursor-pointer border rounded-lg ${
-                              answers[item.id] === option
-                                ? "border-green-400 bg-green-400 text-white"
-                                : ""
-                            }`}
-                          >
-                            <input
-                              type="radio"
-                              name={item.id}
-                              value={option}
-                              checked={answers[item.id] === option}
-                              readOnly
-                              className="w-4 h-4 opacity-0 absolute"
-                            />
-                            {option.toUpperCase()}
-                          </label>
+            {questions.length != 0 ? (
+              <>
+                <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+                  {questions.map((item, index) => (
+                    <div
+                      id={index}
+                      key={item._id}
+                      className="bg-light-white rounded-lg w-full min-h-20 gap-3 flex flex-col relative"
+                    >
+                      <div
+                        className="text-base w-full"
+                        dangerouslySetInnerHTML={{
+                          __html: `<div style="display: flex; align-items: start;"><span style="font-size: 1.5rem; margin-right: 8px;">${
+                            index + 1
+                          })</span><div>${item.question}</div></div>`,
+                        }}
+                      ></div>
+                      <div className="mt-2">
+                        <div id="radioadmin" className="flex gap-3">
+                          {["a", "b", "c", "d"].map((option, index) => (
+                            <div key={index} className="w-full">
+                              <label
+                                htmlFor={item._id}
+                                onClick={() => {
+                                  if (answers[item._id] === option) {
+                                    setAnswer(item._id, undefined);
+                                  } else {
+                                    setAnswer(item._id, option);
+                                  }
+                                }}
+                                className={`flex flex-1 items-center justify-center text-center h-12 p-4 cursor-pointer border rounded-lg ${
+                                  answers[item._id] === option
+                                    ? "border-green-400 bg-green-400 text-white"
+                                    : ""
+                                }`}
+                              >
+                                <input
+                                  type="radio"
+                                  name={item._id}
+                                  value={option}
+                                  checked={answers[item._id] === option}
+                                  readOnly
+                                  className="w-4 h-4 opacity-0 absolute"
+                                />
+                                {option.toUpperCase()}
+                              </label>
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-              <button
-                type="submit"
-                className={`${ButtonStyleColor(
-                  "bg-green-600 hover:bg-green-700"
-                )} w-full mt-8`}
-              >
-                Selesaikan!
-              </button>
-            </form>
+                  ))}
+                  <button
+                    type="submit"
+                    className={`${ButtonStyleColor(
+                      "bg-green-600 hover:bg-green-700"
+                    )} w-full mt-8`}
+                  >
+                    Selesaikan!
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>Loading...</>
+            )}
           </div>
         </div>
         <div className="flex-[1] order-1 md:order-2"></div>

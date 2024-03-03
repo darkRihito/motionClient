@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-const useAnswerStore = create(
+const useChallengeStore = create(
   persist(
     (set) => ({
       answers: {},
@@ -22,10 +22,15 @@ const useAnswerStore = create(
         }),
     }),
     {
-      name: "quiz-storage",
+      name: "challenge-storage",
       storage: createJSONStorage(() => localStorage),
     }
   )
 );
 
-export default useAnswerStore;
+const useQuestionStore = create((set)=>({
+  questions: [],
+  setQuestions: (questions) => set({ questions }),
+}))
+
+export {useChallengeStore, useQuestionStore};

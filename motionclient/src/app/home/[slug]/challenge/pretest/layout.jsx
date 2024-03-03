@@ -1,52 +1,65 @@
 "use client";
 import React, { useEffect } from "react";
-import useAnswerStore from "@/store/useAnswerStore";
+import { useChallengeStore, useQuestionStore } from "@/store/useChallengeStore";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 
 export default function layout({ children }) {
   const router = useRouter();
-  const setCountdownFromResponse = useAnswerStore(
+  const { setIsFinished, setType } = useChallengeStore();
+
+  const setCountdownFromResponse = useChallengeStore(
     (state) => state.setCountdownFromResponse
   );
-  const setType = useAnswerStore((state) => state.setType);
-  const setIsFinished = useAnswerStore((state) => state.setIsFinished);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(
+        const challengeInfo = await axios.post(
           "http://localhost:8000/challenge/start/pretest",
           "",
           {
             withCredentials: true,
           }
         );
-        console.log(response);
-        const startTime = new Date(response.data.data.start_time);
+        const startTime = new Date(challengeInfo.data.data.start_time);
         const currentDateTime = new Date();
         const differenceInMilliseconds = currentDateTime - startTime;
         const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-        console.log(differenceInSeconds);
         let timeLeft = 0;
         if (differenceInSeconds > 7200) {
           console.log("END QUIZ");
         } else {
-          timeLeft = 7200 - differenceInSeconds ;
+          timeLeft = 7200 - differenceInSeconds;
         }
         setCountdownFromResponse(timeLeft);
-        setType(response.data.data.type);
-        setIsFinished(response.data.data.is_finished);
+        setType(challengeInfo.data.data.type);
+        setIsFinished(challengeInfo.data.data.is_finished);
+
+        // Fetch Question
+        try {
+          const response = await axios.get(
+            "http://localhost:8000/question/pretestquestion",
+            {
+              withCredentials: true,
+            }
+          );
+          const questions = response.data.data;
+          useQuestionStore.getState().setQuestions(questions);
+          // console.log("uwu",questions)
+        } catch (error) {
+          console.error("Error fetching questions:", error);
+        }
       } catch (error) {
         console.log(error);
-        router.push("challenge/");
+        // router.push("../challenge");
+        // setType("pretest");
+        // setIsFinished(true);
         toast.error(`${error.response.data.message}!`);
       }
     };
 
-    fetchData(); // Call the async function inside useEffect
-
-    // You might want to pass an empty dependency array to useEffect if this effect should only run once on mount
+    fetchData();
   }, []);
   return <>{children}</>;
 }

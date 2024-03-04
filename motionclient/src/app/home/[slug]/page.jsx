@@ -453,7 +453,7 @@ export default function page() {
                                   </td>
                                   <td className="px-6 py-4">{item.result}</td>
                                   <td className="px-6 py-4 hidden sm:table-cell">
-                                    {item.createdAt}
+                                    {item.date_created}
                                   </td>
                                 </tr>
                               ))}

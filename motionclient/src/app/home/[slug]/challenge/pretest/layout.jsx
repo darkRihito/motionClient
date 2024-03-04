@@ -11,7 +11,7 @@ import axios from "axios";
 
 export default function layout({ children }) {
   const router = useRouter();
-  const { setIsFinished, setType, setCountdownFromResponse } =
+  const { setIsFinished, setType, setCountdownFromResponse, setQuestionCount } =
     useChallengeInfo();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function layout({ children }) {
           timeLeft = 7200 - differenceInSeconds;
         }
         setCountdownFromResponse(timeLeft);
-        setType(challengeInfo.data.data.type);
+        setType("pretest");
         setIsFinished(false);
         try {
           const response = await axios.get(
@@ -46,14 +46,13 @@ export default function layout({ children }) {
           );
           const questions = response.data.data;
           useQuestionStore.getState().setQuestions(questions);
+          setQuestionCount(questions.length);
         } catch (error) {
           console.error("Error fetching questions:", error);
         }
       } catch (error) {
         console.log(error);
-        // router.push("../challenge");
-        // setType("pretest");
-        // setIsFinished(true);
+        router.push("../challenge");
         toast.error(`${error.response.data.message}!`);
       }
     };

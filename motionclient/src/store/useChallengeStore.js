@@ -29,6 +29,7 @@ const useChallengeInfo = create((set) => ({
   resetCountdown: (value) => set({ countdown: value }),
   setIsFinished: (value) => set({ isFinished: value }),
   setType: (value) => set({ type: value }),
+  setQuestionCount: (value) => set({ questionCount: value }),
   setCountdownFromResponse: (newCountdown) => set({ countdown: newCountdown }),
 }));
 

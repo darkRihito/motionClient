@@ -36,9 +36,11 @@ const getRankData = (challengePoint) => {
       if (challengePoint >= 0 && challengePoint <= 10) {
         rank = "Journeyman";
         rank_url = "/assets/rank/rank1.png";
+        title = ",B"
       } else if (challengePoint >= 11 && challengePoint <= 20) {
         rank = "Sage";
         rank_url = "/assets/rank/rank2.png";
+        title = ",A"
       } else if (challengePoint >= 21 && challengePoint <= 30) {
         rank = "Expert";
         rank_url = "/assets/rank/rank3.png";

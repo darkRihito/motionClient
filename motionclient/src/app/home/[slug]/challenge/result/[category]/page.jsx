@@ -6,177 +6,22 @@ import { useBackground } from "@/provider/backgroundprovider/backgroundprovider"
 // Styles
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
-import {
-  useChallengeStore,
-  useQuestionStore,
-  useChallengeInfo,
-} from "@/store/useChallengeStore";
-
-const newdata = {
-  quiz_id: "65ce16656a7216a4d00890e8",
-  total_correct: 2,
-  total_point: 66.66,
-  answers: [
-    {
-      question_id: "65e2e336fabb977fd755dc8c",
-      question:
-        "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-      answer: "A",
-      user_answer: "C",
-      is_correct: false,
-    },
-    {
-      question_id: "65e2e336fabb977fd755dc8d",
-      question:
-        "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-      answer: "C",
-      user_answer: "C",
-      is_correct: true,
-    },
-    {
-      question_id: "65e2e336fabb977fd755dc8e",
-      question:
-        "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-      answer: "C",
-      user_answer: "C",
-      is_correct: true,
-    },
-  ],
-  end_time: "2024-03-03T16:29:08.824Z",
-  isFinished: true,
-  _id: "65e4a5542299630f7bf422bc",
-  createdAt: "2024-03-03T16:29:08.825Z",
-  updatedAt: "2024-03-03T16:29:08.825Z",
-  start_time: "2024-03-03T16:29:08.826Z",
-};
-
-function processAndCombineData(useranswer, question) {
-  // Convert the array of questions into an object for easy lookup by question ID
-  const questionsById = question.question.reduce((acc, curr) => {
-    acc[curr._id] = curr;
-    return acc;
-  }, {});
-
-  // Map over the user's answers to add question details and correctness
-  const combinedAnswers = useranswer.data.answers.map((userAnswer) => {
-    const questionDetails = questionsById[userAnswer.question_id];
-    return {
-      question_id: userAnswer.question_id,
-      question: questionDetails.question,
-      correct_answer: questionDetails.answer,
-      user_answer: userAnswer.answer,
-      is_correct: userAnswer.answer === questionDetails.answer,
-    };
-  });
-
-  // Construct the new combined data structure
-  return {
-    quiz_id: useranswer.data.quiz_id,
-    total_correct: useranswer.data.total_correct,
-    total_point: useranswer.data.total_point,
-    answers: combinedAnswers,
-    end_time: useranswer.data.end_time,
-    isFinished: useranswer.data.isFinished,
-    _id: useranswer.data._id,
-    createdAt: useranswer.data.createdAt,
-    updatedAt: useranswer.data.updatedAt,
-    start_time: useranswer.data.start_time,
-  };
-}
+import { useTestResult } from "@/store/useTestResultStore";
 
 export default function page() {
-  //   const { answers, setAnswer } = useChallengeStore();
-  //   const { questions } = useQuestionStore();
+  const { result } = useTestResult();
+
+  console.log("PAGE RES:",result);
   const [modalQuestionView, setModalQuestionView] = useState(false);
-  const [quizResults, setQuizResults] = useState(null);
+
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg2");
   }, []);
 
-  useEffect(() => {
-    // Simulate fetching useranswer and question data
-    // In a real application, replace the following lines with actual data fetching logic
-    const useranswer = {
-      success: true,
-      message: "Quiz finished",
-      data: {
-        quiz_id: "65ce16656a7216a4d00890e8",
-        total_correct: 2,
-        total_point: 66.66,
-        answers: [
-          {
-            question_id: "65e2e336fabb977fd755dc8c",
-            answer: "A",
-          },
-          {
-            question_id: "65e2e336fabb977fd755dc8d",
-            answer: "C",
-          },
-          {
-            question_id: "65e2e336fabb977fd755dc8e",
-            answer: "C",
-          },
-        ],
-        end_time: "2024-03-03T16:29:08.824Z",
-        isFinished: true,
-        _id: "65e4a5542299630f7bf422bc",
-        createdAt: "2024-03-03T16:29:08.825Z",
-        updatedAt: "2024-03-03T16:29:08.825Z",
-        start_time: "2024-03-03T16:29:08.826Z",
-      },
-    };
-
-    const question = {
-      success: true,
-      message: "successful",
-      question: [
-        {
-          _id: "65e2e336fabb977fd755dc8c",
-          difficulty: "easy",
-          question:
-            "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-          answer: "C",
-          category: ["pretest", "any"],
-        },
-        {
-          _id: "65e2e336fabb977fd755dc8d",
-          difficulty: "easy",
-          question:
-            "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-          answer: "C",
-          category: ["pretest", "any"],
-        },
-        {
-          _id: "65e2e336fabb977fd755dc8e",
-          difficulty: "easy",
-          question:
-            "<p>I am planning to go to the party tonight but it is not raining. Its raining very hard now. I wish ...</p><p>A. It had stopped</p><p>B. It stops</p><p>C. It would stop</p><p>D. It will stop</p>",
-          answer: "C",
-          category: ["pretest", "any"],
-        },
-      ],
-    };
-
-    // Process and combine data after fetching
-    const combinedData = processAndCombineData(useranswer, question);
-    setQuizResults(combinedData);
-    console.log(quizResults);
-  }, []); // The empty dependency array ensures this effect runs once after the initial render
-
-  useEffect(() => {
-    if (quizResults) {
-      console.log("Quiz results:", quizResults);
-    }
-  }, [quizResults]); // This effect depends on quizResults
-
-  //   const [quizResults, setQuizResults] = useState(null);
-  //   const combinedData = processAndCombineData(useranswer, question);
-  //   setQuizResults(combinedData);
-
   return (
     <>
-      {quizResults ? (
+      {result ? (
         <>
           {modalQuestionView ? (
             <div>
@@ -188,7 +33,7 @@ export default function page() {
                 <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   <h3 className="text-xl font-semibold mb-2">Pilih Soal</h3>
                   <div className="w-full flex flex-wrap gap-2 justify-center items-center">
-                    {quizResults.answers.map((item, index) => (
+                    {result.answers.map((item, index) => (
                       <a
                         key={item.question_id}
                         href={`#${index}`}
@@ -225,7 +70,7 @@ export default function page() {
                 <div className="flex-[4] order-2 md:order-2"></div>
                 <div className="flex-[1] order-1 md:order-2 ">
                   <div className="w-full grid grid-cols-3 gap-2 justify-center items-center mt-4">
-                    {quizResults.answers.map((item, index) => (
+                    {result.answers.map((item, index) => (
                       <a
                         key={item.question_id}
                         href={`#${index}`}
@@ -245,10 +90,10 @@ export default function page() {
 
             <div className="flex-[4] order-2 space-y-2 md:order-2">
               <div className="bg-light-white p-4 rounded-xl">
-                {quizResults ? (
+                {result ? (
                   <>
                     <form className="flex flex-col gap-6">
-                      {quizResults.answers.map((item, index) => (
+                      {result.answers.map((item, index) => (
                         <div
                           id={index}
                           key={item.question_id}

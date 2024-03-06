@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import toast from "react-hot-toast";
 import axios from "axios";
 
@@ -13,9 +13,11 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
 import { useChallengeInfo } from "@/store/useChallengeStore";
+import { useUserStore } from "@/store/useUserStore";
 
 const ModalPreTest = ({ closeModal }) => {
   const { isFinished, type } = useChallengeInfo();
+  const { userData } = useUserStore();
   const router = useRouter();
 
   const startHandler = () => {
@@ -39,18 +41,45 @@ const ModalPreTest = ({ closeModal }) => {
             onClick={closeModal}
             className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
           />
-          <h3 className="text-xl font-semibold mb-2">Mulai Pre-Test?</h3>
-          <p className="mb-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-            deleniti asperiores nisi veritatis unde et?
-          </p>
-          <button
-            type="button"
-            onClick={startHandler}
-            className={`${ButtonStyleColor("bg-green-600")} w-full`}
-          >
-            Mulai!
-          </button>
+          {userData ? (
+            <>
+              {userData.pretest_done ? (
+                <>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Lihat hasil?
+                  </h3>
+                  <p className="mb-4">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Aperiam deleniti asperiores nisi veritatis unde et?
+                  </p>
+                  <button
+                    type="button"
+                    onClick={()=>{router.push('challenge/result/pretest')}}
+                    className={`${ButtonStyleColor("bg-green-600")} w-full`}
+                  >
+                    Lihat!
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Mulai Pre-Test?
+                  </h3>
+                  <p className="mb-4">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Aperiam deleniti asperiores nisi veritatis unde et?
+                  </p>
+                  <button
+                    type="button"
+                    onClick={startHandler}
+                    className={`${ButtonStyleColor("bg-green-600")} w-full`}
+                  >
+                    Mulai!
+                  </button>
+                </>
+              )}
+            </>
+          ) : null}
         </div>
       </div>
     </>
@@ -58,8 +87,6 @@ const ModalPreTest = ({ closeModal }) => {
 };
 
 const ModalLatihan = ({ closeModal }) => {
-
-
   const { isFinished, type } = useChallengeInfo();
   const router = useRouter();
 
@@ -135,7 +162,6 @@ const ModalPostTest = ({ closeModal }) => {
 };
 
 export default function page() {
-
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");

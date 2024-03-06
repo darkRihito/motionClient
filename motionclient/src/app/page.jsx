@@ -91,7 +91,7 @@ export default function page() {
                           withCredentials: true,
                         }
                       );
-                      // await create(response.data.data.token);
+                      await create(response.data.data.token);
                       if (response.data.data.role === "admin") {
                         toast.success(`Hello ${response.data.data.name}!`);
                         router.push(`/home/${response.data.data._id}/admin`);

@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { redirect } from 'next/navigation'
 
-const useChallengeStore = create(
+const useAnswerStore = create(
   persist(
     (set) => ({
       answers: {},
@@ -19,7 +20,7 @@ const useChallengeStore = create(
   )
 );
 
-const useChallengeInfo = create((set) => ({
+const useChallengeInfoStore = create((set) => ({
   type: "",
   isFinished: "",
   questionCount: 0,
@@ -30,7 +31,7 @@ const useChallengeInfo = create((set) => ({
   setIsFinished: (value) => set({ isFinished: value }),
   setType: (value) => set({ type: value }),
   setQuestionCount: (value) => set({ questionCount: value }),
-  setCountdownFromResponse: (newCountdown) => set({ countdown: newCountdown }),
+  setCountdown: (newCountdown) => set({ countdown: newCountdown }),
 }));
 
 const useQuestionStore = create((set) => ({
@@ -38,4 +39,46 @@ const useQuestionStore = create((set) => ({
   setQuestions: (questions) => set({ questions }),
 }));
 
-export { useChallengeStore, useQuestionStore, useChallengeInfo };
+const fetchData = async () => {
+  try {
+    const [startChallengeResponse, questionResponse] = await Promise.all([
+      axios.post(
+        "http://localhost:8000/challenge/start/pretest",
+        "",
+        {
+          withCredentials: true,
+        }
+      ),
+      axios.get(
+        "http://localhost:8000/question/question/pretest",
+        {
+          withCredentials: true,
+        }
+      ),
+    ]);
+
+    const startTime = new Date(startChallengeResponse.data.data.start_time);
+    const currentDateTime = new Date();
+    const differenceInSeconds = Math.floor(
+      (currentDateTime - startTime) / 1000
+    );
+    let timeLeft = Math.max(0, 7200 - differenceInSeconds);
+    if (timeLeft < 1) {
+      // Consider adding logic to handle the end of the quiz, such as redirecting the user or showing a message.
+    } else {
+      useChallengeInfoStore.getState().setCountdown(timeLeft);
+      useChallengeInfoStore.getState().setType("pretest");
+      useChallengeInfoStore.getState().setIsFinished(false);
+    }
+    useQuestionStore.getState().setQuestions(questionResponse.data.data);
+    useChallengeInfoStore.getState().setQuestionCount(questionResponse.data.data.length);
+  } catch (error) {
+    console.error(error);
+    toast.error(
+      `${error.response?.data.message || "An unexpected error occurred"}!`
+    );
+    redirect("/challenge");
+  }
+};
+
+export { useAnswerStore, useQuestionStore, useChallengeInfoStore, fetchData };

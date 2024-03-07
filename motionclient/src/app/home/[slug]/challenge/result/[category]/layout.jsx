@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 // Store
-import { useTestResult, fetchData } from "@/store/useTestResultStore";
+import { fetchData } from "@/store/useTestResultStore";
 
 export default function layout({ children, params }) {
   useEffect(() => {
@@ -11,5 +11,6 @@ export default function layout({ children, params }) {
       fetchData({ category: "posttest" });
     }
   }, []);
+
   return <>{children}</>;
 }

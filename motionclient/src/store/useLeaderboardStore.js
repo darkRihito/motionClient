@@ -1,17 +1,15 @@
 import { create } from "zustand";
 import axios from "axios";
 
-// Define a Zustand store to hold user data
 const useLeaderboardStore = create((set) => ({
   leaderboardData: null,
   setleaderboardData: (data) => set({ leaderboardData: data }),
 }));
 
-// Fetch data function
 const fetchData = async () => {
   try {
     // Make request to fetch user data
-    const leaderboardDataResponse = await axios.get("https://motionapp-backend.vercel.app/leaderboard/data", {
+    const leaderboardDataResponse = await axios.get("http://localhost:8000/leaderboard/data", {
       withCredentials: true,
     });
 

@@ -28,6 +28,7 @@ import { InputStyleColor } from "@/components/myinput/myinput";
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
 import { useUserStore } from "@/store/useUserStore";
+import { useAdminStore } from "@/store/useAdminStore";
 
 const useStore = create(
   persist(
@@ -507,17 +508,6 @@ const ModalAddQuestion = ({ closeModal }) => {
   );
 };
 
-const dataPeserta = [
-  {
-    id: 1,
-    fotoProfil: "/assets/img/profile.jpg",
-    nama: "Rihito",
-    poinA: 50,
-    poinB: 50,
-  },
-  // Tambahkan objek lainnya sesuai dengan data peserta
-];
-
 const dataSoal = [
   {
     id: 1,
@@ -530,9 +520,11 @@ const dataSoal = [
 ];
 
 export default function page() {
+  const { users, questions } = useAdminStore();
+  console.log(questions);
 
   const userData = useUserStore((state) => state.userData);
-  console.log(userData);
+  // console.log(userData);
   // SECTION MENU
   const { sectionActive, setSectionActive } = useStore();
   const changeSectionActive = (section) => {
@@ -579,11 +571,11 @@ export default function page() {
       {modalEditQuestion && currentEditItem && (
         <ModalEditQuestion
           closeModal={() => setModalEditQuestion(false)}
-          id={currentEditItem.id}
-          kesulitan={currentEditItem.kesulitan}
-          soal={currentEditItem.soal}
-          jawaban={currentEditItem.jawaban}
-          kategori={currentEditItem.kategori}
+          id={currentEditItem._id}
+          kesulitan={currentEditItem.difficulty}
+          soal={currentEditItem.question}
+          jawaban={currentEditItem.answer}
+          kategori={currentEditItem.category}
         />
       )}
       <div className="max-w-screen-md px-2 mx-auto mt-32 mb-8">
@@ -614,11 +606,14 @@ export default function page() {
                 <h4 className="min-w-max ">Jumlah Pengguna</h4>
                 <div className="flex items-center gap-3">
                   <span className="relative block w-12 h-12">
-                    <Image fill sizes="100%" src="/assets/icon/users.png" alt="" />
+                    <Image
+                      fill
+                      sizes="100%"
+                      src="/assets/icon/users.png"
+                      alt=""
+                    />
                   </span>
-                  <h2 className="text-2xl font-semibold">
-                    {dataPeserta.length}
-                  </h2>
+                  <h2 className="text-2xl font-semibold">{users?.length}</h2>
                 </div>
               </div>
               <div
@@ -630,7 +625,12 @@ export default function page() {
                 <h4 className="min-w-max ">Total Soal</h4>
                 <div className="flex items-center gap-3">
                   <span className="relative block w-12 h-12">
-                    <Image sizes="100%" fill src="/assets/icon/documents.png" alt="" />
+                    <Image
+                      sizes="100%"
+                      fill
+                      src="/assets/icon/documents.png"
+                      alt=""
+                    />
                   </span>
                   <h2 className="text-2xl font-semibold">{dataSoal.length}</h2>
                 </div>
@@ -641,12 +641,12 @@ export default function page() {
               className="flex items-center justify-between sm:items-start w-full sm:w-1/2 bg-light-white sm:rounded-lg rounded-b-lg p-4 cursor-pointer"
             >
               <div className="flex items-center sm:flex-col gap-2">
-                <h4 className="min-w-max ">Kode Kelas :</h4>
+                <h4 className="min-w-max ">Kode Undangan :</h4>
                 <div
                   id="copyable"
                   className=" w-full h-full text-lg font-semibold"
                 >
-                  ASD32F
+                  {userData?.admin_room_code}
                 </div>
               </div>
               <FaRegCopy className="text-2xl text-gray-400" />
@@ -657,162 +657,164 @@ export default function page() {
         {/* TABLE */}
         {sectionActive == "userlist" ? (
           <>
-            <div className="flex flex-col rounded-xl min-h-48 mt-6">
-              <div
-                className="w-full animate-slideIn opacity-0"
-                style={{ "--delay": 0.25 + "s" }}
-              >
-                <h3 className="text-xl font-semibold mb-2">Daftar Pengguna</h3>
-                <div className={`relative overflow-x-auto rounded-lg`}>
-                  <table
-                    className={`w-full text-sm text-left rtl:text-right bg-light-white`}
+            {users ? (
+              <>
+                <div className="flex flex-col rounded-xl min-h-48 mt-6">
+                  <div
+                    className="w-full animate-slideIn opacity-0"
+                    style={{ "--delay": 0.25 + "s" }}
                   >
-                    <thead className={`text-xs uppercase `}>
-                      <tr>
-                        <th scope="col" className="px-6 py-4 w-8">
-                          No
-                        </th>
-                        <th scope="col" className="py-4 min-w-24 w-full">
-                          Nama
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-4 py-4 text-center min-w-40 w-full hidden md:table-cell"
-                        >
-                          Poin Tantangan
-                        </th>
-                        <th
-                          scope="col"
-                          className="px-6 py-4 text-center min-w-40 w-full hidden md:table-cell"
-                        >
-                          Poin Aktivitas
-                        </th>
-                        <th
-                          scope="col"
-                          className="py-4 text-center w-full md:hidden table-cell"
-                        >
-                          Poin
-                        </th>
-                        <th
-                          scope="col"
-                          className=" text-center w-full table-cell"
-                        >
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {dataPeserta.map((peserta) => (
-                        <tr key={peserta.id}>
-                          <th
-                            scope="row"
-                            className="px-6 py-3 font-medium text-center"
-                          >
-                            {peserta.id}
-                          </th>
-                          <td className="py-3 w-full">
-                            <div className="flex items-center gap-2">
-                              <div>
-                                {/* FOTO PROFIL */}
-                                <div className="border h-10 w-10 md:h-11 md:w-11 rounded-full relative overflow-hidden">
-                                  <Image
-                                    src={peserta.fotoProfil}
-                                    alt="Profile pict"
-                                    fill
-                                    sizes="100%"
-                                    className="relative"
-                                  />
+                    <h3 className="text-xl font-semibold mb-2">
+                      Daftar Pengguna
+                    </h3>
+                    <div className={`relative overflow-x-auto rounded-lg`}>
+                      <table
+                        className={`w-full text-sm text-left rtl:text-right bg-light-white`}
+                      >
+                        <thead className={`text-xs uppercase `}>
+                          <tr>
+                            <th scope="col" className="px-6 py-4 w-8">
+                              No
+                            </th>
+                            <th scope="col" className="py-4 min-w-24 w-full">
+                              Nama
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-4 py-4 text-center w-full"
+                            >
+                              Poin Tantangan
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-4 text-center w-full"
+                            >
+                              Kualifikasi
+                            </th>
+                            {/* <th
+                              scope="col"
+                              className=" text-center w-full table-cell"
+                            >
+                              Action
+                            </th> */}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {users.map((user, index) => (
+                            <tr key={index}>
+                              <th
+                                scope="row"
+                                className="px-6 py-3 font-medium text-center"
+                              >
+                                {index + 1}
+                              </th>
+                              <td className="py-3 w-full">
+                                <div className="flex items-center gap-2">
+                                  <div>
+                                    {/* FOTO PROFIL */}
+                                    <div className="border h-10 w-10 md:h-11 md:w-11 rounded-full relative overflow-hidden">
+                                      <img
+                                        src={user.pict_url}
+                                        alt="Profile pict"
+                                        className="relative"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col min-w-24 w-full">
+                                    {/* NAMA */}
+                                    <div className="lg:text-base font-semibold">
+                                      {user.name}
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className="flex flex-col min-w-24 w-full">
-                                {/* NAMA */}
-                                <div className="lg:text-base font-semibold">
-                                  {peserta.nama}
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-3 text-center w-full hidden md:table-cell">
-                            {/* POIN A */}
-                            {peserta.poinA}
-                          </td>
-                          <td className="py-3 text-center w-full hidden md:table-cell">
-                            {/* POIN B */}
-                            {peserta.poinB}
-                          </td>
-                          <td className="px-4 py-3 text-center w-full md:hidden table-cell">
-                            {/* POIN A / POIN B */}
-                            {`${peserta.poinA}/${peserta.poinB}`}
-                          </td>
-                          <td className="px-6 py-3 text-center w-full cursor-pointer text-red-400  hover:text-red-500 ">
-                            <MdDelete className="text-2xl " />
-                            {/* Ikon MdDelete harus diimpor */}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                              </td>
+                              <td className="px-6 py-3 text-center w-full">
+                                {/* POIN A */}
+                                {user.challenge_point}
+                              </td>
+                              <td className="py-3 text-center w-full">
+                                {/* POIN B */}
+                                {user.qualification}
+                              </td>
+                              {/* <td className="px-6 py-3 text-center w-full cursor-pointer text-red-400  hover:text-red-500 ">
+                                <MdDelete className="text-2xl " />
+                              </td> */}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>
+            ) : null}
           </>
         ) : sectionActive == "questionbank" ? (
           <>
-            <div
-              className="animate-slideIn opacity-0 flex flex-col rounded-xl min-h-24 mt-6"
-              style={{ "--delay": 0.25 + "s" }}
-            >
-              <div
-                onClick={toggleModalAddQuestion}
-                className="w-full h-24 border-4 border-dashed rounded-xl flex justify-center items-center cursor-pointer mb-8"
-              >
-                <IoIosAdd className="text-7xl text-black-100" />
-                <h4 className="text-lg text-black-100 font-semibold">
-                  Tambah Soal
-                </h4>
-              </div>
-              <p className="text-xl font-semibold mb-6">Daftar Soal</p>
-              {/* LIST */}
-              <div className="">
-                <div>
-                  {dataSoal.map((item) => (
-                    <div
-                      key={item.id}
-                      className="bg-light-white rounded-lg w-full min-h-20 p-4 gap-3 flex relative"
-                    >
-                      <div>
-                        <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-3 py-1 rounded-full absolute -top-2">
-                          {item.kesulitan}
-                        </span>
-                      </div>
-                      <div className="w-full flex flex-col justify-between gap-2">
+            {questions ? (
+              <>
+                <div
+                  className="animate-slideIn opacity-0 flex flex-col rounded-xl min-h-24 mt-6"
+                  style={{ "--delay": 0.25 + "s" }}
+                >
+                  <div
+                    onClick={toggleModalAddQuestion}
+                    className="w-full h-24 border-4 border-dashed rounded-xl flex justify-center items-center cursor-pointer mb-8"
+                  >
+                    <IoIosAdd className="text-7xl text-black-100" />
+                    <h4 className="text-lg text-black-100 font-semibold">
+                      Tambah Soal
+                    </h4>
+                  </div>
+                  <p className="text-xl font-semibold mb-6">Daftar Soal</p>
+                  {/* LIST */}
+                  <div className="">
+                    <div className="flex flex-col gap-4">
+                      {questions.map((item, index) => (
                         <div
-                          dangerouslySetInnerHTML={{ __html: item.soal }}
-                          className="mt-2"
-                        ></div>
-                        <div>
-                          Jawaban:{" "}
-                          <span className="font-semibold text-sm ">
-                            {item.jawaban}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-max">
-                        <div
-                          onClick={() => toggleModalEditQuestion(item)}
-                          className="cursor-pointer border rounded-md p-3 mb-1"
+                          key={index}
+                          className="bg-light-white rounded-lg w-full min-h-20 p-4 gap-3 flex relative"
                         >
-                          <MdEdit className="text-2xl text-blue-400" />
+                          <div className="absolute -top-2 flex">
+                            <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-3 py-1 rounded-full ">
+                              {item.difficulty}
+                            </span>
+                            {item.category.map((category, index) => (
+                              <span key={index} className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-3 py-1 rounded-full">
+                              {category}
+                            </span>
+                            ))}
+                          </div>
+                          <div className="w-full flex flex-col justify-between gap-2">
+                            <div
+                              dangerouslySetInnerHTML={{ __html: item.question }}
+                              className="mt-2"
+                            ></div>
+                            <div>
+                              Jawaban:{" "}
+                              <span className="font-semibold text-sm ">
+                                {item.answer}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="w-max">
+                            <div
+                              onClick={() => toggleModalEditQuestion(item)}
+                              className="cursor-pointer border rounded-md p-3 mb-1"
+                            >
+                              <MdEdit className="text-2xl text-blue-400" />
+                            </div>
+                            <div className="cursor-pointer border rounded-md p-3">
+                              <MdDelete className="text-2xl text-red-400" />
+                            </div>
+                          </div>
                         </div>
-                        <div className="cursor-pointer border rounded-md p-3">
-                          <MdDelete className="text-2xl text-red-400" />
-                        </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>
+            ) : null}
           </>
         ) : null}
       </div>

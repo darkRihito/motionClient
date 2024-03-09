@@ -9,17 +9,22 @@ import { useBackground } from "@/provider/backgroundprovider/backgroundprovider"
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
 import {
-  useChallengeStore,
+  useAnswerStore,
   useQuestionStore,
-  useChallengeInfo,
+  useChallengeInfoStore,
 } from "@/store/useChallengeStore";
 
 export default function page() {
   const router = useRouter();
 
-  const { answers, setAnswer } = useChallengeStore();
-  const { countdown, decrementCountdown, isFinished, setIsFinished, questionCount } =
-    useChallengeInfo();
+  const { answers, setAnswer } = useAnswerStore();
+  const {
+    countdown,
+    decrementCountdown,
+    isFinished,
+    setIsFinished,
+    questionCount,
+  } = useChallengeInfoStore();
   const { questions } = useQuestionStore();
   const [modalFinish, setmodalFinish] = useState({
     isOpened: false,
@@ -30,7 +35,7 @@ export default function page() {
     await axios
       .post(
         "https://motionapp-backend.vercel.app/challenge/end/pretest",
-        { answer: answers, questionCount: questionCount},
+        { answer: answers, questionCount: questionCount },
         {
           withCredentials: true,
         }
@@ -57,24 +62,27 @@ export default function page() {
         decrementCountdown();
       }, 1000);
     } else if (!isFinished) {
-      // When countdown reaches zero, make a POST request
       sendAnswer();
     }
     return () => clearInterval(timer);
   }, [countdown, decrementCountdown]);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    sendAnswer();
+  };
+  
   const hours = Math.floor(countdown / 3600);
   const minutes = Math.floor((countdown % 3600) / 60);
   const seconds = countdown % 60;
 
   const [modalQuestionView, setModalQuestionView] = useState(false);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    sendAnswer();
-  };
+  
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg2");
   }, []);
+  
   return (
     <>
       {modalFinish.isOpened ? (
@@ -85,11 +93,15 @@ export default function page() {
             style={{ "--delay": 0 + "s" }}
           >
             <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
-              <h3 className="text-lg font-semibold mb-4 text-center">Pre-Test Selesai!</h3>
+              <h3 className="text-lg font-semibold mb-4 text-center">
+                Pre-Test Selesai!
+              </h3>
               <p className="text-xl text-center mb-2">
-                skor akurasi kamu sebesar 
+                skor akurasi kamu sebesar
               </p>
-              <p className="text-2xl mb-8 text-center font-semibold">{modalFinish.score} %</p>
+              <p className="text-2xl mb-8 text-center font-semibold">
+                {modalFinish.score} %
+              </p>
               <button
                 onClick={() => {
                   router.push("../challenge/result");

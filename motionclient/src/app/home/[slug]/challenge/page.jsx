@@ -12,11 +12,11 @@ import { IoIosCloseCircle } from "react-icons/io";
 // Component
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
-import { useChallengeInfo } from "@/store/useChallengeStore";
+import { useChallengeInfoStore } from "@/store/useChallengeStore";
 import { useUserStore } from "@/store/useUserStore";
 
 const ModalPreTest = ({ closeModal }) => {
-  const { isFinished, type } = useChallengeInfo();
+  const { isFinished, type } = useChallengeInfoStore();
   const { userData } = useUserStore();
   const router = useRouter();
 
@@ -87,7 +87,7 @@ const ModalPreTest = ({ closeModal }) => {
 };
 
 const ModalLatihan = ({ closeModal }) => {
-  const { isFinished, type } = useChallengeInfo();
+  const { isFinished, type } = useChallengeInfoStore();
   const router = useRouter();
 
   const startHandler = () => {

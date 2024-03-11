@@ -9,7 +9,7 @@ const useLeaderboardStore = create((set) => ({
 const fetchData = async () => {
   try {
     // Make request to fetch user data
-    const leaderboardDataResponse = await axios.get("http://localhost:8000/leaderboard/data", {
+    const leaderboardDataResponse = await axios.get("https://motionapp-backend.vercel.app/leaderboard/data", {
       withCredentials: true,
     });
 

@@ -2,6 +2,9 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { redirect } from 'next/navigation'
 
+import axios from "axios";
+import toast from "react-hot-toast";
+
 const useAnswerStore = create(
   persist(
     (set) => ({
@@ -43,19 +46,21 @@ const fetchData = async () => {
   try {
     const [startChallengeResponse, questionResponse] = await Promise.all([
       axios.post(
-        "http://localhost:8000/challenge/start/pretest",
+        "https://motionapp-backend.vercel.app/challenge/start/pretest",
         "",
         {
           withCredentials: true,
         }
       ),
       axios.get(
-        "http://localhost:8000/question/question/pretest",
+        "https://motionapp-backend.vercel.app/question/question/pretest",
         {
           withCredentials: true,
         }
       ),
     ]);
+
+    console.log(startChallengeResponse);
 
     const startTime = new Date(startChallengeResponse.data.data.start_time);
     const currentDateTime = new Date();

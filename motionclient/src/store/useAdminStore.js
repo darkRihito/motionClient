@@ -11,14 +11,13 @@ const useAdminStore = create((set) => ({
 const fetchData = async ({ code }) => {
   try {
     const [usersResponse, questionsResponse] = await Promise.all([
-      axios.get(`http://localhost:8000/user/alluser/${code}`, {
+      axios.get(`https://motionapp-backend.vercel.app/user/alluser/${code}`, {
         withCredentials: true,
       }),
-      axios.get(`http://localhost:8000/question/questionroom/${code}`, {
+      axios.get(`https://motionapp-backend.vercel.app/question/questionroom/${code}`, {
         withCredentials: true,
       }),
     ]);
-    // console.log(usersResponse, questionsResponse);
     useAdminStore.getState().setUsers(usersResponse.data.data);
     useAdminStore.getState().setQuestions(questionsResponse.data.data);
   } catch (error) {

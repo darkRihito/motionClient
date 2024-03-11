@@ -9,7 +9,7 @@ export default function layout({ children, params }) {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData);
+      // console.log(userData);
       fetchData({ code: userData.admin_room_code });
     }
   }, [userData]);

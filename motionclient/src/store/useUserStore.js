@@ -59,10 +59,10 @@ const fetchData = async () => {
   try {
     // Make concurrent requests to fetch user data and history data
     const [userDataResponse, historyDataResponse] = await Promise.all([
-      axios.get("https://motionapp-backend.vercel.app/user/user", {
+      axios.get("http://localhost:8000/user/user", {
         withCredentials: true,
       }),
-      axios.get("https://motionapp-backend.vercel.app/history/historyid", {
+      axios.get("http://localhost:8000/history/historyid", {
         withCredentials: true,
       }),
     ]);

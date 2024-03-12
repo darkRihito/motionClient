@@ -46,14 +46,14 @@ const fetchData = async () => {
   try {
     const [startChallengeResponse, questionResponse] = await Promise.all([
       axios.post(
-        "https://motionapp-backend.vercel.app/challenge/start/pretest",
+        "http://localhost:8000/challenge/start/pretest",
         "",
         {
           withCredentials: true,
         }
       ),
       axios.get(
-        "https://motionapp-backend.vercel.app/question/question/pretest",
+        "http://localhost:8000/question/question/pretest",
         {
           withCredentials: true,
         }

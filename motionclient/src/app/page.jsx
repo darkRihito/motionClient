@@ -85,7 +85,7 @@ export default function page() {
                     setIsLoading(true);
                     try {
                       const response = await axios.post(
-                        "hhttps://motionapp-backend.vercel.app/api/login",
+                        "https://motionapp-backend.vercel.app/api/login",
                         values,
                         {
                           withCredentials: true,

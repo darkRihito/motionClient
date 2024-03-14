@@ -34,7 +34,7 @@ export default function page() {
   const sendAnswer = async () => {
     await axios
       .post(
-        "http://localhost:8000/challenge/end/pretest",
+        "https://motionapp-backend.vercel.app/challenge/end/pretest",
         { answer: answers, questionCount: questionCount },
         {
           withCredentials: true,
@@ -104,14 +104,14 @@ export default function page() {
               </p>
               <button
                 onClick={() => {
-                  router.push("../challenge/result");
+                  router.push("../challenge/result/pretest");
                   setmodalFinish(false);
                 }}
                 className={`${ButtonStyleColor(
                   "bg-green-600 hover:bg-green-700"
                 )} `}
               >
-                Kembali!
+                Lihat Hasil!
               </button>
             </div>
           </div>

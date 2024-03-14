@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { redirect } from 'next/navigation'
+import { redirect } from "next/navigation";
 
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -45,38 +45,26 @@ const useQuestionStore = create((set) => ({
 const fetchData = async () => {
   try {
     const [startChallengeResponse, questionResponse] = await Promise.all([
-      axios.post(
-        "http://localhost:8000/challenge/start/pretest",
-        "",
-        {
-          withCredentials: true,
-        }
-      ),
-      axios.get(
-        "http://localhost:8000/question/question/pretest",
-        {
-          withCredentials: true,
-        }
-      ),
+      axios.post("https://motionapp-backend.vercel.app/challenge/start/pretest", "", {
+        withCredentials: true,
+      }),
+      axios.get("https://motionapp-backend.vercel.app/question/question/pretest", {
+        withCredentials: true,
+      }),
     ]);
-
-    console.log(startChallengeResponse);
-
     const startTime = new Date(startChallengeResponse.data.data.start_time);
     const currentDateTime = new Date();
     const differenceInSeconds = Math.floor(
       (currentDateTime - startTime) / 1000
     );
     let timeLeft = Math.max(0, 7200 - differenceInSeconds);
-    if (timeLeft < 1) {
-      // Consider adding logic to handle the end of the quiz, such as redirecting the user or showing a message.
-    } else {
-      useChallengeInfoStore.getState().setCountdown(timeLeft);
-      useChallengeInfoStore.getState().setType("pretest");
-      useChallengeInfoStore.getState().setIsFinished(false);
-    }
+    useChallengeInfoStore.getState().setCountdown(timeLeft);
+    useChallengeInfoStore.getState().setType("pretest");
+    useChallengeInfoStore.getState().setIsFinished(false);
     useQuestionStore.getState().setQuestions(questionResponse.data.data);
-    useChallengeInfoStore.getState().setQuestionCount(questionResponse.data.data.length);
+    useChallengeInfoStore
+      .getState()
+      .setQuestionCount(questionResponse.data.data.length);
   } catch (error) {
     console.error(error);
     toast.error(

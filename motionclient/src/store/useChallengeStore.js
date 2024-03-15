@@ -24,15 +24,11 @@ const useAnswerStore = create(
 );
 
 const useChallengeInfoStore = create((set) => ({
-  type: "",
-  isFinished: "",
   questionCount: 0,
   countdown: 3600,
   decrementCountdown: () =>
     set((state) => ({ countdown: state.countdown - 1 })),
   resetCountdown: (value) => set({ countdown: value }),
-  setIsFinished: (value) => set({ isFinished: value }),
-  setType: (value) => set({ type: value }),
   setQuestionCount: (value) => set({ questionCount: value }),
   setCountdown: (newCountdown) => set({ countdown: newCountdown }),
 }));
@@ -45,10 +41,10 @@ const useQuestionStore = create((set) => ({
 const fetchData = async () => {
   try {
     const [startChallengeResponse, questionResponse] = await Promise.all([
-      axios.post("https://motionapp-backend.vercel.app/challenge/start/pretest", "", {
+      axios.post("http://localhost:8000/challenge/start/pretest", "", {
         withCredentials: true,
       }),
-      axios.get("https://motionapp-backend.vercel.app/question/question/pretest", {
+      axios.get("http://localhost:8000/question/question/pretest", {
         withCredentials: true,
       }),
     ]);
@@ -59,8 +55,6 @@ const fetchData = async () => {
     );
     let timeLeft = Math.max(0, 7200 - differenceInSeconds);
     useChallengeInfoStore.getState().setCountdown(timeLeft);
-    useChallengeInfoStore.getState().setType("pretest");
-    useChallengeInfoStore.getState().setIsFinished(false);
     useQuestionStore.getState().setQuestions(questionResponse.data.data);
     useChallengeInfoStore
       .getState()

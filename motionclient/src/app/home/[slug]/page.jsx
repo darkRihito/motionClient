@@ -49,7 +49,7 @@ const ModalEditStatus = ({ closeModal, status, setIsLoading }) => {
               setIsLoading(true);
               try {
                 const response = await axios.patch(
-                  "https://motionapp-backend.vercel.app/user/userstatus",
+                  "http://localhost:8000/user/userstatus",
                   values,
                   {
                     withCredentials: true,

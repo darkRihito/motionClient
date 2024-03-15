@@ -13,17 +13,22 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
 import { useChallengeInfoStore } from "@/store/useChallengeStore";
-import { useUserStore } from "@/store/useUserStore";
+import { useUserStore, fetchData } from "@/store/useUserStore";
 
 const ModalPreTest = ({ closeModal }) => {
-  const { isFinished, type } = useChallengeInfoStore();
   const { userData } = useUserStore();
   const router = useRouter();
 
   const startHandler = () => {
-    if (type == "" && isFinished == "") {
+    if (
+      userData?.is_doing_challenge === "free" &&
+      userData?.pretest_done === false
+    ) {
       router.push("challenge/pretest");
-    } else if (!(type == "pretest") && !isFinished) {
+    } else if (
+      userData?.is_doing_challenge != "free" &&
+      userData?.is_doing_challenge != "pretest"
+    ) {
       console.log("sedang mengerjakan kuis lain!");
     } else {
       router.push("challenge/pretest");
@@ -41,45 +46,39 @@ const ModalPreTest = ({ closeModal }) => {
             onClick={closeModal}
             className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
           />
-          {userData ? (
+          {userData?.pretest_done ? (
             <>
-              {userData.pretest_done ? (
-                <>
-                  <h3 className="text-xl font-semibold mb-2">
-                    Lihat hasil?
-                  </h3>
-                  <p className="mb-4">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Aperiam deleniti asperiores nisi veritatis unde et?
-                  </p>
-                  <button
-                    type="button"
-                    onClick={()=>{router.push('challenge/result/pretest')}}
-                    className={`${ButtonStyleColor("bg-green-600")} w-full`}
-                  >
-                    Lihat!
-                  </button>
-                </>
-              ) : (
-                <>
-                  <h3 className="text-xl font-semibold mb-2">
-                    Mulai Pre-Test?
-                  </h3>
-                  <p className="mb-4">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Aperiam deleniti asperiores nisi veritatis unde et?
-                  </p>
-                  <button
-                    type="button"
-                    onClick={startHandler}
-                    className={`${ButtonStyleColor("bg-green-600")} w-full`}
-                  >
-                    Mulai!
-                  </button>
-                </>
-              )}
+              <h3 className="text-xl font-semibold mb-2">Lihat hasil?</h3>
+              <p className="mb-4">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Aperiam deleniti asperiores nisi veritatis unde et?
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  router.push("challenge/result/pretest");
+                }}
+                className={`${ButtonStyleColor("bg-green-600")} w-full`}
+              >
+                Lihat!
+              </button>
             </>
-          ) : null}
+          ) : (
+            <>
+              <h3 className="text-xl font-semibold mb-2">Mulai Pre-Test?</h3>
+              <p className="mb-4">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                Aperiam deleniti asperiores nisi veritatis unde et?
+              </p>
+              <button
+                type="button"
+                onClick={startHandler}
+                className={`${ButtonStyleColor("bg-green-600")} w-full`}
+              >
+                Mulai!
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>
@@ -165,6 +164,9 @@ export default function page() {
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
+  }, []);
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const [modalPreTest, setModalPreTest] = useState(false);

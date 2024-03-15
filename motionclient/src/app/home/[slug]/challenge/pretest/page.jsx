@@ -13,18 +13,16 @@ import {
   useQuestionStore,
   useChallengeInfoStore,
 } from "@/store/useChallengeStore";
+import { useUserStore } from "@/store/useUserStore";
 
 export default function page() {
   const router = useRouter();
 
   const { answers, setAnswer } = useAnswerStore();
-  const {
-    countdown,
-    decrementCountdown,
-    isFinished,
-    setIsFinished,
-    questionCount,
-  } = useChallengeInfoStore();
+  const { userData } = useUserStore();
+
+  const { countdown, decrementCountdown, questionCount } =
+    useChallengeInfoStore();
   const { questions } = useQuestionStore();
   const [modalFinish, setmodalFinish] = useState({
     isOpened: false,
@@ -34,7 +32,7 @@ export default function page() {
   const sendAnswer = async () => {
     await axios
       .post(
-        "https://motionapp-backend.vercel.app/challenge/end/pretest",
+        "http://localhost:8000/challenge/end/pretest",
         { answer: answers, questionCount: questionCount },
         {
           withCredentials: true,
@@ -42,7 +40,6 @@ export default function page() {
       )
       .then((response) => {
         localStorage.removeItem("challenge-storage");
-        setIsFinished(true);
         console.log("Post request successful:", response);
         setmodalFinish((prevState) => ({
           ...prevState,
@@ -57,12 +54,14 @@ export default function page() {
 
   useEffect(() => {
     let timer;
-    if (countdown > 0 && !isFinished) {
+    if (countdown > 0 && userData?.is_doing_challenge === "pretest") {
       timer = setInterval(() => {
         decrementCountdown();
       }, 1000);
-    } else if (!isFinished) {
+    } else if (countdown < 1 && userData?.is_doing_challenge === "pretest") {
       sendAnswer();
+    } else if (userData?.is_doing_challenge != "pretest"){
+      router.back()
     }
     return () => clearInterval(timer);
   }, [countdown, decrementCountdown]);
@@ -71,18 +70,18 @@ export default function page() {
     event.preventDefault();
     sendAnswer();
   };
-  
+
   const hours = Math.floor(countdown / 3600);
   const minutes = Math.floor((countdown % 3600) / 60);
   const seconds = countdown % 60;
 
   const [modalQuestionView, setModalQuestionView] = useState(false);
-  
+
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg2");
   }, []);
-  
+
   return (
     <>
       {modalFinish.isOpened ? (

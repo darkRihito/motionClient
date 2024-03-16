@@ -47,7 +47,7 @@ const useStore = create(
 const ModalDeleteQuestion = ({ closeModal, id }) => {
   const deleteQuestion = async () => {
     const response = await axios.delete(
-      `https://motionapp-backend.vercel.app/question/question/${id}`,
+      `http://localhost:8000/question/question/${id}`,
       {
         withCredentials: true,
       }
@@ -162,7 +162,7 @@ const ModalEditQuestion = ({
                   };
 
                   const response = await axios.patch(
-                    `https://motionapp-backend.vercel.app/question/question/${id}`,
+                    `http://localhost:8000/question/question/${id}`,
                     { payload },
                     {
                       withCredentials: true,
@@ -410,7 +410,7 @@ const ModalAddQuestion = ({ closeModal }) => {
                   console.log(payload);
 
                   const response = await axios.post(
-                    "https://motionapp-backend.vercel.app/question/question",
+                    "http://localhost:8000/question/question",
                     { payload },
                     {
                       withCredentials: true,

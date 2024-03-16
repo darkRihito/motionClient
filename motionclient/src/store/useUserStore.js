@@ -13,6 +13,20 @@ const useUserStore = create((set) => ({
         status: status,
       },
     })),
+  updateUserChallengeStatus: () =>
+    set((state) => ({
+      userData: {
+        ...state.userData,
+        is_doing_challenge: "free",
+      },
+    })),
+  updateUserPretestStatus: () =>
+    set((state) => ({
+      userData: {
+        ...state.userData,
+        pretest_done: true,
+      },
+    })),
 }));
 
 const userRank = (challengePoint) => {
@@ -55,14 +69,14 @@ const userRank = (challengePoint) => {
   return { rank, rank_url, title };
 };
 
-const fetchData = async () => {
+const fetchUserData = async () => {
   try {
     // Make concurrent requests to fetch user data and history data
     const [userDataResponse, historyDataResponse] = await Promise.all([
-      axios.get("https://motionapp-backend.vercel.app/user/user", {
+      axios.get("http://localhost:8000/user/user", {
         withCredentials: true,
       }),
-      axios.get("https://motionapp-backend.vercel.app/history/historyid", {
+      axios.get("http://localhost:8000/history/historyid", {
         withCredentials: true,
       }),
     ]);
@@ -79,6 +93,7 @@ const fetchData = async () => {
         userData: { ...userData, star_collected, rank, rank_url, title },
         userHistory: historyDataResponse.data.data,
       });
+      // console.log(useUserStore.getState());
     } else {
       useUserStore.setState({
         userData: userData,
@@ -89,4 +104,4 @@ const fetchData = async () => {
   }
 };
 
-export { useUserStore, fetchData };
+export { useUserStore, fetchUserData };

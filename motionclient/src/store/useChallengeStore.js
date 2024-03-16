@@ -24,15 +24,11 @@ const useAnswerStore = create(
 );
 
 const useChallengeInfoStore = create((set) => ({
-  type: "",
-  isFinished: "",
   questionCount: 0,
   countdown: 3600,
   decrementCountdown: () =>
     set((state) => ({ countdown: state.countdown - 1 })),
   resetCountdown: (value) => set({ countdown: value }),
-  setIsFinished: (value) => set({ isFinished: value }),
-  setType: (value) => set({ type: value }),
   setQuestionCount: (value) => set({ questionCount: value }),
   setCountdown: (newCountdown) => set({ countdown: newCountdown }),
 }));
@@ -42,13 +38,13 @@ const useQuestionStore = create((set) => ({
   setQuestions: (questions) => set({ questions }),
 }));
 
-const fetchData = async () => {
+const fetchData = async ({ type }) => {
   try {
     const [startChallengeResponse, questionResponse] = await Promise.all([
-      axios.post("https://motionapp-backend.vercel.app/challenge/start/pretest", "", {
+      axios.post(`http://localhost:8000/challenge/start/${type}`, "", {
         withCredentials: true,
       }),
-      axios.get("https://motionapp-backend.vercel.app/question/question/pretest", {
+      axios.get(`http://localhost:8000/question/question/${type}`, {
         withCredentials: true,
       }),
     ]);
@@ -59,9 +55,10 @@ const fetchData = async () => {
     );
     let timeLeft = Math.max(0, 7200 - differenceInSeconds);
     useChallengeInfoStore.getState().setCountdown(timeLeft);
-    useChallengeInfoStore.getState().setType("pretest");
-    useChallengeInfoStore.getState().setIsFinished(false);
     useQuestionStore.getState().setQuestions(questionResponse.data.data);
+    useQuestionStore.getState().questions.forEach((element) => {
+      useAnswerStore.getState().setAnswer(element._id, "");
+    });
     useChallengeInfoStore
       .getState()
       .setQuestionCount(questionResponse.data.data.length);
@@ -70,7 +67,7 @@ const fetchData = async () => {
     toast.error(
       `${error.response?.data.message || "An unexpected error occurred"}!`
     );
-    redirect("/challenge");
+    window.location.reload();
   }
 };
 

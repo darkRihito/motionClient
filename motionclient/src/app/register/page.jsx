@@ -123,7 +123,7 @@ export default function page() {
                     setIsLoading(true);
                     try {
                       const response = await axios.post(
-                        "https://motionapp-backend.vercel.app/api/register",
+                        "http://localhost:8000/api/register",
                         values
                       );
                       toast.success(`Registrasi Berhasil. Silakan Login!`);

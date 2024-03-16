@@ -13,7 +13,9 @@ import {
   useQuestionStore,
   useChallengeInfoStore,
 } from "@/store/useChallengeStore";
-import { useUserStore } from "@/store/useUserStore";
+import { useUserStore, fetchData } from "@/store/useUserStore";
+
+
 
 export default function page() {
   const router = useRouter();
@@ -54,17 +56,21 @@ export default function page() {
 
   useEffect(() => {
     let timer;
-    if (countdown > 0 && userData?.is_doing_challenge === "pretest") {
-      timer = setInterval(() => {
-        decrementCountdown();
-      }, 1000);
-    } else if (countdown < 1 && userData?.is_doing_challenge === "pretest") {
-      sendAnswer();
-    } else if (userData?.is_doing_challenge != "pretest"){
-      router.back()
+
+    if (userData) {
+      if (countdown > 0 && userData.is_doing_challenge === "pretest") {
+        timer = setInterval(() => {
+          decrementCountdown();
+        }, 1000);
+      } else if (countdown < 1 && userData.is_doing_challenge === "pretest") {
+        sendAnswer();
+      } else if (userData.is_doing_challenge != "pretest") {
+        router.back();
+      }
     }
+
     return () => clearInterval(timer);
-  }, [countdown, decrementCountdown]);
+  }, [countdown, decrementCountdown, userData]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -105,6 +111,8 @@ export default function page() {
                 onClick={() => {
                   router.push("../challenge/result/pretest");
                   setmodalFinish(false);
+                  // useUserStore.getState().updateUserChallengeStatus();
+                  // useUserStore.getState().updateUserChallengeStatus();
                 }}
                 className={`${ButtonStyleColor(
                   "bg-green-600 hover:bg-green-700"

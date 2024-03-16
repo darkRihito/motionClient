@@ -38,13 +38,13 @@ const useQuestionStore = create((set) => ({
   setQuestions: (questions) => set({ questions }),
 }));
 
-const fetchData = async () => {
+const fetchData = async ({ type }) => {
   try {
     const [startChallengeResponse, questionResponse] = await Promise.all([
-      axios.post("http://localhost:8000/challenge/start/pretest", "", {
+      axios.post(`http://localhost:8000/challenge/start/${type}`, "", {
         withCredentials: true,
       }),
-      axios.get("http://localhost:8000/question/question/pretest", {
+      axios.get(`http://localhost:8000/question/question/${type}`, {
         withCredentials: true,
       }),
     ]);
@@ -56,6 +56,9 @@ const fetchData = async () => {
     let timeLeft = Math.max(0, 7200 - differenceInSeconds);
     useChallengeInfoStore.getState().setCountdown(timeLeft);
     useQuestionStore.getState().setQuestions(questionResponse.data.data);
+    useQuestionStore.getState().questions.forEach((element) => {
+      useAnswerStore.getState().setAnswer(element._id, "");
+    });
     useChallengeInfoStore
       .getState()
       .setQuestionCount(questionResponse.data.data.length);
@@ -64,7 +67,7 @@ const fetchData = async () => {
     toast.error(
       `${error.response?.data.message || "An unexpected error occurred"}!`
     );
-    redirect("/challenge");
+    window.location.reload();
   }
 };
 

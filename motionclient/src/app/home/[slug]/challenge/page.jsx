@@ -13,7 +13,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { ButtonStyle, ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
 import { useChallengeInfoStore } from "@/store/useChallengeStore";
-import { fetchUserData, useUserStore } from "@/store/useUserStore";
+import { useUserStore } from "@/store/useUserStore";
 
 const ModalPreTest = ({ closeModal }) => {
   const { userData } = useUserStore();
@@ -29,7 +29,7 @@ const ModalPreTest = ({ closeModal }) => {
       userData?.is_doing_challenge != "free" &&
       userData?.is_doing_challenge != "pretest"
     ) {
-      console.log("sedang mengerjakan kuis lain!");
+      toast.error(`Sedang berada dalam kuis lain!`);
     } else {
       router.push("challenge/pretest");
     }
@@ -101,7 +101,7 @@ const ModalLatihan = ({ closeModal }) => {
     if (type == "" && isFinished == "") {
       router.push("challenge/pretest");
     } else if (!(type == "posttest") && !isFinished) {
-      console.log("sedang mengerjakan kuis lain!");
+      toast.error(`Sedang berada dalam kuis lain!`);
     } else {
       router.push("challenge/posttest");
     }
@@ -137,38 +137,86 @@ const ModalLatihan = ({ closeModal }) => {
 };
 
 const ModalPostTest = ({ closeModal }) => {
+  const { userData } = useUserStore();
+
+  const router = useRouter();
+
+  const startHandler = () => {
+    if (
+      userData?.is_doing_challenge === "free" &&
+      userData?.posttest_done === false
+    ) {
+      router.push("challenge/posttest");
+    } else if (
+      userData?.is_doing_challenge != "free" &&
+      userData?.is_doing_challenge != "posttest"
+    ) {
+      toast.error(`Sedang berada dalam kuis lain!`);
+    } else {
+      router.push("challenge/posttest");
+    }
+  };
   return (
     <>
-      <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
-      <div
-        className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
-        style={{ "--delay": 0 + "s" }}
-      >
-        <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <IoIosCloseCircle
-            onClick={closeModal}
-            className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
-          />
-          <h3 className="text-xl font-semibold mb-2">Mulai Post-Test?</h3>
-          <p className="mb-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-            deleniti asperiores nisi veritatis unde et?
-          </p>
-          <a href="challenge/posttest">
-            <button
-              type="button"
-              className={`${ButtonStyleColor("bg-green-600")} w-full`}
-            >
-              Mulai!
-            </button>
-          </a>
-        </div>
-      </div>
+      {userData && (
+        <>
+          <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
+          <div
+            className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
+            style={{ "--delay": 0 + "s" }}
+          >
+            <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <IoIosCloseCircle
+                onClick={closeModal}
+                className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
+              />
+              {userData.posttest_done ? (
+                <>
+                  <h3 className="text-xl font-semibold mb-2">Lihat hasil?</h3>
+                  <p className="mb-4">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Aperiam deleniti asperiores nisi veritatis unde et?
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      router.push("challenge/result/posttest");
+                    }}
+                    className={`${ButtonStyleColor("bg-green-600")} w-full`}
+                  >
+                    Lihat!
+                  </button>
+                </>
+              ) : !userData.posttest_done ? (
+                <>
+                  <h3 className="text-xl font-semibold mb-2">
+                    Mulai Post-Test?
+                  </h3>
+                  <p className="mb-4">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                    Aperiam deleniti asperiores nisi veritatis unde et?
+                  </p>
+                  <button
+                    type="button"
+                    onClick={startHandler}
+                    className={`${ButtonStyleColor("bg-green-600")} w-full`}
+                  >
+                    Mulai!
+                  </button>
+                </>
+              ) : (
+                <>Loading...</>
+              )}
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };
 
 export default function page() {
+
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");

@@ -11,7 +11,6 @@ import { useTestResult } from "@/store/useTestResultStore";
 export default function page() {
   const { result } = useTestResult();
 
-  console.log("PAGE RES:",result);
   const [modalQuestionView, setModalQuestionView] = useState(false);
 
   const { setType } = useBackground();

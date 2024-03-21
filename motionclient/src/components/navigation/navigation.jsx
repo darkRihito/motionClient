@@ -49,7 +49,7 @@ const LeftNavigation = () => {
               isMenuVisible ? "opacity-100" : "opacity-0"
             }`}
           >
-            {isMenuVisible ? (
+            {isMenuVisible && userData ? (
               <>
                 {/* Home Link */}
                 {userData.role === "user" && (

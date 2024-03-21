@@ -94,7 +94,7 @@ export default function page() {
                       await create(response.data.data.token);
                       if (response.data.data.role === "admin") {
                         toast.success(`Hello ${response.data.data.name}!`);
-                        router.push(`/home/${response.data.data._id}/admin`);
+                        router.push(`/home/${response.data.data.name}/admin`);
                       } else {
                         toast.success(`Hello ${response.data.data.nickname}!`);
                         router.push(`/home/${response.data.data.nickname}`);

@@ -20,7 +20,7 @@ import { useUserStore, fetchData } from "@/store/useUserStore";
 export default function page() {
   const router = useRouter();
 
-  const { answers, setAnswer } = useAnswerStore();
+  const { answers, setAnswer, clearAnswers } = useAnswerStore();
   const { userData } = useUserStore();
 
   const { countdown, decrementCountdown, questionCount } =
@@ -32,26 +32,22 @@ export default function page() {
   });
 
   const sendAnswer = async () => {
-    await axios
-      .post(
+    try {
+      const response = await axios.post(
         "http://localhost:8000/challenge/end/pretest",
         { answer: answers, questionCount: questionCount },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        localStorage.removeItem("challenge-storage");
-        console.log("Post request successful:", response);
-        setmodalFinish((prevState) => ({
-          ...prevState,
-          isOpened: true,
-          score: response.data.data.score,
-        }));
-      })
-      .catch((error) => {
-        console.error("Error making post request:", error);
-      });
+        { withCredentials: true }
+      );
+      clearAnswers(); // Use Zustand action within component logic
+      console.log("Post request successful:", response);
+      setmodalFinish((prevState) => ({
+        ...prevState,
+        isOpened: true,
+        score: response.data.data.score,
+      }));
+    } catch (error) {
+      console.error("Error making post request:", error);
+    }
   };
 
   useEffect(() => {

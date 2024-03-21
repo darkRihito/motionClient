@@ -34,7 +34,6 @@ const fetchData = async ({ category }) => {
         withCredentials: true,
       }),
     ]);
-
     const combinedData = processAndCombineData(
       Response.data.data.questions,
       Response.data.data.challenge.answer
@@ -42,9 +41,6 @@ const fetchData = async ({ category }) => {
     useTestResult.setState({
       result: combinedData,
     });
-
-    console.log(useTestResult.getState().result);
-    // console.log(combinedData);
   } catch (error) {
     console.error("Failed:", error.message);
   }

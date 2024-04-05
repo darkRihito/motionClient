@@ -37,6 +37,8 @@ const LeftNavigation = () => {
   const toggleMenuVisibility = () => {
     setIsMenuVisible(!isMenuVisible);
   };
+
+  // {userData?.is_doing_challengge != "free" && pathname != `/home/${userData?.nickname}/challenge/practice`
   return (
     <>
       <div
@@ -216,6 +218,7 @@ const TopNavigation = () => {
   const userData = useUserStore((state) => state.userData);
 
   const router = useRouter();
+  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
   const logoutHandler = async () => {

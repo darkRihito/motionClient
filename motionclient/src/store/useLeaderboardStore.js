@@ -19,8 +19,7 @@ const fetchData = async () => {
     useLeaderboardStore.setState({
       leaderboardData: leaderboardData.map(user => ({
         ...user,
-        star_collected: user.challenge_point / 2,
-        ...getRankData(user.challenge_point)
+        ...getRankData(user.star_collected)
       }))
     });
   } catch (error) {
@@ -29,41 +28,43 @@ const fetchData = async () => {
 };
 
 // Helper function to determine rank based on challenge points
-const getRankData = (challengePoint) => {
+const getRankData = (starCollected) => {
   let rank, rank_url, title;
-      if (challengePoint >= 0 && challengePoint <= 10) {
-        rank = "Journeyman";
-        rank_url = "/assets/rank/rank1.png";
-        title = ",B"
-      } else if (challengePoint >= 11 && challengePoint <= 20) {
-        rank = "Sage";
-        rank_url = "/assets/rank/rank2.png";
-        title = ",A"
-      } else if (challengePoint >= 21 && challengePoint <= 30) {
-        rank = "Expert";
-        rank_url = "/assets/rank/rank3.png";
-        title = ",Ex"
-      } else if (challengePoint >= 31 && challengePoint <= 40) {
-        rank = "Maestro";
-        rank_url = "/assets/rank/rank4.png";
-        title = ",S"
-      } else if (challengePoint >= 41 && challengePoint <= 50) {
-        rank = "Master";
-        rank_url = "/assets/rank/rank5.png";
-        title = ",M"
-      } else if (challengePoint >= 51 && challengePoint <= 60) {
-        rank = "Grandmaster";
-        rank_url = "/assets/rank/rank6.png";
-        title = ",GM"
-      } else if (challengePoint >= 61 && challengePoint <= 70) {
-        rank = "Legendary";
-        rank_url = "/assets/rank/rank7.png";
-        title = ",L"
-      } else {
-        rank = "Supreme";
-        rank_url = "/assets/rank/rank8.png";
-        title = ",SR"
-      }
+
+  if (starCollected >= 0 && starCollected <= 5) {
+    rank = "Journeyman";
+    rank_url = "/assets/rank/rank1.png";
+    title = ",B";
+  } else if (starCollected >= 6 && starCollected <= 10) {
+    rank = "Sage";
+    rank_url = "/assets/rank/rank2.png";
+    title = ",A";
+  } else if (starCollected >= 11 && starCollected <= 15) {
+    rank = "Expert";
+    rank_url = "/assets/rank/rank3.png";
+    title = ",Ex";
+  } else if (starCollected >= 16 && starCollected <= 20) {
+    rank = "Maestro";
+    rank_url = "/assets/rank/rank4.png";
+    title = ",S";
+  } else if (starCollected >= 21 && starCollected <= 25) {
+    rank = "Master";
+    rank_url = "/assets/rank/rank5.png";
+    title = ",M";
+  } else if (starCollected >= 26 && starCollected <= 30) {
+    rank = "Grandmaster";
+    rank_url = "/assets/rank/rank6.png";
+    title = ",GM";
+  } else if (starCollected >= 31 && starCollected <= 35) {
+    rank = "Legendary";
+    rank_url = "/assets/rank/rank7.png";
+    title = ",L";
+  } else {
+    rank = "Supreme";
+    rank_url = "/assets/rank/rank8.png";
+    title = ",SR";
+  }
+
   return { rank, rank_url, title };
 };
 

@@ -20,7 +20,7 @@ import { useUserStore } from "@/store/useUserStore";
 export default function page() {
   const router = useRouter();
 
-  const { answers, setAnswer } = useAnswerStore();
+  const { answers, setAnswer, clearAnswers } = useAnswerStore();
   const { userData } = useUserStore();
 
   const { countdown, decrementCountdown, questionCount } =

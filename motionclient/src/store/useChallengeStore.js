@@ -1,10 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { redirect } from "next/navigation";
 
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useRouter } from "next/router";
 
 const useAnswerStore = create(
   persist(
@@ -61,7 +59,6 @@ const fetchData = async ({ type }) => {
     let timeLeft = Math.max(0, 7200 - differenceInSeconds);
     useChallengeInfoStore.getState().setCountdown(timeLeft);
     useQuestionStore.getState().setQuestions(questionResponse.data.data);
-    // console.log("QUESTION GOT", useQuestionStore.getState().questions);
     if (JSON.stringify(useAnswerStore.getState().answers) === "{}") {
       useQuestionStore.getState().questions.forEach((element) => {
         useAnswerStore.getState().setAnswer(element._id, "");
@@ -75,8 +72,8 @@ const fetchData = async ({ type }) => {
     toast.error(
       `${error.response?.data.message || "An unexpected error occurred"}!`
     );
-    redirect('/');
-    // window.location.reload();
+    router.back();
+    window.location.reload();
   }
 };
 

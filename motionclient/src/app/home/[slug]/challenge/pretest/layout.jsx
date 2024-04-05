@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 // Store
 import { fetchData } from "@/store/useChallengeStore";
 import { fetchUserData } from "@/store/useUserStore";
@@ -8,6 +9,7 @@ import Loader from "@/components/loader/loader";
 
 export default function Layout({ children }) {
   const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchDataAndUser = async () => {
@@ -16,6 +18,7 @@ export default function Layout({ children }) {
         await fetchUserData();
         setIsLoading(false);
       } catch (error) {
+        // router.back();
         console.error("Error fetching data:", error);
         setIsLoading(false);
       }

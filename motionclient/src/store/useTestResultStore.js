@@ -14,6 +14,10 @@ function processAndCombineData(questionsResponse, answersResponse) {
 
   const combinedAnswers = answersResponse.map((userAnswer) => {
     const questionDetails = questionsById[userAnswer.question_id];
+    if (!questionDetails) {
+      // Skip processing if question detail is null
+      return null;
+    }
     return {
       question_id: userAnswer.question_id,
       question: questionDetails.question,
@@ -21,7 +25,8 @@ function processAndCombineData(questionsResponse, answersResponse) {
       user_answer: userAnswer.answer,
       is_correct: userAnswer.is_correct,
     };
-  });
+  }).filter(answer => answer !== null); // Filter out the null entries
+
   return {
     answers: combinedAnswers,
   };

@@ -132,6 +132,16 @@ export default function page() {
                           </div>
                         </div>
                       ))}
+                      <a href="../../challenge">
+                        <button
+                          type="button"
+                          className={`${ButtonStyleColor(
+                            "bg-green-600 hover:bg-green-700"
+                          )} w-full mt-8`}
+                        >
+                          Kembali!
+                        </button>
+                      </a>
                     </form>
                   </>
                 ) : (

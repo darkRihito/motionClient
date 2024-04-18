@@ -36,10 +36,13 @@ export default function page() {
                       <a
                         key={item.question_id}
                         href={`#${index}`}
-                        className={`rounded-lg w-full aspect-square gap-3 flex-col relative flex justify-center items-center ${
+                        onClick={() => {
+                          setModalQuestionView(false);
+                        }}
+                        className={`rounded-lg w-14 aspect-square gap-3 flex-col relative flex justify-center items-center ${
                           item.is_correct
                             ? "bg-green-500 text-white"
-                            : "bg-light-white "
+                            : "bg-red-500 text-white"
                         }`}
                       >
                         {index + 1}

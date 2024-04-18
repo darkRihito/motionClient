@@ -323,8 +323,7 @@ export default function page() {
               <div className="text-[#FF9B0B]">
                 <h4>Post-Test</h4>
                 <p className="text-sm font-normal">
-                  Ukur hasil latihanmu dan tantang para sesepuh untuk mengambil
-                  alih posisi papan peringkat
+                  Ukur hasil latihanmu dan lihat seberapa besar peningkatan dari hasil pre-testnya!
                 </p>
               </div>
             </div>

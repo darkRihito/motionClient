@@ -13,6 +13,27 @@ const useUserStore = create((set) => ({
         status: status,
       },
     })),
+  updateUserProfile: (pict) =>
+    set((state) => ({
+      userData: {
+        ...state.userData,
+        pict_url: pict,
+      },
+    })),
+  updateUserPretest: () =>
+    set((state) => ({
+      userData: {
+        ...state.userData,
+        pretest_done: true,
+      },
+    })),
+  updateUserPosttest: () =>
+    set((state) => ({
+      userData: {
+        ...state.userData,
+        posttest_done: true,
+      },
+    })),
   updateUserChallengeStatus: () =>
     set((state) => ({
       userData: {
@@ -73,10 +94,10 @@ const fetchUserData = async () => {
   try {
     // Make concurrent requests to fetch user data and history data
     const [userDataResponse, historyDataResponse] = await Promise.all([
-      axios.get("http://localhost:8000/user/user", {
+      axios.get("https://motionapp-backend.vercel.app/user/user", {
         withCredentials: true,
       }),
-      axios.get("http://localhost:8000/history/historyid", {
+      axios.get("https://motionapp-backend.vercel.app/history/historyid", {
         withCredentials: true,
       }),
     ]);

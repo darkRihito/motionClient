@@ -34,7 +34,7 @@ export default function page() {
   const sendAnswer = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/challenge/end/posttest",
+        "https://motionapp-backend.vercel.app/challenge/end/posttest",
         { answer: answers, questionCount: questionCount },
         { withCredentials: true }
       );

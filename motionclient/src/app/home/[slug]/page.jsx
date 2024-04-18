@@ -49,7 +49,7 @@ const ModalEditStatus = ({ closeModal, status, setIsLoading }) => {
               setIsLoading(true);
               try {
                 const response = await axios.patch(
-                  "http://localhost:8000/user/userstatus",
+                  "https://motionapp-backend.vercel.app/user/userstatus",
                   values,
                   {
                     withCredentials: true,
@@ -182,10 +182,10 @@ export default function page() {
           <div className={`w-full h-20 bg-light-white rounded-t-xl flex`}>
             <div className="w-44 flex-none h-full flex items-center justify-center">
               <div
-                className="rounded-xl w-32 h-32 mb-14 bg-light-white relative cursor-pointer"
-                onClick={triggerFileInput}
+                className="rounded-xl w-32 h-32 mb-14 bg-light-white relative"
+                // onClick={triggerFileInput}
               >
-                <div className="absolute rounded-xl w-full h-full z-10 flex justify-center items-center hover:text-black text-transparent hover:bg-black hover:bg-opacity-10">
+                {/* <div className="absolute rounded-xl w-full h-full z-10 flex justify-center items-center hover:text-black text-transparent hover:bg-black hover:bg-opacity-10">
                   Unggah
                 </div>
                 <input
@@ -193,7 +193,7 @@ export default function page() {
                   ref={fileInputRef}
                   onChange={handleFileChange}
                   style={{ display: "none" }}
-                />
+                /> */}
                 {userData && (
                   <img
                     src={imageUrl}

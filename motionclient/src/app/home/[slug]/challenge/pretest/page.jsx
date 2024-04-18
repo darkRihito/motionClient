@@ -34,7 +34,7 @@ export default function page() {
   const sendAnswer = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/challenge/end/pretest",
+        "https://motionapp-backend.vercel.app/challenge/end/pretest",
         { answer: answers, questionCount: questionCount },
         { withCredentials: true }
       );
@@ -45,6 +45,7 @@ export default function page() {
         isOpened: true,
         score: response.data.data.score,
       }));
+      useUserStore.getState().updateUserPretest();
     } catch (error) {
       console.error("Error making post request:", error);
     }

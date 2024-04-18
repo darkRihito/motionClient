@@ -18,7 +18,7 @@ export default function Layout({ children }) {
         await fetchUserData();
         setIsLoading(false);
       } catch (error) {
-        // router.back();
+        router.back();
         console.error("Error fetching data:", error);
         setIsLoading(false);
       }

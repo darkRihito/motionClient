@@ -120,7 +120,7 @@ export default function page() {
                               scope="row"
                               className="px-6 lg:py-4 py-3 font-medium text-center"
                             >
-                              {index}
+                              {index + 1}
                             </th>
                             <td className="lg:py-4 py-3">
                               <div className="flex items-center gap-2 ">

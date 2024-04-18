@@ -8,6 +8,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
+        bkg3: "url('/assets/bkg/background03.webp')",
         bkg2: "url('/assets/bkg/background02.webp')",
         bkg0: "url('/assets/bkg/background01.webp')",
         bkg1: "url('/assets/bkg/bkg1.jpg')",
@@ -26,7 +27,6 @@ module.exports = {
         primary: "#",
         secondary: "#",
         ternary: "#",
-        ternary2: "#",
       },
       keyframes: {
         slideIn: {

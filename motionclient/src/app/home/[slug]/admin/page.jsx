@@ -30,6 +30,7 @@ import { ButtonStyleColor } from "@/components/mybutton/mybutton";
 // Store
 import { useUserStore } from "@/store/useUserStore";
 import { useAdminStore } from "@/store/useAdminStore";
+import toast from "react-hot-toast";
 
 const useStore = create(
   persist(
@@ -44,38 +45,78 @@ const useStore = create(
   )
 );
 
-const ModalDeleteQuestion = ({ closeModal, id }) => {
-  const deleteQuestion = async () => {
+const deleteQuestion = async (id) => {
+  try {
     const response = await axios.delete(
-      `http://localhost:8000/question/question/${id}`,
+      `https://motionapp-backend.vercel.app/question/question/${id}`,
       {
         withCredentials: true,
       }
     );
-    console.log(response);
+    toast.success(`Soal berhasil dihapus!`);
+  } catch (error) {
+    toast.success(`Gagal menghapus soal!`);
+    console.log(error);
+  }
+};
+
+const ModalAddExplanation = ({id, closeModal}) => {
+  const [explanationValue, setExplanationValue] = useState("");
+  const handleChange = (content) => {
+    setExplanationValue(content);
+  };
+  const submit = async () => {
+    try {
+      let payload = {
+        explanation: explanationValue,
+      };
+      const response = await axios.patch(
+        `https://motionapp-backend.vercel.app/question/explanation/${id}`,
+        { payload },
+        {
+          withCredentials: true,
+        }
+      );
+      toast.success(`Berhasil menambahkan penjelasan!`);
+    } catch (error) {
+      toast.error(`Gagal menambahkan penjelasan!`);
+      console.log(error);
+    }
   };
   return (
     <>
-      <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm"></div>
-      <div
-        className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
-        style={{ "--delay": 0 + "s" }}
-      >
-        <div className="relative max-w-lg w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <IoIosCloseCircle
-            onClick={closeModal}
-            className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
-          />
-          <h3 className="text-xl font-semibold mb-4">Tambah Soal</h3>
-          <button
-            type="button"
-            onClick={deleteQuestion}
-            className={`${ButtonStyleColor(
-              "bg-green-600 hover:bg-green-700"
-            )} max-w-48 w-full mt-8 self-end justify-self-end me-0 mb-0`}
-          >
-            Hapus!
-          </button>
+      <div className="fixed top-0 start-0 w-screen h-screen z-20 bg-white/10 backdrop-blur-sm">
+        <div
+          className="fixed top-0 start-0 w-screen h-screen z-30 px-4 animate-zoom opacity-0"
+          style={{ "--delay": 0 + "s" }}
+        >
+          <div className="relative max-w-lg w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <IoIosCloseCircle
+              onClick={closeModal}
+              className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
+            />
+            <h3 className="text-xl font-semibold mb-4">Tambah Penjelasan</h3>
+            <div className="">
+              <QuillToolbar />
+              <ReactQuill
+                className="h-[10rem] overflow-y-auto"
+                theme="snow"
+                value={explanationValue}
+                onChange={handleChange}
+                modules={modules}
+                formats={formats}
+              ></ReactQuill>
+            </div>
+            <button
+              type="button"
+              onClick={submit}
+              className={`${ButtonStyleColor(
+                "bg-green-600 hover:bg-green-700"
+              )} max-w-48 w-full mt-8 self-end justify-self-end me-0 mb-0`}
+            >
+              Tambahkan!
+            </button>
+          </div>
         </div>
       </div>
     </>
@@ -97,6 +138,7 @@ const ModalEditQuestion = ({
   const initialCategories = [
     { value: "pretest", label: "PreTest" },
     { value: "posttest", label: "PostTest" },
+    { value: "practice", label: "Practice" },
     { value: "any", label: "Any" },
   ];
 
@@ -160,15 +202,18 @@ const ModalEditQuestion = ({
                     category: values.category.map((item) => item.value),
                     question: questionValue,
                   };
-
-                  const response = await axios.patch(
-                    `http://localhost:8000/question/question/${id}`,
-                    { payload },
-                    {
-                      withCredentials: true,
-                    }
-                  );
-                  console.log(response);
+                  try {
+                    const response = await axios.patch(
+                      `https://motionapp-backend.vercel.app/question/question/${id}`,
+                      { payload },
+                      {
+                        withCredentials: true,
+                      }
+                    );
+                    toast.success(`Soal berhasil diubah!`);
+                  } catch (error) {
+                    toast.success(`Gagal mengubah soal!`);
+                  }
                 }}
               >
                 {({
@@ -272,7 +317,7 @@ const ModalEditQuestion = ({
                         </span>
 
                         <div className="flex gap-3 mt-4">
-                          <div className="flex-1">
+                          <div className="flex-[2]">
                             <div className="relative">
                               <Field
                                 name="category"
@@ -293,7 +338,7 @@ const ModalEditQuestion = ({
                             </span>
                           </div>
 
-                          <div className="flex-1">
+                          <div className="flex-[1]">
                             <div className="relative">
                               <select
                                 id="difficulty"
@@ -347,9 +392,16 @@ const ModalAddQuestion = ({ closeModal }) => {
   const handleChange = (content) => {
     setQuestionValue(content);
   };
+
+  const [explanationValue, setExplanationValue] = useState("");
+  const handleExplanationChange = (content) => {
+    setExplanationValue(content);
+  };
+
   const initialCategories = [
     { value: "pretest", label: "PreTest" },
     { value: "posttest", label: "PostTest" },
+    { value: "practice", label: "Practice" },
     { value: "any", label: "Any" },
   ];
   return (
@@ -406,18 +458,19 @@ const ModalAddQuestion = ({ closeModal }) => {
                     room_code: userData.admin_room_code,
                     question: questionValue,
                   };
-
-                  console.log(payload);
-
-                  const response = await axios.post(
-                    "http://localhost:8000/question/question",
-                    { payload },
-                    {
-                      withCredentials: true,
-                    }
-                  );
-
-                  console.log(response);
+                  try {
+                    const response = await axios.post(
+                      "https://motionapp-backend.vercel.app/question/question",
+                      { payload },
+                      {
+                        withCredentials: true,
+                      }
+                    );
+                    toast.success(`Soal berhasil ditambahkan!`);
+                  } catch (error) {
+                    toast.success(`Gagal menambahkan soal!`);
+                    console.log(error);
+                  }
                 }}
               >
                 {({
@@ -601,19 +654,19 @@ export default function page() {
   // ADD QUESTION MODAL HANDLER
   const [modalAddQuestion, setModalAddQuestion] = useState(false);
   const toggleModalAddQuestion = () => setModalAddQuestion(!modalAddQuestion);
-  // DELETE QUESTION MODAL HANDLER
-  const [modalDeleteQuestion, setModalDeleteQuestion] = useState(false);
-  const [currentDeleteItem, setCurrentDeleteItem] = useState(null);
-  const toggleModalDeleteQuestion = (item) => {
-    setCurrentDeleteItem(item);
-    setModalDeleteQuestion(true);
-  };
   // EDIT QUESTION MODAL HANDLER
   const [modalEditQuestion, setModalEditQuestion] = useState(false);
   const [currentEditItem, setCurrentEditItem] = useState(null);
   const toggleModalEditQuestion = (item) => {
     setCurrentEditItem(item);
     setModalEditQuestion(true);
+  };
+  // ADD EXPLANATION MODAL HANDLER
+  const [modalExplanation, setModalExplanation] = useState(false);
+  const [currentExplanationItem, setCurrentExplanationItem] = useState(null);
+  const toggleModalExplanation = (item) => {
+    setCurrentExplanationItem(item);
+    setModalExplanation(true);
   };
   // COPY CLIPBOARD
   const copyTextToClipboard = async () => {
@@ -643,12 +696,6 @@ export default function page() {
       {modalAddQuestion ? (
         <ModalAddQuestion closeModal={() => setModalAddQuestion(false)} />
       ) : null}
-      {modalDeleteQuestion && currentDeleteItem && (
-        <ModalDeleteQuestion
-          closeModal={() => setModalDeleteQuestion(false)}
-          id={currentDeleteItem._id}
-        />
-      )}
       {modalEditQuestion && currentEditItem && (
         <ModalEditQuestion
           closeModal={() => setModalEditQuestion(false)}
@@ -659,13 +706,21 @@ export default function page() {
           kategori={currentEditItem.category}
         />
       )}
+      {modalExplanation && currentExplanationItem && (
+        <ModalAddExplanation
+          closeModal={() => setModalExplanation(false)}
+          id={currentExplanationItem._id}
+        />
+      )}
       <div className="max-w-screen-md px-2 mx-auto mt-32 mb-8">
         <div
           className="w-full mt-12 text-start mb-8 animate-slideIn opacity-0"
           style={{ "--delay": 0.25 + "s" }}
         >
           <p className="text-xl font-semibold mb-1">Selamat Datang!</p>
-          <h2 className="text-4xl font-bold mb-4">Admin Kelola</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            Admin Kelola: {userData?.admin_room_name}
+          </h2>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
             corporis, dolor commodi placeat debitis vel voluptas quas vitae
@@ -759,27 +814,27 @@ export default function page() {
                             <th scope="col" className="px-6 py-4 w-8">
                               No
                             </th>
-                            <th scope="col" className="py-4 min-w-24 w-full">
+                            <th scope="col" className="py-4 min-w-24">
                               Nama
                             </th>
-                            <th
-                              scope="col"
-                              className="px-4 py-4 text-center w-full"
-                            >
+                            <th scope="col" className="px-4 py-4 text-center">
                               Poin Tantangan
                             </th>
                             <th
                               scope="col"
-                              className="px-6 py-4 text-center w-full"
+                              className=" text-center hidden sm:table-cell"
                             >
+                              Pre-Test
+                            </th>
+                            <th
+                              scope="col"
+                              className=" text-center hidden sm:table-cell"
+                            >
+                              Post-Test
+                            </th>
+                            <th scope="col" className="px-6 py-4 text-center">
                               Kualifikasi
                             </th>
-                            {/* <th
-                              scope="col"
-                              className=" text-center w-full table-cell"
-                            >
-                              Action
-                            </th> */}
                           </tr>
                         </thead>
                         <tbody>
@@ -791,10 +846,9 @@ export default function page() {
                               >
                                 {index + 1}
                               </th>
-                              <td className="py-3 w-full">
+                              <td className="py-3 min-w-24">
                                 <div className="flex items-center gap-2">
                                   <div>
-                                    {/* FOTO PROFIL */}
                                     <div className="border h-10 w-10 md:h-11 md:w-11 rounded-full relative overflow-hidden">
                                       <img
                                         src={user.pict_url}
@@ -803,25 +857,25 @@ export default function page() {
                                       />
                                     </div>
                                   </div>
-                                  <div className="flex flex-col min-w-24 w-full">
-                                    {/* NAMA */}
+                                  <div className="flex flex-col min-w-24">
                                     <div className="lg:text-base font-semibold">
                                       {user.name}
                                     </div>
                                   </div>
                                 </div>
                               </td>
-                              <td className="px-6 py-3 text-center w-full">
-                                {/* POIN A */}
+                              <td className="px-6 py-3 text-center">
                                 {user.challenge_point}
                               </td>
-                              <td className="py-3 text-center w-full">
-                                {/* POIN B */}
+                              <td className="px-6 py-3 text-center hidden sm:table-cell">
+                                {user.pretest_score}
+                              </td>
+                              <td className="px-6 py-3 text-center hidden sm:table-cell">
+                                {user.posttest_score}
+                              </td>
+                              <td className="py-3 text-center">
                                 {user.qualification}
                               </td>
-                              {/* <td className="px-6 py-3 text-center w-full cursor-pointer text-red-400  hover:text-red-500 ">
-                                <MdDelete className="text-2xl " />
-                              </td> */}
                             </tr>
                           ))}
                         </tbody>
@@ -894,9 +948,15 @@ export default function page() {
                             </div>
                             <div
                               className="cursor-pointer border rounded-md p-3"
-                              onClick={() => toggleModalDeleteQuestion(item)}
+                              onClick={() => deleteQuestion(item._id)}
                             >
                               <MdDelete className="text-2xl text-red-400" />
+                            </div>
+                            <div
+                              className="cursor-pointer border rounded-md p-3"
+                              onClick={() => toggleModalExplanation(item)}
+                            >
+                              {/* <MdDelete className="text-2xl text-red-400" /> */}
                             </div>
                           </div>
                         </div>

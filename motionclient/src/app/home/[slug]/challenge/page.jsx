@@ -21,16 +21,19 @@ const ModalPreTest = ({ closeModal }) => {
 
   const startHandler = () => {
     if (
+      userData?.is_doing_challenge != "free" &&
+      userData?.is_doing_challenge != "pretest"
+    ) {
+      toast.error(`Sedang berada dalam aktivitas lain!`);
+    } else if (
       userData?.is_doing_challenge === "free" &&
       userData?.pretest_done === false
     ) {
       router.push("challenge/pretest");
     } else if (
-      userData?.is_doing_challenge != "free" &&
-      userData?.is_doing_challenge != "pretest"
+      userData?.is_doing_challenge === "pretest" &&
+      userData?.pretest_done === false
     ) {
-      toast.error(`Sedang berada dalam kuis lain!`);
-    } else {
       router.push("challenge/pretest");
     }
   };
@@ -94,16 +97,27 @@ const ModalPreTest = ({ closeModal }) => {
 };
 
 const ModalLatihan = ({ closeModal }) => {
-  const { isFinished, type } = useChallengeInfoStore();
+  const { userData } = useUserStore();
   const router = useRouter();
 
   const startHandler = () => {
-    if (type == "" && isFinished == "") {
-      router.push("challenge/pretest");
-    } else if (!(type == "posttest") && !isFinished) {
-      toast.error(`Sedang berada dalam kuis lain!`);
-    } else {
-      router.push("challenge/posttest");
+    if (
+      userData?.is_doing_challenge != "free" &&
+      userData?.is_doing_challenge != "practice"
+    ) {
+      toast.error(`Sedang berada dalam aktivitas lain!`);
+    } else if (userData?.pretest_done === false) {
+      toast.error(`Selesaikan Pretest Terlebih Dahulu!`);
+    } else if (
+      userData?.is_doing_challenge === "free" &&
+      userData?.pretest_done === true
+    ) {
+      router.push("challenge/practice");
+    } else if (
+      userData?.is_doing_challenge === "practice" &&
+      userData?.pretest_done === true
+    ) {
+      router.push("challenge/practice");
     }
   };
   return (
@@ -143,16 +157,16 @@ const ModalPostTest = ({ closeModal }) => {
 
   const startHandler = () => {
     if (
-      userData?.is_doing_challenge === "free" &&
-      userData?.posttest_done === false
-    ) {
-      router.push("challenge/posttest");
-    } else if (
       userData?.is_doing_challenge != "free" &&
       userData?.is_doing_challenge != "posttest"
     ) {
-      toast.error(`Sedang berada dalam kuis lain!`);
-    } else {
+      toast.error(`Sedang berada dalam aktivitas lain!`);
+    } else if (userData?.pretest_done === false) {
+      toast.error(`Selesaikan Pretest Terlebih Dahulu!`);
+    } else if (
+      userData?.is_doing_challenge === "free" &&
+      userData?.posttest_done === false
+    ) {
       router.push("challenge/posttest");
     }
   };
@@ -216,7 +230,6 @@ const ModalPostTest = ({ closeModal }) => {
 };
 
 export default function page() {
-
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
@@ -310,8 +323,7 @@ export default function page() {
               <div className="text-[#FF9B0B]">
                 <h4>Post-Test</h4>
                 <p className="text-sm font-normal">
-                  Ukur hasil latihanmu dan tantang para sesepuh untuk mengambil
-                  alih posisi papan peringkat
+                  Ukur hasil latihanmu dan lihat seberapa besar peningkatan dari hasil pre-testnya!
                 </p>
               </div>
             </div>

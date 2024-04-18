@@ -20,7 +20,7 @@ import { useUserStore } from "@/store/useUserStore";
 export default function page() {
   const router = useRouter();
 
-  const { answers, setAnswer } = useAnswerStore();
+  const { answers, setAnswer, clearAnswers } = useAnswerStore();
   const { userData } = useUserStore();
 
   const { countdown, decrementCountdown, questionCount } =
@@ -34,7 +34,7 @@ export default function page() {
   const sendAnswer = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/challenge/end/posttest",
+        "https://motionapp-backend.vercel.app/challenge/end/posttest",
         { answer: answers, questionCount: questionCount },
         { withCredentials: true }
       );

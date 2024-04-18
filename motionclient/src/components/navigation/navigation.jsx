@@ -37,6 +37,8 @@ const LeftNavigation = () => {
   const toggleMenuVisibility = () => {
     setIsMenuVisible(!isMenuVisible);
   };
+
+  // {userData?.is_doing_challengge != "free" && pathname != `/home/${userData?.nickname}/challenge/practice`
   return (
     <>
       <div
@@ -128,6 +130,31 @@ const LeftNavigation = () => {
                         <span className="hidden md:block">Papan Peringkat</span>
                       </li>
                     </Link>
+
+                    {/* Shop Link */}
+                    <Link
+                      href={`/home/${userData.nickname}/shop`}
+                      onClick={() => handleLinkClick("/home/shop")}
+                      className="block cursor-pointer hover:scale-[1.05]"
+                    >
+                      <li
+                        className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
+                          isActive(`/home/${userData.nickname}/shop`)
+                            ? "font-semibold"
+                            : ""
+                        }`}
+                      >
+                        <div className="inline-block relative w-6 h-6">
+                          <Image
+                            alt=""
+                            fill
+                            sizes="100%"
+                            src="/assets/icon/store.png"
+                          />
+                        </div>
+                        <span className="hidden md:block">Toko</span>
+                      </li>
+                    </Link>
                   </>
                 )}
 
@@ -216,13 +243,14 @@ const TopNavigation = () => {
   const userData = useUserStore((state) => state.userData);
 
   const router = useRouter();
+  const pathname = usePathname();
   const [isLoading, setIsLoading] = useState(false);
 
   const logoutHandler = async () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/logout",
+        "https://motionapp-backend.vercel.app/api/logout",
         "",
         {
           withCredentials: true,

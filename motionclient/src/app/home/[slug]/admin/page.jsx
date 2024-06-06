@@ -48,7 +48,7 @@ const useStore = create(
 const deleteQuestion = async (id) => {
   try {
     const response = await axios.delete(
-      `https://motionapp-backend.vercel.app/question/question/${id}`,
+      `http://localhost:8000/question/question/${id}`,
       {
         withCredentials: true,
       }
@@ -71,7 +71,7 @@ const ModalAddExplanation = ({id, closeModal}) => {
         explanation: explanationValue,
       };
       const response = await axios.patch(
-        `https://motionapp-backend.vercel.app/question/explanation/${id}`,
+        `http://localhost:8000/question/explanation/${id}`,
         { payload },
         {
           withCredentials: true,
@@ -138,8 +138,8 @@ const ModalEditQuestion = ({
   const initialCategories = [
     { value: "pretest", label: "PreTest" },
     { value: "posttest", label: "PostTest" },
-    { value: "practice", label: "Practice" },
-    { value: "any", label: "Any" },
+    { value: "structure", label: "structure" },
+    { value: "written", label: "written" },
   ];
 
   return (
@@ -204,7 +204,7 @@ const ModalEditQuestion = ({
                   };
                   try {
                     const response = await axios.patch(
-                      `https://motionapp-backend.vercel.app/question/question/${id}`,
+                      `http://localhost:8000/question/question/${id}`,
                       { payload },
                       {
                         withCredentials: true,
@@ -401,8 +401,8 @@ const ModalAddQuestion = ({ closeModal }) => {
   const initialCategories = [
     { value: "pretest", label: "PreTest" },
     { value: "posttest", label: "PostTest" },
-    { value: "practice", label: "Practice" },
-    { value: "any", label: "Any" },
+    { value: "structure", label: "structure" },
+    { value: "written", label: "written" },
   ];
   return (
     <>
@@ -460,7 +460,7 @@ const ModalAddQuestion = ({ closeModal }) => {
                   };
                   try {
                     const response = await axios.post(
-                      "https://motionapp-backend.vercel.app/question/question",
+                      "http://localhost:8000/question/question",
                       { payload },
                       {
                         withCredentials: true,

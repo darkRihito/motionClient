@@ -78,7 +78,7 @@ const LeftNavigation = () => {
                             src="/assets/icon/house.png"
                           />
                         </div>
-                        <span className="hidden md:block">Beranda</span>
+                        <span className="hidden md:block">Main</span>
                       </li>
                     </Link>
                     {/* Challenge Link */}
@@ -102,7 +102,57 @@ const LeftNavigation = () => {
                             src="/assets/icon/flag.png"
                           />
                         </div>
-                        <span className="hidden md:block">Tantangan</span>
+                        <span className="hidden md:block">Challenge</span>
+                      </li>
+                    </Link>
+
+                    {/* Simulation Link */}
+                    <Link
+                      href={`/home/${userData.nickname}/simulation`}
+                      onClick={() => handleLinkClick("/home/simulation")}
+                      className="block cursor-pointer hover:scale-[1.05] transition duration-150"
+                    >
+                      <li
+                        className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
+                          isActive(`/home/${userData.nickname}/simulation`)
+                            ? "font-semibold"
+                            : ""
+                        }`}
+                      >
+                        <div className="inline-block relative w-6 h-6">
+                          <Image
+                            alt=""
+                            fill
+                            sizes="100%"
+                            src="/assets/icon/cube.png"
+                          />
+                        </div>
+                        <span className="hidden md:block">Simulation</span>
+                      </li>
+                    </Link>
+
+                     {/* Material Link */}
+                     <Link
+                      href={`/home/${userData.nickname}/material`}
+                      onClick={() => handleLinkClick("/home/material")}
+                      className="block cursor-pointer hover:scale-[1.05] transition duration-150"
+                    >
+                      <li
+                        className={`flex gap-2 w-max bg-light-white border-2 p-3 lg:px-4 rounded-2xl ${
+                          isActive(`/home/${userData.nickname}/material`)
+                            ? "font-semibold"
+                            : ""
+                        }`}
+                      >
+                        <div className="inline-block relative w-6 h-6">
+                          <Image
+                            alt=""
+                            fill
+                            sizes="100%"
+                            src="/assets/icon/books.png"
+                          />
+                        </div>
+                        <span className="hidden md:block">Material</span>
                       </li>
                     </Link>
 
@@ -127,7 +177,7 @@ const LeftNavigation = () => {
                             src="/assets/icon/trophy.png"
                           />
                         </div>
-                        <span className="hidden md:block">Papan Peringkat</span>
+                        <span className="hidden md:block">Leaderboard</span>
                       </li>
                     </Link>
 
@@ -152,7 +202,7 @@ const LeftNavigation = () => {
                             src="/assets/icon/store.png"
                           />
                         </div>
-                        <span className="hidden md:block">Toko</span>
+                        <span className="hidden md:block">Store</span>
                       </li>
                     </Link>
                   </>
@@ -183,7 +233,7 @@ const LeftNavigation = () => {
                             src="/assets/icon/settings.png"
                           />
                         </div>
-                        <span className="hidden md:block">Pengelolaan</span>
+                        <span className="hidden md:block">Management</span>
                       </li>
                     </Link>
                   </>
@@ -219,7 +269,7 @@ const TopNavigationDropdown = ({ onLogOutClicked, data }) => {
                 className="px-4 py-3 bg-light-white rounded-xl hover:bg-gray-100 block"
               >
                 <GrCircleQuestion className="text-xl inline-block me-2" />
-                Dukungan
+                Supports
               </Link>
             </li>
           </ul>
@@ -250,7 +300,7 @@ const TopNavigation = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://motionapp-backend.vercel.app/api/logout",
+        "http://localhost:8000/api/logout",
         "",
         {
           withCredentials: true,
@@ -287,7 +337,7 @@ const TopNavigation = () => {
                   <div className="font-semibold text-black-100">
                     {userData && userData.name}
                   </div>
-                  <div className="text-sm text-gray-500">Ruangan A1</div>
+                  <div className="text-sm text-gray-500">{userData && userData.room}</div>
                 </div>
                 {userData && (
                   <img

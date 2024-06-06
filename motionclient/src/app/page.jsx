@@ -49,10 +49,10 @@ export default function page() {
               </div>
               <div className={`text-start mt-12 w-full max-w-sm`}>
                 <h2 className={`text-4xl font-bold mb-4 text-light-white`}>
-                  MotivaMission
+                  OcToefl
                 </h2>
                 <p className="text-base">
-                  Harap isi rincian Anda untuk mengakses akun Anda.
+                  Please fill in your details to access your account.
                 </p>
               </div>
               <div className="w-full max-w-sm">
@@ -85,7 +85,7 @@ export default function page() {
                     setIsLoading(true);
                     try {
                       const response = await axios.post(
-                        "https://motionapp-backend.vercel.app/api/login",
+                        "http://localhost:8000/api/login",
                         values,
                         {
                           withCredentials: true,
@@ -125,7 +125,7 @@ export default function page() {
                     >
                       <div className="">
                         <label className="block mb-2 text-md font-medium text-light-white">
-                          Email Anda
+                          Your Email
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 start-0 flex items-center ps-3.5">
@@ -147,7 +147,7 @@ export default function page() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.email}
-                            placeholder="cth: johndoe@gmail.com"
+                            placeholder="ex: johndoe@gmail.com"
                             className={InputStyleSVG}
                           />
                         </div>
@@ -197,7 +197,7 @@ export default function page() {
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.password}
-                              placeholder="masukkan password anda"
+                              placeholder="input your password"
                               className={InputStyleSVG}
                             />
                             <button
@@ -221,15 +221,15 @@ export default function page() {
                         disabled={isSubmitting}
                         className={ButtonStyle}
                       >
-                        Masuk
+                        Login
                       </button>
                       <p className="mt-2 mb-6 text-light-white text-sm text-center">
-                        Tidak memiliki akun?{" "}
+                        Don't have an account?{" "}
                         <Link
                           className="inline-flex items-center hover:underline font-bold"
                           href="/register"
                         >
-                          Daftar
+                          Register
                         </Link>
                       </p>
                     </form>

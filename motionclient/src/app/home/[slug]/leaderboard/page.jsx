@@ -19,8 +19,8 @@ export default function page() {
           className="w-full mt-12 text-center mb-14 animate-slideIn opacity-0"
           style={{ "--delay": 0.25 + "s" }}
         >
-          <p className="text-xl font-semibold mb-1">Selamat Datang!</p>
-          <h2 className="text-4xl font-bold mb-4">Papan Peringkat</h2>
+          <p className="text-xl font-semibold mb-1">Welcome!</p>
+          <h2 className="text-4xl font-bold mb-4">Hall of Fame</h2>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
             corporis, dolor commodi placeat debitis vel voluptas quas vitae
@@ -103,7 +103,7 @@ export default function page() {
                             scope="col"
                             className="px-6 py-4 text-center min-w-32"
                           >
-                            Bintang
+                            Star
                           </th>
                           <th
                             scope="col"

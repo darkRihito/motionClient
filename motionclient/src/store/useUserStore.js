@@ -90,14 +90,83 @@ const userRank = (starCollected) => {
   return { rank, rank_url, title };
 };
 
+const calculateTruePercentage = (achievements) => {
+  if (!Array.isArray(achievements) || achievements.length === 0) {
+    return 0;
+  }
+  const trueCount = achievements.filter(Boolean).length;
+  return (trueCount / achievements.length) * 100;
+};
+
+const questList = [
+  "Do your first pretest on challenge room!",
+  "Do your first practice on challenge room!",
+  "Do your first simulation on simulation page!",
+  "Finish reading your first Module at the material page!",
+  "Reach 5 stars by doing practice!",
+  "Earn 50 points by doing practice!",
+  "Complete your 10th practice on challenge room!",
+  "Earn 100 points by doing practice",
+  "Read 5 Modules at the material page!",
+  "Reach 15 stars by doing practice!",
+  "Complete your 5th simulation on simulation page!",
+  "Reach Grandmaster rank!",
+  "Complete your 20th practice on challenge room",
+  "Finish reading all 10 Modules at the material page!",
+  "Complete your 10th simulation on simulation page!",
+  "Reach Peak Rank!",
+  "Earn 300 points by doing practice!",
+  "Buy the last profile picture from exchange store!",
+  "Complete your posttest!",
+];
+
+const getNextQuest = (achievements) => {
+  const firstIncompleteIndex = achievements.indexOf(false);
+  return firstIncompleteIndex !== -1
+    ? questList[firstIncompleteIndex]
+    : "All quests completed!";
+};
+
+const countCompletedModules = (modules) => {
+  if (!Array.isArray(modules)) {
+    return 0;
+  }
+  return modules.filter(Boolean).length;
+};
+
+const calculateAccuracyRate = (history) => {
+  if (!Array.isArray(history) || history.length === 0) {
+    return 0;
+  }
+
+  // Filter simulation entries
+  const simulationEntries = history.filter(
+    (item) => item.name === "simulation"
+  );
+
+  if (simulationEntries.length === 0) {
+    return 0;
+  }
+
+  // Sum up the scores of the simulation entries
+  const totalScore = simulationEntries.reduce((acc, item) => acc + item.score, 0);
+
+  // Calculate the average score
+  const averageScore = totalScore / simulationEntries.length;
+
+  // Return the average score as the accuracy rate
+  return averageScore;
+};
+
+
 const fetchUserData = async () => {
   try {
     // Make concurrent requests to fetch user data and history data
     const [userDataResponse, historyDataResponse] = await Promise.all([
-      axios.get("https://motionapp-backend.vercel.app/user/user", {
+      axios.get("http://localhost:8000/user/user", {
         withCredentials: true,
       }),
-      axios.get("https://motionapp-backend.vercel.app/history/historyid", {
+      axios.get("http://localhost:8000/history/historyid", {
         withCredentials: true,
       }),
     ]);
@@ -106,14 +175,31 @@ const fetchUserData = async () => {
 
     if (userData.role == "user") {
       const challengePoint = userData.challenge_point;
-      // Determine rank and rank URL
       const { rank, rank_url, title } = userRank(userData.star_collected);
-      // Update state with the fetched data
+      const nextQuest = getNextQuest(userData.achievement);
+      const achievementPercentage = calculateTruePercentage(
+        userData.achievement
+      );
+      const completedModulesCount = countCompletedModules(
+        userData.modules_completed
+      );
+      const accuracyRate = calculateAccuracyRate(
+        historyDataResponse.data.data.history
+      );
       useUserStore.setState({
-        userData: { ...userData, rank, rank_url, title },
+        userData: {
+          ...userData,
+          rank,
+          rank_url,
+          title,
+          achievementPercentage,
+          nextQuest,
+          completedModulesCount,
+          accuracyRate,
+        },
         userHistory: historyDataResponse.data.data,
       });
-      // console.log(useUserStore.getState());
+      console.log("USERSTORE:", useUserStore.getState());
     } else {
       useUserStore.setState({
         userData: userData,

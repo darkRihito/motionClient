@@ -14,7 +14,7 @@ const ModalBuy = ({ closeModal, setIsLoading, item_target, item_url }) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://motionapp-backend.vercel.app/shop/avatar",
+        "http://localhost:8000/shop/avatar",
         { item_target: item_target, item_url: item_url },
         { withCredentials: true }
       );
@@ -42,7 +42,7 @@ const ModalBuy = ({ closeModal, setIsLoading, item_target, item_url }) => {
             className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
           />
           <h3 className="text-xl font-semibold mb-2">
-            Tukar {item_target} poin dengan avatar?
+            Exchange {item_target} points for an avatar?
           </h3>
           <p className="mb-4">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
@@ -94,13 +94,13 @@ export default function page() {
           className="w-full mt-12 text-center mb-6 animate-slideIn opacity-0"
           style={{ "--delay": 0.25 + "s" }}
         >
-          <p className="text-xl font-semibold mb-1">Selamat Datang!</p>
-          <h2 className="text-4xl font-bold mb-4">Toko Penukaran</h2>
+          <p className="text-xl font-semibold mb-1">Welcome</p>
+          <h2 className="text-4xl font-bold mb-4">Exchange Store</h2>
           <p>
-            Tukarkan poin tantanganmu dengan avatar yang akan ditampilkan di
-            papan peringkat. Poin tidak akan berkurang setelah proses penukaran.
-            Perbanyak latihan untuk mendapatkan lebih banyak poin dan membuka
-            avatar selanjutnya!
+            Redeem your challenge points for an avatar that will be displayed on
+            the leaderboard. Your points will not decrease after the redemption
+            process. Practice more to earn additional points and unlock the next
+            avatar!
           </p>
         </div>
         <div
@@ -139,12 +139,15 @@ export default function page() {
           style={{ "--delay": 0.5 + "s" }}
         >
           <div
-            onClick={() => {
-              toggleModalBuy({
-                itemTarget: 20,
-                itemUrl: "/assets/icon/avamen.jpg",
-              });
-            }}
+            onClick={
+              userData?.challenge_point >= 20
+                ? () =>
+                    toggleModalBuy({
+                      itemTarget: 20,
+                      itemUrl: "/assets/icon/avamen.jpg",
+                    })
+                : null
+            }
             className={`relative sm:w-24 sm:h-24 w-20 h-20  mt-6 ${
               userData?.challenge_point < 20
                 ? "filter grayscale"
@@ -172,12 +175,15 @@ export default function page() {
           </div>
 
           <div
-            onClick={() => {
-              toggleModalBuy({
-                itemTarget: 40,
-                itemUrl: "/assets/icon/avamored.jpg",
-              });
-            }}
+            onClick={
+              userData?.challenge_point >= 40
+                ? () =>
+                    toggleModalBuy({
+                      itemTarget: 40,
+                      itemUrl: "/assets/icon/avamored.jpg",
+                    })
+                : null
+            }
             className={`relative sm:w-24 sm:h-24 w-20 h-20 mt-6 ${
               userData?.challenge_point < 40
                 ? "filter grayscale "
@@ -205,12 +211,15 @@ export default function page() {
           </div>
 
           <div
-            onClick={() => {
-              toggleModalBuy({
-                itemTarget: 100,
-                itemUrl: "/assets/icon/avashadow.jpg",
-              });
-            }}
+            onClick={
+              userData?.challenge_point >= 100
+                ? () =>
+                    toggleModalBuy({
+                      itemTarget: 100,
+                      itemUrl: "/assets/icon/avashadow.jpg",
+                    })
+                : null
+            }
             className={`relative sm:w-24 sm:h-24 w-20 h-20 mt-6 ${
               userData?.challenge_point < 100
                 ? "filter grayscale "
@@ -238,12 +247,15 @@ export default function page() {
           </div>
 
           <div
-            onClick={() => {
-              toggleModalBuy({
-                itemTarget: 150,
-                itemUrl: "/assets/icon/avabeluga.png",
-              });
-            }}
+            onClick={
+              userData?.challenge_point >= 150
+                ? () =>
+                    toggleModalBuy({
+                      itemTarget: 150,
+                      itemUrl: "/assets/icon/avabeluga.png",
+                    })
+                : null
+            }
             className={`relative sm:w-24 sm:h-24 w-20 h-20 mt-6 ${
               userData?.challenge_point < 150
                 ? "filter grayscale "
@@ -271,12 +283,15 @@ export default function page() {
           </div>
 
           <div
-            onClick={() => {
-              toggleModalBuy({
-                itemTarget: 300,
-                itemUrl: "/assets/icon/avawerewolf.jpg",
-              });
-            }}
+            onClick={
+              userData?.challenge_point >= 300
+                ? () =>
+                    toggleModalBuy({
+                      itemTarget: 300,
+                      itemUrl: "/assets/icon/avawerewolf.jpg",
+                    })
+                : null
+            }
             className={`relative sm:w-24 sm:h-24 w-20 h-20 mt-6 ${
               userData?.challenge_point < 300
                 ? "filter grayscale "
@@ -304,12 +319,15 @@ export default function page() {
           </div>
 
           <div
-            onClick={() => {
-              toggleModalBuy({
-                itemTarget: 500,
-                itemUrl: "/assets/icon/avadoge.jpg",
-              });
-            }}
+            onClick={
+              userData?.challenge_point >= 500
+                ? () =>
+                    toggleModalBuy({
+                      itemTarget: 500,
+                      itemUrl: "/assets/icon/avadoge.jpg",
+                    })
+                : null
+            }
             className={`relative sm:w-24 sm:h-24 w-20 h-20 mt-6 ${
               userData?.challenge_point < 500
                 ? "filter grayscale "
@@ -337,12 +355,15 @@ export default function page() {
           </div>
 
           <div
-            onClick={() => {
-              toggleModalBuy({
-                itemTarget: 700,
-                itemUrl: "/assets/icon/avazom.jpg",
-              });
-            }}
+            onClick={
+              userData?.challenge_point >= 700
+                ? () =>
+                    toggleModalBuy({
+                      itemTarget: 700,
+                      itemUrl: "/assets/icon/avazom.jpg",
+                    })
+                : null
+            }
             className={`relative sm:w-24 sm:h-24 w-20 h-20 mt-6 ${
               userData?.challenge_point < 700
                 ? "filter grayscale "

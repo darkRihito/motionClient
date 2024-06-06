@@ -62,7 +62,7 @@ const usePracticeStore = create((set) => ({
 const submitAnswer = async (payload) => {
   try {
     const response = await axios.post(
-      "https://motionapp-backend.vercel.app/practice/submit",
+      "http://localhost:8000/practice/submit",
       payload,
       {
         withCredentials: true,
@@ -126,7 +126,7 @@ const submitAnswer = async (payload) => {
 const fetchData = async () => {
   try {
     const [startPracticeResponse] = await Promise.all([
-      axios.post(`https://motionapp-backend.vercel.app/practice/start`, "", {
+      axios.post(`http://localhost:8000/practice/start`, "", {
         withCredentials: true,
       }),
     ]);

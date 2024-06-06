@@ -61,10 +61,10 @@ export default function page() {
             >
               <div className="text-start mt-3 w-full max-w-md p-3">
                 <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-                  Registrasi Akun
+                  Account Registration
                 </h2>
                 <p className="text-base lg:text-lg">
-                  Harap isi rincian Anda untuk membuat akun.
+                Please fill in your details to create an account.
                 </p>
               </div>
               <div className="w-full max-w-md px-3">
@@ -159,7 +159,7 @@ export default function page() {
                             htmlFor="name"
                             className="block mb-2 text-md font-medium text-light-white "
                           >
-                            Nama Lengkap
+                            Full Name
                           </label>
                           <div className="relative">
                             <input
@@ -186,7 +186,7 @@ export default function page() {
                         htmlFor="radioadmin"
                         className="block mt-3 mb-2 text-md font-medium text-light-white "
                       >
-                        Daftar Sebagai
+                        Register as
                       </label>
                       <div id="radioadmin" className="flex gap-4 w-full">
                         <label
@@ -205,7 +205,7 @@ export default function page() {
                               className="w-4 h-4 text-yellow-950 bg-yellow-950 border-yellow-950 focus:ring-yellow-950 hidden peer"
                             />
                             <span className="w-full py-4 text-sm font-medium text-light-white dark:text-gray-300">
-                              Pengguna
+                              User
                             </span>
                           </div>
                         </label>
@@ -244,7 +244,7 @@ export default function page() {
                               htmlFor="adminroomname"
                               className="block mb-2 text-md font-medium text-light-white "
                             >
-                              Nama Ruangan
+                              Room Name
                             </label>
                             <div className="relative">
                               <input
@@ -328,7 +328,7 @@ export default function page() {
                         htmlFor="password"
                         className="block mb-2 mt-3 text-md font-medium text-light-white "
                       >
-                        Kata Sandi
+                        Password
                       </label>
                       <div className="relative">
                         <div className="relative flex">
@@ -339,7 +339,7 @@ export default function page() {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.password}
-                            placeholder="masukkan password anda"
+                            placeholder="create your password"
                             className={InputStyle}
                           />
                           <button
@@ -366,7 +366,7 @@ export default function page() {
                                 htmlFor="room"
                                 className="block mb-2 text-md font-medium text-light-white "
                               >
-                                Kode Undangan
+                                Invitation Room Code
                               </label>
                               <div className="relative">
                                 <input
@@ -376,7 +376,7 @@ export default function page() {
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.room}
-                                  placeholder="K001"
+                                  placeholder="R001"
                                   className={InputStyle}
                                 />
                               </div>
@@ -396,15 +396,15 @@ export default function page() {
                         disabled={isSubmitting}
                         className={ButtonStyle}
                       >
-                        Daftarkan
+                        Register
                       </button>
                       <p className="mt-2 mb-6 text-light-white text-sm text-center">
-                        Sudah memiliki akun?{" "}
+                        Already have an account?{" "}
                         <Link
                           className="inline-flex items-center text-light-white hover:underline font-bold"
                           href="/"
                         >
-                          Masuk
+                          Login
                         </Link>
                       </p>
                     </form>

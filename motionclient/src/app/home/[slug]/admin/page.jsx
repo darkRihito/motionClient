@@ -138,8 +138,8 @@ const ModalEditQuestion = ({
   const initialCategories = [
     { value: "pretest", label: "PreTest" },
     { value: "posttest", label: "PostTest" },
-    { value: "practice", label: "Practice" },
-    { value: "any", label: "Any" },
+    { value: "structure", label: "structure" },
+    { value: "written", label: "written" },
   ];
 
   return (
@@ -401,8 +401,8 @@ const ModalAddQuestion = ({ closeModal }) => {
   const initialCategories = [
     { value: "pretest", label: "PreTest" },
     { value: "posttest", label: "PostTest" },
-    { value: "practice", label: "Practice" },
-    { value: "any", label: "Any" },
+    { value: "structure", label: "structure" },
+    { value: "written", label: "written" },
   ];
   return (
     <>

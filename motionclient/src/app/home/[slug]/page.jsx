@@ -30,9 +30,9 @@ const ModalEditStatus = ({ closeModal, status, setIsLoading }) => {
             onClick={closeModal}
             className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
           />
-          <h3 className="text-xl font-semibold mb-2">Ubah Status</h3>
+          <h3 className="text-xl font-semibold mb-2">Change Status</h3>
           <p className="mb-4">
-            Status bersifat publik dan akan terlihat di papan peringkat!
+            Your status is public and will be visible on the leaderboard!
           </p>
           <Formik
             initialValues={{
@@ -102,7 +102,7 @@ const ModalEditStatus = ({ closeModal, status, setIsLoading }) => {
                     "bg-green-600 hover:bg-green-700"
                   )} w-full`}
                 >
-                  Ubah!
+                  Confirm!
                 </button>
               </form>
             )}
@@ -208,7 +208,9 @@ export default function page() {
               {userData && (
                 <h4 className="text-3xl font-semibold">
                   {userData.nickname}{" "}
-                  <span className="text-base text-blue-500">{userData.title}</span>
+                  <span className="text-base text-blue-500">
+                    {userData.title}
+                  </span>
                 </h4>
               )}
             </div>
@@ -219,14 +221,14 @@ export default function page() {
               <div
                 className={`relative h-max w-full flex-[2] min-w-max flex flex-col justify-center items-center rounded-xl px-6 py-8 border-2`}
               >
-                <h4 className="text-xl font-semibold mb-2">Pencapaian</h4>
+                <h4 className="text-xl font-semibold mb-2">Achievement</h4>
                 <p className="text-lg mb-2">
-                  Rank: {userData && <span>{userData.rank}</span>}
+                  Current Rank: {userData && <span>{userData.rank}</span>}
                 </p>
                 <div className="w-32 h-32 rounded-xl mb-2 relative">
                   {userData ? <img src={rankUrl} alt="rank picture" /> : null}
                 </div>
-                <p>Bintang Terkumpul</p>
+                <p>Star Collected</p>
                 <div className="flex justify-center items-center gap-2 text-2xl font-semibold mt-2 mb-4 rounded-full px-4 py-2">
                   <span className="inline-block w-10 h-10 -mt-2">
                     <svg
@@ -261,7 +263,7 @@ export default function page() {
                 </div>
                 <div className="flex gap-4">
                   <div className="p-2 rounded-lg">
-                    <p className="text-sm">Poin Tantangan</p>
+                    <p className="text-sm">Challenge Point</p>
                     <div className="flex justify-center items-center gap-1">
                       <div className="h-8 w-8 relative">
                         <Image
@@ -278,7 +280,7 @@ export default function page() {
                     </div>
                   </div>
                   <div className="p-2 rounded-lg">
-                    <p className="text-sm">Kualifikasi</p>
+                    <p className="text-sm">Qualification</p>
                     <div className="flex justify-center items-center gap-1">
                       <div className="h-8 w-8 relative">
                         <Image
@@ -289,7 +291,13 @@ export default function page() {
                         />
                       </div>
                       <div className="text-xl font-semibold">
-                        {userData && <>{userData.qualification}</>}
+                        {userData && (
+                          <>
+                            {userData?.qualification
+                              ? userData?.qualification
+                              : "???"}
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -318,7 +326,7 @@ export default function page() {
                     {userData && (
                       <>
                         {userData.status == "" ? (
-                          <>Belum menulis status.</>
+                          <>Write your status</>
                         ) : (
                           <>{userData.status}</>
                         )}
@@ -337,7 +345,7 @@ export default function page() {
                           sizes="100%"
                         />
                       </div>
-                      <h3 className="text-xl font-semibold">Biografi</h3>
+                      <h3 className="text-xl font-semibold">Bio</h3>
                     </div>
                     {/* <MdModeEditOutline
                       onClick={toggleModalEditBiografi}
@@ -354,14 +362,14 @@ export default function page() {
                 <div className="text-base">
                   <ul className="space-y-1 text-gray-500 list-none list-inside">
                     <li>
-                      Nama Lengkap :{" "}
+                      Full Name :{" "}
                       <span>{userData && <>{userData.name}</>}</span>
                     </li>
                     <li>
                       Email : <span>{userData && <>{userData.email}</>}</span>
                     </li>
                     <li>
-                      Kode Undangan :{" "}
+                      Room Code :{" "}
                       <span>{userData && <>{userData.room}</>}</span>
                     </li>
                   </ul>
@@ -369,9 +377,127 @@ export default function page() {
               </div>
             </div>
           </div>
+
+          {/* PROGRESS */}
+          <div className="mt-6">
+            <div className="w-full md:flex flex-col  px-6 bg-light-white py-8 rounded-2xl">
+              <div className="">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="relative w-10 h-10">
+                    <Image
+                      src="/assets/icon/progress.png"
+                      alt=""
+                      fill
+                      sizes="100%"
+                    ></Image>
+                  </div>
+                  <h3 className="text-xl font-semibold">
+                    Progress & Milestones
+                  </h3>
+                </div>
+                <p className="max-w-2xl">
+                  Here is your progress monitoring, including the total number
+                  of training sessions, simulations, and materials studied.
+                </p>
+                <div className="my-4 text-sm sm:text-base flex flex-col gap-3">
+                  <div className="flex gap-3">
+                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between">
+                      <div>
+                        <div className="font-semibold mb-2">
+                          Modules Completed
+                        </div>
+                        <div className="text-3xl mb-2">
+                          {userData?.completedModulesCount
+                            ? userData?.completedModulesCount
+                            : 0}
+                          <span className="text-lg">/10</span>
+                        </div>
+                      </div>
+                      {/* <div className="text-sm">
+                        Accuracy Rate:{" "}
+                        <span className="font-semibold">80%</span>
+                      </div> */}
+                    </div>
+                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between">
+                      <div>
+                        <div className="font-semibold mb-2">Total Practice</div>
+                        <div className="text-3xl mb-2">
+                          {userHistory?.practiceCount}
+                          <span className="text-lg">
+                            {userHistory?.practiceCount === 0
+                              ? "/5"
+                              : `/${
+                                  Math.ceil(userHistory?.practiceCount / 5) * 5
+                                }`}
+                          </span>
+                        </div>
+                      </div>
+                      {/* <div className="text-sm">
+                        Accuracy Rate:{" "}
+                        <span className="font-semibold">80%</span>
+                      </div> */}
+                    </div>
+                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between">
+                      <div>
+                        <div className="font-semibold mb-2">
+                          Total TOEFL Simulation
+                        </div>
+                        <div className="text-3xl mb-2">
+                          {userHistory?.simulationCount}
+                          <span className="text-lg">
+                            {userHistory?.simulationCount === 0
+                              ? "/1"
+                              : `/${
+                                  Math.ceil(userHistory?.simulationCount / 2) *
+                                  2
+                                }`}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="text-sm">
+                        Accuracy Rate:{" "}
+                        <span className="font-semibold">
+                          {userData?.accuracyRate}%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="border rounded-md font-semibold p-2 sm:p-3 max-w-md">
+                    <div className="">Achievement Completion</div>
+                    <div className="p-2 mt-2">
+                      <div className="w-full h-6 bg-gray-200 rounded-full">
+                        <div
+                          className="h-6 bg-blue-600 rounded-full dark:bg-blue-500"
+                          style={{ width: userData?.achievementPercentage }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="">
+                  <p className="mt-4 max-w-lg text-base text-red-400 font-medium">
+                    Quest To do: {userData?.nextQuest}
+                  </p>
+                </div>
+              </div>
+              <div className="">
+                <div className="relative overflow-x-auto rounded-lg max-h-64">
+                  {userData ? (
+                    <>
+                      <div className=""></div>
+                    </>
+                  ) : (
+                    <>Loading...</>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* HISTORY */}
           <div className="mt-6">
-            <div className="w-full md:flex flex-col  px-6 bg-light-white py-8 rounded-2xl border">
+            <div className="w-full md:flex flex-col  px-6 bg-light-white py-8 rounded-2xl">
               <div className="">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="relative w-10 h-10">
@@ -382,11 +508,11 @@ export default function page() {
                       sizes="100%"
                     ></Image>
                   </div>
-                  <h3 className="text-xl font-semibold">Riwayat</h3>
+                  <h3 className="text-xl font-semibold">History</h3>
                 </div>
                 <p className="max-w-2xl">
-                  Berikut adalah trak rekor perolehan skor beserta poin dan
-                  sumbernya.
+                  Here are the records of your activities, including training
+                  and simulation, along with the scores and points earned.
                 </p>
                 <div className="my-4 text-sm sm:text-base">
                   {/* <ul className="text-gray-500 list-none list-inside flex flex-wrap gap-x-8 justify-end">
@@ -406,13 +532,13 @@ export default function page() {
               <div className="">
                 <div className="relative overflow-x-auto rounded-lg max-h-64">
                   {userHistory ? (
-                    userHistory.length > 0 ? (
+                    userHistory.history.length > 0 ? (
                       <>
                         <table className="w-full text-sm text-left rtl:text-right text-gray-500">
                           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                               <th scope="col" className="px-6 py-3">
-                                Nama
+                                Name
                               </th>
                               <th scope="col" className="px-6 py-3">
                                 Skor
@@ -421,22 +547,22 @@ export default function page() {
                                 scope="col"
                                 className="px-6 py-3 hidden sm:table-cell"
                               >
-                                Poin
+                                Point
                               </th>
                               <th scope="col" className="px-6 py-3">
-                                Hasil
+                                Result
                               </th>
                               <th
                                 scope="col"
                                 className="px-6 py-3 hidden sm:table-cell"
                               >
-                                Tanggal
+                                Date
                               </th>
                             </tr>
                           </thead>
                           <tbody>
                             <>
-                              {userHistory.map((item, index) => (
+                              {userHistory.history.map((item, index) => (
                                 <tr
                                   key={index}
                                   className="bg-light-white border-b"
@@ -462,7 +588,10 @@ export default function page() {
                         </table>
                       </>
                     ) : (
-                      <div className="">Belum ada riwayat kegiatan!</div>
+                      <div className="">
+                        No Activity History Found! Start Your First Challenge
+                        Now!
+                      </div>
                     )
                   ) : (
                     <>Loading...</>

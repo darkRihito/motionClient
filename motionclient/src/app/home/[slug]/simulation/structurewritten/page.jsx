@@ -7,15 +7,14 @@ import { useRouter } from "next/navigation";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 // Styles
 import { ButtonStyleColor } from "@/components/mybutton/mybutton";
+import Test from "@/styles/hidescrollbar2/test.module.scss";
 // Store
 import {
   useAnswerStore,
   useQuestionStore,
   useChallengeInfoStore,
-} from "@/store/useChallengeStore";
-import { useUserStore } from "@/store/useUserStore";
-
-
+} from "@/store/useSimulationStore";
+import { useUserStore, fetchData } from "@/store/useUserStore";
 
 export default function page() {
   const router = useRouter();
@@ -34,11 +33,11 @@ export default function page() {
   const sendAnswer = async () => {
     try {
       const response = await axios.post(
-        "https://motionapp-backend.vercel.app/challenge/end/posttest",
+        "https://motionapp-backend.vercel.app/simulation/end/structurewritten", //UWU
         { answer: answers, questionCount: questionCount },
         { withCredentials: true }
       );
-      clearAnswers(); // Use Zustand action within component logic
+      clearAnswers();
       console.log("Post request successful:", response);
       setmodalFinish((prevState) => ({
         ...prevState,
@@ -54,13 +53,16 @@ export default function page() {
     let timer;
 
     if (userData) {
-      if (countdown > 0 && userData.is_doing_challenge === "posttest") {
+      if (countdown > 0 && userData.is_doing_challenge === "structurewritten") {
         timer = setInterval(() => {
           decrementCountdown();
         }, 1000);
-      } else if (countdown < 1 && userData.is_doing_challenge === "posttest") {
+      } else if (
+        countdown < 1 &&
+        userData.is_doing_challenge === "structurewritten"
+      ) {
         sendAnswer();
-      } else if (userData.is_doing_challenge != "posttest") {
+      } else if (userData.is_doing_challenge != "structurewritten") {
         router.back();
       }
     }
@@ -73,8 +75,8 @@ export default function page() {
     sendAnswer();
   };
 
-  const hours = Math.floor(countdown / 3600);
-  const minutes = Math.floor((countdown % 3600) / 60);
+  const hours = Math.floor(countdown / 2400);
+  const minutes = Math.floor((countdown % 2400) / 60);
   const seconds = countdown % 60;
 
   const [modalQuestionView, setModalQuestionView] = useState(false);
@@ -95,7 +97,7 @@ export default function page() {
           >
             <div className="relative max-w-sm w-full bg-white rounded-xl p-6 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
               <h3 className="text-lg font-semibold mb-4 text-center">
-                Pre-Test Selesai!
+                Simulasi TOEFL Selesai!
               </h3>
               <p className="text-xl text-center mb-2">
                 skor akurasi kamu sebesar
@@ -105,10 +107,8 @@ export default function page() {
               </p>
               <button
                 onClick={() => {
-                  router.push("../challenge/result/posttest");
+                  router.push("../simulation/result/structurewritten");
                   setmodalFinish(false);
-                  // useUserStore.getState().updateUserChallengeStatus();
-                  // useUserStore.getState().updateUserChallengeStatus();
                 }}
                 className={`${ButtonStyleColor(
                   "bg-green-600 hover:bg-green-700"
@@ -192,7 +192,9 @@ export default function page() {
                     .padStart(2, "0")}`}</div>
                 </div>
               </div>
-              <div className="w-full grid grid-cols-3 gap-2 justify-center items-center mt-4">
+              <div
+                className={`w-full h-[20rem] overflow-y-scroll grid grid-cols-3 gap-2 justify-center items-center mt-4 ${Test.hidescrollbar}`}
+              >
                 {questions.map((item, index) => (
                   <a
                     key={item._id}

@@ -1,0 +1,12 @@
+.hidescrollbar {
+  /* For Webkit browsers (Chrome, Safari, etc.) */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For Firefox */
+  scrollbar-width: none;
+
+  /* For Internet Explorer 10+ */
+  -ms-overflow-style: none;
+}

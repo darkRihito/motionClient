@@ -179,7 +179,7 @@ export default function page() {
         </div>
         <div className="hidden md:block fixed top-0 start-0 w-full">
           <div className="relative mx-auto max-w-screen-md mt-40 flex flex-col md:flex-row gap-4">
-            <div className="flex-[4] order-2 md:order-2"></div>
+            <div className="z-10 flex-[4] order-2 md:order-2"></div>
             <div className="flex-[1] order-1 md:order-2 ">
               <div className="rounded-xl h-20 bg-light-white flex justify-center items-center">
                 <div className="text-center">
@@ -268,7 +268,7 @@ export default function page() {
                   <button
                     type="submit"
                     className={`${ButtonStyleColor(
-                      "bg-green-600 hover:bg-green-700"
+                      "z-30 bg-green-600 hover:bg-green-700"
                     )} w-full mt-8`}
                   >
                     Selesaikan!

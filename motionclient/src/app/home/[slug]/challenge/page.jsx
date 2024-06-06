@@ -53,10 +53,10 @@ const ModalPreTest = ({ closeModal }) => {
               />
               {userData.pretest_done ? (
                 <>
-                  <h3 className="text-xl font-semibold mb-2">Lihat hasil?</h3>
+                  <h3 className="text-xl font-semibold mb-2">See Result?</h3>
                   <p className="mb-4">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Aperiam deleniti asperiores nisi veritatis unde et?
+                    You have completed the challenge. Click "Confirm" to view
+                    your detailed performance and progress.
                   </p>
                   <button
                     type="button"
@@ -65,24 +65,26 @@ const ModalPreTest = ({ closeModal }) => {
                     }}
                     className={`${ButtonStyleColor("bg-green-600")} w-full`}
                   >
-                    Lihat!
+                    Confirm!
                   </button>
                 </>
               ) : !userData.pretest_done ? (
                 <>
                   <h3 className="text-xl font-semibold mb-2">
-                    Mulai Pre-Test?
+                    Are you ready to start the Pretest?
                   </h3>
                   <p className="mb-4">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Aperiam deleniti asperiores nisi veritatis unde et?
+                    You will have 2 hours to complete 25 Structure questions and
+                    15 Written Expression questions. You won't be able to
+                    perform other activities while taking the Pretest. Click
+                    "Confirm" to begin.
                   </p>
                   <button
                     type="button"
                     onClick={startHandler}
                     className={`${ButtonStyleColor("bg-green-600")} w-full`}
                   >
-                    Mulai!
+                    Confirm!
                   </button>
                 </>
               ) : (
@@ -132,17 +134,22 @@ const ModalLatihan = ({ closeModal }) => {
             onClick={closeModal}
             className="absolute -right-3 -top-3 md:-right-4 md:-top-4 cursor-pointer text-5xl md:text-6xl text-red-400"
           />
-          <h3 className="text-xl font-semibold mb-2">Mulai Latihan?</h3>
+          <h3 className="text-xl font-semibold mb-2">
+            Are you ready to start Practice?
+          </h3>
           <p className="mb-4">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-            deleniti asperiores nisi veritatis unde et?
+            There is no time limit. You have 3 chances to get a wrong answer per
+            round, with a total of 10 rounds and 1 question per round. Questions
+            will be randomly selected from Structure and Written Expression. You
+            won't be able to perform other activities while practicing. Click
+            "Confirm" to begin.
           </p>
           <button
             type="button"
             onClick={startHandler}
             className={`${ButtonStyleColor("bg-green-600")} w-full`}
           >
-            Mulai!
+            Confirm!
           </button>
         </div>
       </div>
@@ -152,7 +159,6 @@ const ModalLatihan = ({ closeModal }) => {
 
 const ModalPostTest = ({ closeModal }) => {
   const { userData } = useUserStore();
-
   const router = useRouter();
 
   const startHandler = () => {
@@ -186,10 +192,10 @@ const ModalPostTest = ({ closeModal }) => {
               />
               {userData.posttest_done ? (
                 <>
-                  <h3 className="text-xl font-semibold mb-2">Lihat hasil?</h3>
+                  <h3 className="text-xl font-semibold mb-2">See Result?</h3>
                   <p className="mb-4">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Aperiam deleniti asperiores nisi veritatis unde et?
+                    You have completed the challenge.Click "Confirm" to view
+                    your detailed performance and progress.
                   </p>
                   <button
                     type="button"
@@ -198,24 +204,26 @@ const ModalPostTest = ({ closeModal }) => {
                     }}
                     className={`${ButtonStyleColor("bg-green-600")} w-full`}
                   >
-                    Lihat!
+                    Confirm!
                   </button>
                 </>
               ) : !userData.posttest_done ? (
                 <>
                   <h3 className="text-xl font-semibold mb-2">
-                    Mulai Post-Test?
+                    Are you ready to start the Posttest?
                   </h3>
                   <p className="mb-4">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Aperiam deleniti asperiores nisi veritatis unde et?
+                    You will have 2 hours to complete 25 Structure questions and
+                    15 Written Expression questions. Click "Confirm" to begin.
+                    You won't be able to perform other activities while taking
+                    the Posttest.
                   </p>
                   <button
                     type="button"
                     onClick={startHandler}
                     className={`${ButtonStyleColor("bg-green-600")} w-full`}
                   >
-                    Mulai!
+                    Confirm!
                   </button>
                 </>
               ) : (
@@ -234,6 +242,8 @@ export default function page() {
   useEffect(() => {
     setType("bg-bkg0");
   }, []);
+
+  const { userData } = useUserStore();
 
   const [modalPreTest, setModalPreTest] = useState(false);
   const toggleModalPreTest = () => setModalPreTest(!modalPreTest);
@@ -257,12 +267,15 @@ export default function page() {
           style={{ "--delay": 0.25 + "s" }}
         >
           <div className="w-full mt-12 text-center">
-            <p className="text-xl font-semibold mb-1">Selamat Datang!</p>
-            <h2 className="text-4xl font-bold mb-4">Lobi Tantangan</h2>
+            <p className="text-xl font-semibold mb-1">Welcome!</p>
+            <h2 className="text-4xl font-bold mb-4">Challenge Page</h2>
             <p>
-              Anda dapat mengambil tantangan tersedia dan menyelesaikannya untuk
-              meningkatkan progress dan mendapatkan poin. Persiapkan dengan
-              matang!
+              Take on the available challenges to boost your progress and earn
+              points. Start with the Pretest to gauge your current skills, then
+              dive into Practice sessions that adapt to your knowledge level
+              with our advanced BKT algorithm. Finally, conquer the Posttest to
+              see how far you’ve come. Each challenge is an opportunity to learn
+              and excel. Prepare thoroughly and watch your skills soar!
             </p>
           </div>
         </div>
@@ -284,16 +297,19 @@ export default function page() {
               <div className="text-[#D93644]">
                 <div className="sm:order-1">Pre-Test</div>
                 <p className="text-sm font-normal">
-                  Tes terlebih dahulu untuk mengukur tingkat kemampuanmu!
+                  Evaluate your initial TOEFL skills with the Pretest to
+                  identify strengths and areas for improvement.
                 </p>
               </div>
             </div>
           </div>
           <div className="col-span-3">
             <div
-              className="bg-white/75 backdrop-blur-lg h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex gap-4 animate-zoom opacity-0 cursor-pointer"
+              className={`bg-white/75 backdrop-blur-lg h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex gap-4 animate-zoom opacity-0 ${
+                userData?.pretest_done ? "cursor-pointer" : "cursor-not-allowed grayscale"
+              }`}
               style={{ "--delay": 0.75 + "s" }}
-              onClick={toggleModalLatihan}
+              onClick={userData?.pretest_done ? toggleModalLatihan : null}
             >
               <div className="relative aspect-square h-full ">
                 <Image
@@ -302,28 +318,54 @@ export default function page() {
                   sizes="100%"
                   src="/assets/icon/dungeonc.png"
                 />
+                {!userData?.pretest_done && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
+                    <Image
+                      alt="Lock"
+                      width={100}
+                      height={100}
+                      src="/assets/icon/lock.png"
+                      className="grayscale"
+                    />
+                  </div>
+                )}
               </div>
               <div className="text-[#7197BA]">
-                <h4>Latihan</h4>
+                <h4>Practice</h4>
                 <p className="text-sm font-normal">
-                  Asah kemampuanmu dengan latihan dengan sistem adaptif
+                  Improve your skills with Practice sessions using adaptive
+                  difficulty, tracked by the BKT algorithm.
                 </p>
               </div>
             </div>
           </div>
           <div className="col-span-3">
             <div
-              className="bg-white/75 backdrop-blur-lg h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex gap-4 animate-zoom opacity-0 cursor-pointer"
+              className={`bg-white/75 backdrop-blur-lg h-[11rem] rounded-2xl p-6 text-xl sm:text-2xl text-white flex gap-4 animate-zoom opacity-0 ${
+                userData?.pretest_done ? "cursor-pointer" : "cursor-not-allowed grayscale"
+              }`}
               style={{ "--delay": 1 + "s" }}
-              onClick={toggleModalPostTest}
+              onClick={userData?.pretest_done ? toggleModalPostTest : null}
             >
               <div className="relative aspect-square h-full ">
                 <Image alt="" fill sizes="100%" src="/assets/icon/abyssc.png" />
+                {!userData?.pretest_done && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-2xl">
+                    <Image
+                      alt="Lock"
+                      width={100}
+                      height={100}
+                      src="/assets/icon/lock.png"
+                      className="grayscale"
+                    />
+                  </div>
+                )}
               </div>
               <div className="text-[#FF9B0B]">
                 <h4>Post-Test</h4>
                 <p className="text-sm font-normal">
-                  Ukur hasil latihanmu dan lihat seberapa besar peningkatan dari hasil pre-testnya!
+                  Measure your progress with the Posttest and compare it to your
+                  Pretest results.
                 </p>
               </div>
             </div>

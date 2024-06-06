@@ -14,7 +14,7 @@ const ModalBuy = ({ closeModal, setIsLoading, item_target, item_url }) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/shop/avatar",
+        "https://motionapp-backend.vercel.app/shop/avatar",
         { item_target: item_target, item_url: item_url },
         { withCredentials: true }
       );

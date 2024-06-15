@@ -49,7 +49,7 @@ const ModalEditStatus = ({ closeModal, status, setIsLoading }) => {
               setIsLoading(true);
               try {
                 const response = await axios.patch(
-                  "https://motionapp-backend.vercel.app/user/userstatus",
+                  "http://localhost:8000/user/userstatus",
                   values,
                   {
                     withCredentials: true,
@@ -208,9 +208,9 @@ export default function page() {
               {userData && (
                 <h4 className="text-3xl font-semibold">
                   {userData.nickname}{" "}
-                  <span className="text-base text-blue-500">
+                  {/* <span className="text-base text-blue-500">
                     {userData.title}
-                  </span>
+                  </span> */}
                 </h4>
               )}
             </div>

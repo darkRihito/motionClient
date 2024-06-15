@@ -33,7 +33,7 @@ export default function page() {
   const sendAnswer = async () => {
     try {
       const response = await axios.post(
-        "https://motionapp-backend.vercel.app/simulation/end/structurewritten", //UWU
+        "http://localhost:8000/simulation/end/structurewritten", //UWU
         { answer: answers, questionCount: questionCount },
         { withCredentials: true }
       );

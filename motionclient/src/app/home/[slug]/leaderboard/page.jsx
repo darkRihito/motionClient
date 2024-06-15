@@ -42,7 +42,7 @@ export default function page() {
                     </div>
                     <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
                       {leaderboardData[1].nickname}
-                      <span> {leaderboardData[1].title}</span>
+                      {/* <span> {leaderboardData[1].title}</span> */}
                     </h4>
                   </div>
                 </div>
@@ -53,7 +53,7 @@ export default function page() {
                     </div>
                     <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
                       {leaderboardData[0].nickname}
-                      <span> {leaderboardData[0].title}</span>
+                      {/* <span> {leaderboardData[0].title}</span> */}
                     </h4>
                   </div>
                 </div>
@@ -64,7 +64,7 @@ export default function page() {
                     </div>
                     <h4 className="lg:text-lg font-semibold text-center bg-light-white px-3 py-2 rounded-xl">
                       {leaderboardData[2].nickname}
-                      <span> {leaderboardData[2].title}</span>
+                      {/* <span> {leaderboardData[2].title}</span> */}
                     </h4>
                   </div>
                 </div>
@@ -135,7 +135,7 @@ export default function page() {
                                 <div className="flex flex-col min-w-36">
                                   <div className="lg:text-base font-semibold">
                                     {item.nickname}
-                                    <span className="text-sm"> {item.title}</span>
+                                    {/* <span className="text-sm"> {item.title}</span> */}
                                   </div>
                                   <div className="text-sm">{item.rank}</div>
                                 </div>

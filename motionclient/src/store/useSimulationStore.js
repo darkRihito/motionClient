@@ -49,7 +49,7 @@ const useQuestionStore = create((set) => ({
 const fetchData = async ({ type }) => {
     try {
       const response = await axios.post(
-        `https://motionapp-backend.vercel.app/simulation/start/${type}`,
+        `http://localhost:8000/simulation/start/${type}`,
         "",
         { withCredentials: true }
       );

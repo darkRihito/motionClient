@@ -36,22 +36,22 @@ export default function page() {
       <GlobalContainer>
         <div className="">
           <div className="flex flex-col justify-center items-center">
-            <div className="flex justify-center items-center lg:place-self-start h-[10vh] pointer-events-none select-none lg:ps-4 ">
-              <div className="relative h-10 w-40 lg:h-10 lg:w-40 lg:ms-4 ms-0 mt-4 lg:hidden block">
+            <div className="flex justify-center items-center lg:place-self-start h-[10vh] pointer-events-none select-none lg:ps-4 mb-4">
+              <div className="relative h-20 w-52 lg:ms-4 ms-0 mt-4 lg:hidden block">
                 <Image
-                  src="/assets/logo-motion-text.png"
+                  src="/assets/logo-octoefl-text.png"
                   fill
                   sizes="100%"
-                  alt="Motion Logo"
+                  alt="Octoefl Logo"
                   className="relative"
                 />
               </div>
-              <div className="relative h-10 w-40 lg:h-10 lg:w-40 lg:ms-4 ms-0 mt-4 lg:block hidden">
+              <div className="relative h-20 w-52 lg:ms-4 ms-0 mt-4 lg:block hidden">
                 <Image
-                  src="/assets/logo-motion-text.png"
+                  src="/assets/logo-octoefl-text.png"
                   fill
                   sizes="100%"
-                  alt="Motion Logo"
+                  alt="Octoefl Logo"
                   className="relative"
                 />
               </div>

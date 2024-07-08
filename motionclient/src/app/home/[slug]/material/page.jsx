@@ -1,9 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+import { useUserStore } from "@/store/useUserStore";
+
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 import { FaAngleDown } from "react-icons/fa6";
 
 export default function page() {
+  const { userData } = useUserStore();
   const { setType } = useBackground();
   useEffect(() => {
     setType("bg-bkg0");
@@ -170,9 +176,28 @@ export default function page() {
                       detailsVisible[index] ? "rounded-t-lg" : "rounded-lg"
                     } bg-white flex justify-between items-center px-4 cursor-pointer`}
                   >
-                    <span className="text-lg font-semibold">
-                      {index + 1}) {item.title}
-                    </span>
+                    <div className="flex gap-3 items-center">
+                      {userData?.modules_completed &&
+                      userData?.modules_completed[index] ? (
+                        <>
+                          <div className="relative sm:w-8 sm:h-8 h-6 w-6 flex-none">
+                            <Image
+                              alt=""
+                              fill
+                              sizes="100%"
+                              src="/assets/icon/module-completed.png"
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+
+                      <span className="text-lg font-semibold">
+                        {index + 1}) {item.title}
+                      </span>
+                    </div>
+
                     <button className="text-blue-500 text-xl">
                       <FaAngleDown />
                     </button>
@@ -194,9 +219,38 @@ export default function page() {
                       </div>
                       <div className=""></div>
 
-                      <button className="w-fit mt-2 bg-blue-400 text-white py-2 px-4 rounded-lg">
-                        Learn More
-                      </button>
+                      <Link className="" href={`material/${index + 1}`}>
+                        {userData?.modules_completed &&
+                        userData?.modules_completed[index] ? (
+                          <>
+                            <div className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-blue-400 text-white rounded-lg mt-3">
+                              <div className="relative sm:w-8 sm:h-8 h-6 w-6 flex-none">
+                                <Image
+                                  alt=""
+                                  fill
+                                  sizes="100%"
+                                  src="/assets/icon/play.png"
+                                />
+                              </div>
+                              Learn More
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-blue-400 text-white rounded-lg mt-3">
+                              <div className="relative sm:w-8 sm:h-8 h-6 w-6 flex-none">
+                                <Image
+                                  alt=""
+                                  fill
+                                  sizes="100%"
+                                  src="/assets/icon/play.png"
+                                />
+                              </div>
+                              Learn More
+                            </div>
+                          </>
+                        )}
+                      </Link>
                     </div>
                   )}
                 </div>

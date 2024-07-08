@@ -144,7 +144,7 @@ export default function page() {
                 ? () =>
                     toggleModalBuy({
                       itemTarget: 20,
-                      itemUrl: "/assets/icon/avamen.jpg",
+                      itemUrl: "/assets/icon/villager.png",
                     })
                 : null
             }
@@ -164,7 +164,7 @@ export default function page() {
               <div className="flex justify-center items-center gap-1">
                 <div className="sm:h-16 sm:w-16 h-14 w-14 relative">
                   <Image
-                    src="/assets/icon/avamen.jpg"
+                    src="/assets/icon/villager.png"
                     alt="challenge icon"
                     fill
                     sizes="100%"
@@ -180,7 +180,7 @@ export default function page() {
                 ? () =>
                     toggleModalBuy({
                       itemTarget: 40,
-                      itemUrl: "/assets/icon/avamored.jpg",
+                      itemUrl: "/assets/icon/knight.png",
                     })
                 : null
             }
@@ -200,7 +200,7 @@ export default function page() {
               <div className="flex justify-center items-center gap-1">
                 <div className="sm:h-16 sm:w-16 h-14 w-14 relative">
                   <Image
-                    src="/assets/icon/avamored.jpg"
+                    src="/assets/icon/knight.png"
                     alt="challenge icon"
                     fill
                     sizes="100%"
@@ -216,7 +216,7 @@ export default function page() {
                 ? () =>
                     toggleModalBuy({
                       itemTarget: 100,
-                      itemUrl: "/assets/icon/avashadow.jpg",
+                      itemUrl: "/assets/icon/assasin.png",
                     })
                 : null
             }
@@ -236,7 +236,7 @@ export default function page() {
               <div className="flex justify-center items-center gap-1">
                 <div className="sm:h-16 sm:w-16 h-14 w-14 relative">
                   <Image
-                    src="/assets/icon/avashadow.jpg"
+                    src="/assets/icon/assasin.png"
                     alt="challenge icon"
                     fill
                     sizes="100%"
@@ -252,7 +252,7 @@ export default function page() {
                 ? () =>
                     toggleModalBuy({
                       itemTarget: 150,
-                      itemUrl: "/assets/icon/avabeluga.png",
+                      itemUrl: "/assets/icon/guardian.png",
                     })
                 : null
             }
@@ -272,7 +272,7 @@ export default function page() {
               <div className="flex justify-center items-center gap-1">
                 <div className="sm:h-16 sm:w-16 h-14 w-14 relative">
                   <Image
-                    src="/assets/icon/avabeluga.png"
+                    src="/assets/icon/guardian.png"
                     alt="challenge icon"
                     fill
                     sizes="100%"
@@ -288,7 +288,7 @@ export default function page() {
                 ? () =>
                     toggleModalBuy({
                       itemTarget: 300,
-                      itemUrl: "/assets/icon/avawerewolf.jpg",
+                      itemUrl: "/assets/icon/prince.png",
                     })
                 : null
             }
@@ -308,7 +308,7 @@ export default function page() {
               <div className="flex justify-center items-center gap-1">
                 <div className="sm:h-16 sm:w-16 h-14 w-14 relative">
                   <Image
-                    src="/assets/icon/avawerewolf.jpg"
+                    src="/assets/icon/prince.png"
                     alt="challenge icon"
                     fill
                     sizes="100%"
@@ -324,7 +324,7 @@ export default function page() {
                 ? () =>
                     toggleModalBuy({
                       itemTarget: 500,
-                      itemUrl: "/assets/icon/avadoge.jpg",
+                      itemUrl: "/assets/icon/king.png",
                     })
                 : null
             }
@@ -344,7 +344,7 @@ export default function page() {
               <div className="flex justify-center items-center gap-1">
                 <div className="sm:h-16 sm:w-16 h-14 w-14 relative">
                   <Image
-                    src="/assets/icon/avadoge.jpg"
+                    src="/assets/icon/king.png"
                     alt="challenge icon"
                     fill
                     sizes="100%"
@@ -360,7 +360,7 @@ export default function page() {
                 ? () =>
                     toggleModalBuy({
                       itemTarget: 700,
-                      itemUrl: "/assets/icon/avazom.jpg",
+                      itemUrl: "/assets/icon/angel.png",
                     })
                 : null
             }
@@ -380,7 +380,7 @@ export default function page() {
               <div className="flex justify-center items-center gap-1">
                 <div className="sm:h-16 sm:w-16 h-14 w-14 relative">
                   <Image
-                    src="/assets/icon/avazom.jpg"
+                    src="/assets/icon/angel.png"
                     alt="challenge icon"
                     fill
                     sizes="100%"

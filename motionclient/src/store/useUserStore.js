@@ -48,6 +48,15 @@ const useUserStore = create((set) => ({
         pretest_done: true,
       },
     })),
+    updateModulesCompleted: (index) =>
+    set((state) => ({
+      userData: {
+        ...state.userData,
+        modules_completed: state.userData.modules_completed.map((completed, i) =>
+          i === index ? true : completed
+        ),
+      },
+    })),
 }));
 
 const userRank = (starCollected) => {
@@ -149,7 +158,10 @@ const calculateAccuracyRate = (history) => {
   }
 
   // Sum up the scores of the simulation entries
-  const totalScore = simulationEntries.reduce((acc, item) => acc + item.score, 0);
+  const totalScore = simulationEntries.reduce(
+    (acc, item) => acc + item.score,
+    0
+  );
 
   // Calculate the average score
   const averageScore = totalScore / simulationEntries.length;
@@ -157,7 +169,6 @@ const calculateAccuracyRate = (history) => {
   // Return the average score as the accuracy rate
   return averageScore;
 };
-
 
 const fetchUserData = async () => {
   try {

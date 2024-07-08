@@ -33,7 +33,7 @@ const LeftNavigation = () => {
       router.push(path);
     }
   };
-  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const [isMenuVisible, setIsMenuVisible] = useState(true);
   const toggleMenuVisibility = () => {
     setIsMenuVisible(!isMenuVisible);
   };

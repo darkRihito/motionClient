@@ -20,6 +20,43 @@ import background from "@/styles/background/background.module.scss";
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 
+const textContent = [
+  {
+    title: "Greeting",
+    content:
+      'Hello there! Welcome to the amazing <span class="font-bold">TOEFL practice app</span>, Octoefl! Your gamified companion for mastering TOEFL <span class="font-bold">Structure and Written Expression.</span>',
+  },
+  {
+    title: "What is Octoefl?",
+    content:
+      'Octoefl is a dynamic and engaging TOEFL practice app designed to help you ace the Structure and Written Expression section. By combining the principles of <span class="font-bold">gamification</span> with advanced <span class="font-bold">adaptive learning</span> techniques, Octoefl makes studying both fun and effective. Whether youre brushing up on grammar rules or tackling practice questions, Octoefl is your ultimate study buddy on the path to TOEFL success!',
+  },
+  {
+    title: "Advantages and Purpose",
+    content:
+      'Octoefl is built with the <span class="font-bold">Octalysis gamification framework</span> to boost your learning motivation by offering a variety of fun features. Additionally, Octoefl integrates <span class="font-bold">Bayesian Knowledge Tracing</span> to adapt the difficulty of practice questions just for you. Besides practice exercises, Octoefl also provides relevant learning materials and realistic TOEFL simulations.',
+  },
+  {
+    title: "Ready to Learn?",
+    content: "Ready to make learning fun and effective? Let's dive in! 🌟",
+  },
+];
+
+const textContent2 = [
+  "1. Build coolz profile: collect star, rank badges, and avatar",
+  "2. Progress tracking & milestones",
+  "3. Quest: what to do",
+  "4. Pretest and posttest",
+  "5. Interactive quiz practice with bayesian knowledge tracing",
+  "6. Challenges History",
+  "7. Real simulation (question & timer countdown): toefl",
+  "8. 10 Modules/material to learn",
+  "9. Instant feedback",
+  "10. Monitor attachment: rate and completion",
+  "11. Leaderboard & customize status",
+  "12. Exchangeable points store",
+];
+
 export default function page() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,21 +67,104 @@ export default function page() {
   const [shown, setShown] = useState(false);
   const type = shown ? "text" : "password";
   const Icon = shown ? FaEye : FaEyeSlash;
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % textContent.length);
+  };
+
+  const [currentIndex2, setCurrentIndex2] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex2((prevIndex) => (prevIndex + 1) % textContent2.length);
+    }, 3000); // Change text every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       {isLoading && <Loader />}
       <GlobalContainer>
         <div>
-          <div className="flex items-center justify-center min-h-screen">
+          <div className="flex items-center justify-center min-h-screen gap-8 px-4">
+            <div className="flex-[1] hidden lg:flex relative w-max h-[90vh] -bottom-8 -start-8 ">
+              <div
+                className="absolute z-30 right-52 top-14 w-full h-full max-w-[310px] max-h-[400px] flex flex-col justify-between "
+                style={{ top: "3rem", left: "16rem" }}
+              >
+                <div className="">
+                  <h2
+                    style={{
+                      fontSize: "1.5rem",
+                      fontWeight: "bold",
+                      marginBottom: "1rem",
+                    }}
+                  >
+                    {textContent[currentIndex].title}
+                  </h2>
+                  <p
+                    className="text-base"
+                    dangerouslySetInnerHTML={{
+                      __html: textContent[currentIndex].content,
+                    }}
+                  ></p>
+                </div>
+
+                <button
+                  onClick={handleNext}
+                  className="self-end px-10 py-2 bg-orange-400 text-white rounded-full text-xl hover:bg-orange-600"
+                >
+                  Next
+                </button>
+              </div>
+              <Image
+                className="absolute z-20 w-full h-full max-w-[400px] max-h-[550px] object-contain self-end"
+                src="/assets/icon/mascot2.png"
+                alt="Picture of the author"
+                fill
+                sizes="100%"
+                style={{ bottom: 0, left: 0 }}
+              />
+              <Image
+                className=" absolute z-10 w-full h-full max-w-[400px] max-h-[550px] object-contain"
+                src="/assets/icon/storyboard.png"
+                alt="Picture of the author"
+                fill
+                sizes="100%"
+                style={{ top: "-2rem", left: "14rem" }}
+              />
+              <Image
+                className="absolute z-30 w-full h-full max-w-[400px] max-h-[160px] object-contain self-end"
+                src="/assets/icon/storyboard2.png"
+                alt="Picture of the author"
+                fill
+                sizes="80%"
+                style={{ bottom: 0, left: "10rem" }}
+              />
+              <div
+                className="absolute z-30 w-full max-w-[260px] h-[75px] text-center flex justify-center items-center"
+                style={{ bottom: "2rem", left: "16rem" }}
+              >
+                <p
+                  className="bg-pink-300 font-semibold text-xl"
+                  style={{ fontSize: "1rem", transition: "opacity 0.5s" }}
+                >
+                  {textContent2[currentIndex2]}
+                </p>
+              </div>
+            </div>
             <div
-              className={`flex flex-col justify-center items-center bg-bkg1 ${background.patternBackground} w-max px-8 py-10 relative rounded-2xl border-4 border-yellow-950 text-light-white`}
+              className={`z-30 flex flex-col justify-center items-center bg-bkg1 ${background.patternBackground} w-max px-8 py-10 relative rounded-2xl border-4 border-yellow-950 text-light-white`}
             >
               <div className="relative w-20 h-20">
                 <Image
-                  src="/assets/logo-motion.png"
+                  src="/assets/logo-octoefl.png"
                   fill
                   sizes="100%"
-                  alt="Motion Logo"
+                  alt="Octoefl Logo"
                 />
               </div>
               <div className={`text-start mt-12 w-full max-w-sm`}>
@@ -237,14 +357,6 @@ export default function page() {
                 </Formik>
               </div>
             </div>
-            {/* <div className="flex-[1] hidden lg:flex items-center justify-center border relative w-max h-[90vh] rounded-3xl bg-[#CBCCE8] overflow-hidden">
-            <Image
-              src="/assets/login-illust-compressed.png"
-              width={650}
-              height={500}
-              alt="Picture of the author"
-            />
-          </div> */}
           </div>
         </div>
       </GlobalContainer>

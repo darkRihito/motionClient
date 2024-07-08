@@ -24,9 +24,9 @@ module.exports = {
           200: "#262626",
           DEFAULT: "#171717",
         },
-        primary: "#",
-        secondary: "#",
-        ternary: "#",
+        primary: "#E3D6A9",
+        secondary: "#74664D",
+        ternary: "#AB3F2D",
       },
       keyframes: {
         slideIn: {

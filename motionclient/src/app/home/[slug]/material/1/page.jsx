@@ -1,15 +1,44 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 import Head from "next/head";
 
+import { finishRead } from "@/actions/finishread";
+import { useUserStore } from "@/store/useUserStore";
+import toast from "react-hot-toast";
+import { IoArrowBack } from "react-icons/io5";
+import Loader from "@/components/loader/loader";
+
 export default function page() {
   const { setType } = useBackground();
+
+  const { userData } = useUserStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const updateModulesCompleted = useUserStore(
+    (state) => state.updateModulesCompleted
+  );
+
+  const handleClick = async () => {
+    setIsLoading(true);
+    try {
+      await finishRead(0);
+      updateModulesCompleted(0);
+      toast.success("Module Finished!");
+    } catch (error) {
+      toast.error("An error occurred.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     setType("bg-bkg0");
   }, []);
   return (
     <div className="">
+      {isLoading && <Loader />}
+
       <div className="max-w-screen-md mx-auto mt-24 mb-16 bg-white rounded-lg p-4">
         <Head>
           <title>Subject-verb Agreement</title>
@@ -389,6 +418,35 @@ export default function page() {
             accuracy.
           </p>
         </section>
+        {userData ? (
+          <>
+            {userData?.modules_completed[0] ? (
+              <>
+                <div className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-gray-400 text-white rounded-lg mt-3">
+                  <IoArrowBack className="text-xl" />
+                  Back to Module Page
+                </div>
+              </>
+            ) : (
+              <>
+                <div
+                  onClick={handleClick}
+                  className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-green-400 text-white rounded-lg mt-3"
+                >
+                  <div className="relative sm:w-8 sm:h-8 h-6 w-6 flex-none">
+                    <Image
+                      alt=""
+                      fill
+                      sizes="100%"
+                      src="/assets/icon/finish-read.png"
+                    />
+                  </div>
+                  Finish Read!
+                </div>
+              </>
+            )}
+          </>
+        ) : null}
       </div>
     </div>
   );

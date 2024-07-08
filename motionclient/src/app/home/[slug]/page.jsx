@@ -85,7 +85,7 @@ const ModalEditStatus = ({ closeModal, status, setIsLoading }) => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.status}
-                      placeholder="Bagaimana perasaanmu?"
+                      placeholder="What do you feel?"
                       className={`${InputStyleColor({
                         bgColor: "bg-gray-100",
                         textColor: "text-black-100",
@@ -219,7 +219,7 @@ export default function page() {
           <div className="w-full p-6 lg:p-8 bg-light-white rounded-b-xl flex">
             <div className="md:flex gap-8 w-full">
               <div
-                className={`relative h-max w-full flex-[2] min-w-max flex flex-col justify-center items-center rounded-xl px-6 py-8 border-2`}
+                className={`relative h-max w-full flex-[2] min-w-max flex flex-col justify-center items-center rounded-xl px-6 py-8 border-2 bg-white`}
               >
                 <h4 className="text-xl font-semibold mb-2">Achievement</h4>
                 <p className="text-lg mb-2">
@@ -401,7 +401,7 @@ export default function page() {
                 </p>
                 <div className="my-4 text-sm sm:text-base flex flex-col gap-3">
                   <div className="flex gap-3">
-                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between">
+                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between relative bg-white">
                       <div>
                         <div className="font-semibold mb-2">
                           Modules Completed
@@ -413,12 +413,30 @@ export default function page() {
                           <span className="text-lg">/10</span>
                         </div>
                       </div>
-                      {/* <div className="text-sm">
-                        Accuracy Rate:{" "}
-                        <span className="font-semibold">80%</span>
-                      </div> */}
+                      <svg viewBox="0 0 100 50" className="w-full h-full">
+                        <circle
+                          cx="50"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          stroke="#d2d6dc"
+                          strokeWidth="5"
+                        />
+                        <circle
+                          cx="50"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          stroke="#4f46e5"
+                          strokeWidth="8"
+                          strokeDasharray={`${
+                            (userData?.completedModulesCount / 10) * 125.6
+                          } 125.6`}
+                          transform="rotate(-90, 50, 25)"
+                        />
+                      </svg>
                     </div>
-                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between">
+                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between relative bg-white">
                       <div>
                         <div className="font-semibold mb-2">Total Practice</div>
                         <div className="text-3xl mb-2">
@@ -432,12 +450,35 @@ export default function page() {
                           </span>
                         </div>
                       </div>
-                      {/* <div className="text-sm">
-                        Accuracy Rate:{" "}
-                        <span className="font-semibold">80%</span>
-                      </div> */}
+                      <svg viewBox="0 0 100 50" className="w-full h-full">
+                        <circle
+                          cx="50"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          stroke="#d2d6dc"
+                          strokeWidth="5"
+                        />
+                        <circle
+                          cx="50"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          stroke="#4f46e5"
+                          strokeWidth="8"
+                          strokeDasharray={`${
+                            userHistory?.practiceCount === 0
+                              ? 0
+                              : (userHistory?.practiceCount /
+                                  (Math.ceil(userHistory?.practiceCount / 5) *
+                                    5)) *
+                                125.6
+                          } 125.6`}
+                          transform="rotate(-90, 50, 25)"
+                        />
+                      </svg>
                     </div>
-                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between">
+                    <div className="border flex-1 rounded-md p-2 sm:p-3 flex flex-col justify-between relative bg-white">
                       <div>
                         <div className="font-semibold mb-2">
                           Total TOEFL Simulation
@@ -454,22 +495,45 @@ export default function page() {
                           </span>
                         </div>
                       </div>
-                      <div className="text-sm">
-                        Accuracy Rate:{" "}
-                        <span className="font-semibold">
-                          {userData?.accuracyRate}%
-                        </span>
-                      </div>
+                      <svg viewBox="0 0 100 50" className="w-full h-full">
+                        <circle
+                          cx="50"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          stroke="#d2d6dc"
+                          strokeWidth="5"
+                        />
+                        <circle
+                          cx="50"
+                          cy="25"
+                          r="20"
+                          fill="none"
+                          stroke="#4f46e5"
+                          strokeWidth="8"
+                          strokeDasharray={`${userHistory?.simulationCount === 0
+                            ? 0
+                            :
+                            (userHistory?.simulationCount /
+                              (Math.ceil(userHistory?.simulationCount / 2) *
+                                2)) *
+                            125.6
+                          } 125.6`}
+                          transform="rotate(-90, 50, 25)"
+                        />
+                      </svg>
                     </div>
                   </div>
 
-                  <div className="border rounded-md font-semibold p-2 sm:p-3 max-w-md">
+                  <div className="border rounded-md font-semibold p-2 sm:p-3 max-w-md bg-white">
                     <div className="">Achievement Completion</div>
                     <div className="p-2 mt-2">
                       <div className="w-full h-6 bg-gray-200 rounded-full">
                         <div
                           className="h-6 bg-blue-600 rounded-full dark:bg-blue-500"
-                          style={{ width: userData?.achievementPercentage }}
+                          style={{
+                            width: `${userData?.achievementPercentage}%`,
+                          }}
                         ></div>
                       </div>
                     </div>

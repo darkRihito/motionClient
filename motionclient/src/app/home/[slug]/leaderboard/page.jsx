@@ -22,10 +22,7 @@ export default function page() {
           <p className="text-xl font-semibold mb-1">Welcome!</p>
           <h2 className="text-4xl font-bold mb-4">Hall of Fame</h2>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-            corporis, dolor commodi placeat debitis vel voluptas quas vitae
-            itaque quibusdam! Natus doloremque error debitis perspiciatis dicta
-            iste asperiores!
+          Here, we honor the top performers of the OctoEFL app. This leaderboard showcases the outstanding achievements of our users, highlighting their dedication and excellence. Explore the ranks and be inspired by the best of the best!
           </p>
         </div>
         {leaderboardData && (

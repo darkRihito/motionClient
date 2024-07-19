@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter, redirect } from "next/navigation";
 import Image from "next/image";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 import Head from "next/head";
@@ -12,6 +13,7 @@ import Loader from "@/components/loader/loader";
 
 export default function page() {
   const { setType } = useBackground();
+  const router = useRouter();
 
   const { userData } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +42,7 @@ export default function page() {
       {isLoading && <Loader />}
       <div className="max-w-screen-md mx-auto mt-24 mb-16 bg-white rounded-lg p-4">
         {/* Content */}
-        <Head>
+        {/* <Head>
           <title>Prepositions</title>
         </Head>
         <h1 className="text-4xl font-extrabold mb-6 text-center">
@@ -465,12 +467,160 @@ export default function page() {
         <p className="text-justify leading-relaxed">
           Modern English usage supports flexibility, and the strict adherence to not ending sentences with prepositions is often relaxed in everyday communication. It's important to consider the context and audience when deciding on sentence structure. Formal writings might still follow the traditional rule for stylistic and clarity reasons, whereas, in everyday communication, ending a sentence with a preposition can be perfectly natural.
         </p>
+      </section>*/}
+
+<Head>
+        <title>Clause Formation</title>
+      </Head>
+      <h1 className="text-4xl font-extrabold mb-6 text-center">Clause Formation</h1>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Introduction to Clause Formation</h2>
+        <p className="text-justify leading-relaxed">
+          Clauses are fundamental units of grammar in English, consisting of a subject and a predicate. Understanding how to form and use different types of clauses is essential for constructing clear and coherent sentences.
+        </p>
+      </section>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Definition of Clauses</h2>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Clause:</span> A clause is a group of words that contains a subject and a predicate. Clauses can be independent (able to stand alone as a sentence) or dependent (cannot stand alone and must be attached to an independent clause).
+        </p>
+      </section>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Types of Clauses</h2>
+        <div className="ml-4">
+          <h3 className="text-xl md:text-2xl font-semibold mb-2">Independent Clauses:</h3>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Definition:</span> Clauses that can stand alone as complete sentences.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Example:</span> "She enjoys reading."
+          </p>
+        </div>
+        <div className="ml-4 mt-4">
+          <h3 className="text-xl md:text-2xl font-semibold mb-2">Dependent Clauses:</h3>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Definition:</span> Clauses that cannot stand alone as complete sentences and must be attached to an independent clause.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Example:</span> "Although she enjoys reading, she prefers watching movies."
+          </p>
+        </div>
+      </section>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Simple and Complex Sentences</h2>
+        <div className="ml-4">
+          <h3 className="text-xl md:text-2xl font-semibold mb-2">Simple Sentences:</h3>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Definition:</span> Sentences that contain one independent clause.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Example:</span> "She likes coffee."
+          </p>
+        </div>
+        <div className="ml-4 mt-4">
+          <h3 className="text-xl md:text-2xl font-semibold mb-2">Complex Sentences:</h3>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Definition:</span> Sentences that contain one independent clause and at least one dependent clause.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Example:</span> "She likes coffee because it keeps her awake."
+          </p>
+        </div>
+      </section>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Subordinate Clauses</h2>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Definition:</span> A type of dependent clause that begins with a subordinating conjunction and provides additional information to the main clause.
+        </p>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Examples of Subordinating Conjunctions:</span> because, although, since, if, when, while
+        </p>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Example:</span> "Although it was raining, we went for a walk."
+        </p>
+      </section>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Relative Clauses</h2>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Definition:</span> A type of dependent clause that begins with a relative pronoun (who, whom, whose, which, that) and modifies a noun.
+        </p>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Example:</span> "The book, which she borrowed from the library, is fascinating."
+        </p>
+      </section>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Adverbial Clauses</h2>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Definition:</span> A type of dependent clause that functions as an adverb, providing information about time, place, condition, contrast, etc.
+        </p>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Example:</span> "She sings beautifully when she is happy."
+        </p>
+      </section>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Noun Clauses</h2>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Definition:</span> A type of dependent clause that functions as a noun within a sentence.
+        </p>
+        <p className="text-justify leading-relaxed">
+          <span className="font-semibold">Example:</span> "What he said was surprising."
+        </p>
+      </section>
+      <section className="mb-8">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">Common Mistakes with Clauses</h2>
+        <div className="ml-4">
+          <h3 className="text-xl md:text-2xl font-semibold mb-2">Run-On Sentences:</h3>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Definition:</span> Occur when two independent clauses are joined without proper punctuation or conjunction.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Correction:</span> Use a period, semicolon, or coordinating conjunction.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Example Error:</span> "She likes coffee she drinks it every morning."
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Correction:</span> "She likes coffee. She drinks it every morning."
+          </p>
+        </div>
+        <div className="ml-4 mt-4">
+          <h3 className="text-xl md:text-2xl font-semibold mb-2">Comma Splices:</h3>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Definition:</span> Occur when two independent clauses are joined with a comma without a coordinating conjunction.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Correction:</span> Use a semicolon, period, or add a coordinating conjunction.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Example Error:</span> "She likes coffee, she drinks it every morning."
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Correction:</span> "She likes coffee; she drinks it every morning."
+          </p>
+        </div>
+        <div className="ml-4 mt-4">
+          <h3 className="text-xl md:text-2xl font-semibold mb-2">Fragmented Sentences:</h3>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Definition:</span> Incomplete sentences that lack a subject, predicate, or both.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Correction:</span> Attach the fragment to an independent clause.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Example Error:</span> "Although she likes coffee."
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Correction:</span> "Although she likes coffee, she drinks tea in the evening."
+          </p>
+        </div>
       </section>
       {userData ? (
           <>
             {userData?.modules_completed[7] ? (
               <>
-                <div className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-gray-400 text-white rounded-lg mt-3">
+                <div onClick={() => {
+                router.back();
+              }} className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-gray-400 text-white rounded-lg mt-3">
                   <IoArrowBack className="text-xl" />
                   Back to Module Page
                 </div>
@@ -494,7 +644,7 @@ export default function page() {
               </>
             )}
           </>
-        ) : null}
+        ) : null} 
       </div>
     </div>
   );

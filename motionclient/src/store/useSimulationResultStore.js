@@ -9,7 +9,7 @@ const useSimulationResult = create((set) => ({
 const fetchData = async ({ category }) => {
   try {
     const [Response] = await Promise.all([
-      axios.get(`http://localhost:8000/simulation/detail/${category}`, {
+      axios.get(`https://motionapp-backend.vercel.app/simulation/detail/${category}`, {
         withCredentials: true,
       }),
     ]);

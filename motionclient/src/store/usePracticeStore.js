@@ -16,6 +16,7 @@ const usePracticeStore = create((set) => ({
   health: 0,
   point_gain: 0,
   point_add: 0,
+  point_bonus: 0,
   question: {
     id: "",
     question: "",
@@ -46,6 +47,7 @@ const usePracticeStore = create((set) => ({
   setHealth: (health) => set({ health }),
   setPointGain: (point_gain) => set({ point_gain }),
   setPointAdd: (point_add) => set({ point_add }),
+  setPointBonus: (point_bonus) => set({ point_bonus }),
   setQuestion: (question) => set({ question }),
   setPrevQuestion: (prev_question) => set({ prev_question }),
   setExplanation: (explanation) => set({ explanation }),
@@ -62,7 +64,7 @@ const usePracticeStore = create((set) => ({
 const submitAnswer = async (payload) => {
   try {
     const response = await axios.post(
-      "http://localhost:8000/practice/submit",
+      "https://motionapp-backend.vercel.app/practice/submit",
       payload,
       {
         withCredentials: true,
@@ -110,6 +112,7 @@ const submitAnswer = async (payload) => {
       usePracticeStore.getState().setPointGain(responsedata.curPoint);
       usePracticeStore.getState().setStarCollected(responsedata.starGain);
       let health = 3 - (responsedata.curStage - responsedata.curCorrect);
+      usePracticeStore.getState().setPointBonus(responsedata.pointBonus);
       let wrong = 3 - health;
       usePracticeStore.getState().setWrong(wrong);
     }
@@ -126,7 +129,7 @@ const submitAnswer = async (payload) => {
 const fetchData = async () => {
   try {
     const [startPracticeResponse] = await Promise.all([
-      axios.post(`http://localhost:8000/practice/start`, "", {
+      axios.post(`https://motionapp-backend.vercel.app/practice/start`, "", {
         withCredentials: true,
       }),
     ]);

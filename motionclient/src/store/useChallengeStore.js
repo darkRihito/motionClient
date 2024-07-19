@@ -44,10 +44,10 @@ const useQuestionStore = create((set) => ({
 const fetchData = async ({ type }) => {
   try {
     const [startChallengeResponse, questionResponse] = await Promise.all([
-      axios.post(`http://localhost:8000/challenge/start/${type}`, "", {
+      axios.post(`https://motionapp-backend.vercel.app/challenge/start/${type}`, "", {
         withCredentials: true,
       }),
-      axios.get(`http://localhost:8000/question/question/${type}`, {
+      axios.get(`https://motionapp-backend.vercel.app/question/question/${type}`, {
         withCredentials: true,
       }),
     ]);

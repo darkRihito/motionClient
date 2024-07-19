@@ -35,7 +35,7 @@ function processAndCombineData(questionsResponse, answersResponse) {
 const fetchData = async ({ category }) => {
   try {
     const [Response] = await Promise.all([
-      axios.get(`http://localhost:8000/challenge/detail/${category}`, {
+      axios.get(`https://motionapp-backend.vercel.app/challenge/detail/${category}`, {
         withCredentials: true,
       }),
     ]);

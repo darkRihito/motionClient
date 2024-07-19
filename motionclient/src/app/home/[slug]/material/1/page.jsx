@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter, redirect } from "next/navigation";
 import Image from "next/image";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 import Head from "next/head";
@@ -12,6 +13,7 @@ import Loader from "@/components/loader/loader";
 
 export default function page() {
   const { setType } = useBackground();
+  const router = useRouter();
 
   const { userData } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -370,7 +372,7 @@ export default function page() {
             </ul>
           </div>
         </section>
-        <section className="mb-8">
+        {/* <section className="mb-8">
           <h3 className="text-2xl md:text-3xl font-bold mb-4 underline">
             Tips for Error Detection During Exams
           </h3>
@@ -417,12 +419,14 @@ export default function page() {
             of these tips will aid in developing a keen eye for grammatical
             accuracy.
           </p>
-        </section>
+        </section> */}
         {userData ? (
           <>
             {userData?.modules_completed[0] ? (
               <>
-                <div className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-gray-400 text-white rounded-lg mt-3">
+                <div onClick={() => {
+                router.back();
+              }} className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-gray-400 text-white rounded-lg mt-3">
                   <IoArrowBack className="text-xl" />
                   Back to Module Page
                 </div>

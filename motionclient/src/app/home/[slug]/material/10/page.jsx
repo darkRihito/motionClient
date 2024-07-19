@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter, redirect } from "next/navigation";
 import Image from "next/image";
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 import Head from "next/head";
@@ -12,6 +13,7 @@ import Loader from "@/components/loader/loader";
 
 export default function page() {
   const { setType } = useBackground();
+  const router = useRouter();
 
   const { userData } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +42,7 @@ export default function page() {
       {isLoading && <Loader />}
       <div className="max-w-screen-md mx-auto mt-24 mb-16 bg-white rounded-lg p-4">
         {/* Content */}
-        <Head>
+        {/* <Head>
           <title>Conditional Sentences</title>
         </Head>
         <h1 className="text-4xl font-extrabold mb-6 text-center">
@@ -608,12 +610,278 @@ export default function page() {
               manual review focusing on conditional sentences.
             </li>
           </ul>
+        </section> */}
+        <Head>
+          <title>Redundancy</title>
+        </Head>
+        <h1 className="text-4xl font-extrabold mb-6 text-center">Redundancy</h1>
+        <section className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">
+            Introduction to Redundancy
+          </h2>
+          <p className="text-justify leading-relaxed">
+            Redundancy in writing refers to the use of words or phrases that are
+            unnecessary and do not add value to the overall message. Eliminating
+            redundancy is essential for clear, concise, and effective
+            communication. By avoiding unnecessary repetition, writers can make
+            their points more directly and efficiently.
+          </p>
+        </section>
+        <section className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">
+            Definition of Redundancy
+          </h2>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Redundancy:</span> The use of words,
+            phrases, or details that repeat what has already been stated or that
+            are superfluous and do not add new information.
+          </p>
+        </section>
+        <section className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">
+            Importance of Avoiding Redundancy
+          </h2>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Clarity:</span> Removing redundant
+            words helps clarify the main message and ensures that the reader
+            understands the key points without distraction.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Conciseness:</span> Writing becomes
+            more concise and to the point, making it more impactful and easier
+            to read.
+          </p>
+          <p className="text-justify leading-relaxed">
+            <span className="font-semibold">Professionalism:</span> Eliminating
+            redundancy reflects careful and thoughtful writing, which enhances
+            credibility and professionalism.
+          </p>
+        </section>
+        <section className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">
+            Examples of Redundancy
+          </h2>
+          <div className="ml-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Repetitive Phrases:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Example:</span> "Absolutely
+              essential"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Correction:</span> "Essential"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Explanation:</span> "Essential"
+              already means something is absolutely necessary, so "absolutely"
+              is redundant.
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Unnecessary Modifiers:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Example:</span> "Very unique"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Correction:</span> "Unique"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Explanation:</span> "Unique" means
+              one of a kind; it cannot be modified by degrees such as "very."
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Redundant Pairs:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Example:</span> "End result"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Correction:</span> "Result"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Explanation:</span> A "result" is
+              always the end product, so "end" is redundant.
+            </p>
+          </div>
+        </section>
+        <section className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">
+            Common Redundancies and Their Corrections
+          </h2>
+          <div className="ml-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              "Advance planning"
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Correction:</span> "Planning"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Explanation:</span> Planning
+              inherently involves advance preparation.
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              "Basic fundamentals"
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Correction:</span> "Fundamentals"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Explanation:</span> Fundamentals
+              are inherently basic.
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              "Close proximity"
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Correction:</span> "Proximity"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Explanation:</span> Proximity
+              already means closeness.
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              "Each and every"
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Correction:</span> "Each" or
+              "every"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Explanation:</span> Both "each"
+              and "every" imply individuality within the group.
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              "Past history"
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Correction:</span> "History"
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Explanation:</span> History always
+              refers to the past.
+            </p>
+          </div>
+        </section>
+        <section className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">
+            Tips for Avoiding Redundancy
+          </h2>
+          <div className="ml-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Review and Edit:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              After writing, review your work to identify and remove redundant
+              phrases or words.
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Strategy:</span> Read your writing
+              aloud to catch repetitions and unnecessary words.
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Simplify Phrases:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              Use simpler phrases that convey the same meaning without extra
+              words.
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Strategy:</span> Replace phrases
+              like "in order to" with "to."
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Use Specific Terms:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              Use specific and precise terms instead of vague or overly detailed
+              descriptions.
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Strategy:</span> Instead of "a
+              period of time," use "time" or the specific duration.
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Be Direct:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              Get straight to the point without adding unnecessary details.
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Strategy:</span> Replace "due to
+              the fact that" with "because."
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Practice Conciseness:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              Regularly practice writing concisely to develop a habit of
+              avoiding redundancy.
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Strategy:</span> Write short
+              summaries of longer texts, focusing on key points only.
+            </p>
+          </div>
+        </section>
+        <section className="mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 underline">
+            Examples of Eliminating Redundancy
+          </h2>
+          <div className="ml-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Example 1:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Before:</span> "In my personal
+              opinion, I believe that we should move forward with the plan."
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">After:</span> "I believe that we
+              should move forward with the plan."
+            </p>
+          </div>
+          <div className="ml-4 mt-4">
+            <h3 className="text-xl md:text-2xl font-semibold mb-2">
+              Example 2:
+            </h3>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">Before:</span> "The reason why he
+              was late is because he missed the bus."
+            </p>
+            <p className="text-justify leading-relaxed">
+              <span className="font-semibold">After:</span> "He was late because
+              he missed the bus."
+            </p>
+          </div>
         </section>
         {userData ? (
           <>
             {userData?.modules_completed[9] ? (
               <>
-                <div className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-gray-400 text-white rounded-lg mt-3">
+                <div onClick={() => {
+                router.back();
+              }} className="flex w-fit items-center gap-2 py-2.5 ps-3 pe-4 cursor-pointer bg-gray-400 text-white rounded-lg mt-3">
                   <IoArrowBack className="text-xl" />
                   Back to Module Page
                 </div>

@@ -35,6 +35,8 @@ const ModalPreTest = ({ closeModal }) => {
       userData?.pretest_done === false
     ) {
       router.push("challenge/pretest");
+    } else {
+      console.log("uwu")
     }
   };
   return (
@@ -174,6 +176,8 @@ const ModalPostTest = ({ closeModal }) => {
       userData?.posttest_done === false
     ) {
       router.push("challenge/posttest");
+    }else {
+      console.log("uwuw");
     }
   };
   return (

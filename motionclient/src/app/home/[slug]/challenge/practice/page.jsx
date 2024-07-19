@@ -12,7 +12,10 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 export default function page() {
   const router = useRouter();
+  const userData = useUserStore((state) => state.userData);
   const practiceData = usePracticeStore();
+  const updateUserPoints = useUserStore((state) => state.updateUserPoints);
+  const updateUserStar = useUserStore((state) => state.updateUserStar);
   const { is_answered } = usePracticeStore();
   console.log("STORED DATA:", practiceData);
 
@@ -96,6 +99,8 @@ export default function page() {
     usePracticeStore.getState().setAnswered(false);
     if (practiceData.is_finished) {
       setFinishedState(true);
+      updateUserPoints(userData?.challenge_point +(practiceData?.point_gain));
+      updateUserStar(userData?.star_collected +(practiceData?.star_collected));
     }
     // resetLoadingPrep();
   };
@@ -117,6 +122,9 @@ export default function page() {
               <div className="w-full text-base">
                 <div className="w-full bg-yellow-950 px-3 py-2 rounded-t-lg">
                   <p>Current Knowledge: {practiceData.bkt.knowledge}</p>
+                </div>
+                <div className="w-full bg-yellow-950 px-3 py-2 rounded-b-lg">
+                  <p>Current Knowledge: {practiceData.question.difficulty}</p>
                 </div>
                 {/* <div className="w-full bg-yellow-950 px-3 py-2">
                   <p>Current PLearn: {practiceData.bkt.p_learn}</p>
@@ -353,7 +361,7 @@ export default function page() {
                   Point Collected
                 </div>
                 <div className="text-2xl font-semibold text-yellow-950 mt-2">
-                  + {practiceData?.point_gain}
+                  {practiceData?.point_gain} + {practiceData?.point_bonus}
                 </div>
               </div>
             </div>

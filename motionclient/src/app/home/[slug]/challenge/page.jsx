@@ -172,9 +172,16 @@ const ModalPostTest = ({ closeModal }) => {
       userData?.posttest_done === false
     ) {
       router.push("challenge/posttest");
+    }else if (
+      userData?.is_doing_challenge === "posttest" &&
+      userData?.posttest_done === false
+    ) {
+      router.push("challenge/posttest");
     }else {
       console.log("uwuw");
     }
+
+    
   };
   return (
     <>

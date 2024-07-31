@@ -15,8 +15,6 @@ import {
 } from "@/store/useChallengeStore";
 import { useUserStore } from "@/store/useUserStore";
 
-
-
 export default function page() {
   const router = useRouter();
 
@@ -216,53 +214,167 @@ export default function page() {
               <>
                 <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
                   {questions.map((item, index) => (
-                    <div
-                      id={index}
-                      key={item._id}
-                      className="bg-light-white rounded-lg w-full min-h-20 gap-3 flex flex-col relative"
-                    >
+                    <React.Fragment key={item._id}>
+                      {index === 0 && (
+                        <div className="bg-light-white rounded-lg w-full min-h-20 gap-3 flex flex-col p-4">
+                          <h2 className="text-2xl font-bold mb-4">Structure</h2>
+                          <p className="mb-4">
+                            <strong>Directions:</strong> Questions 1-15 are
+                            incomplete sentences. Beneath each sentence you will
+                            see four words or phrases, marked (A), (B), (C), and
+                            (D). Choose the one word or phrase that best
+                            completes the sentence. Then, on your answer sheet,
+                            find the number of the question and fill in the
+                            space that corresponds to the letter of the answer
+                            you have chosen. Fill in the space so that the
+                            letter inside the oval cannot be seen.
+                          </p>
+                          <p className="mb-4">
+                            Look at the following examples.
+                          </p>
+
+                          <div className="mb-4">
+                            <h3 className="font-semibold">Example I</h3>
+                            <p>
+                              The president _____ the election by a landslide.
+                            </p>
+                            <ul className="list-disc list-inside ml-4">
+                              <li>(A) won</li>
+                              <li>(B) he won</li>
+                              <li>(C) yesterday</li>
+                              <li>(D) fortunately</li>
+                            </ul>
+                            <p>
+                              The sentence should read, “The president won the
+                              election by a landslide.” Therefore, you should
+                              choose (A).
+                            </p>
+                          </div>
+
+                          <div>
+                            <h3 className="font-semibold">Example II</h3>
+                            <p>When _____ the conference?</p>
+                            <ul className="list-disc list-inside ml-4">
+                              <li>(A) the doctor attended</li>
+                              <li>(B) did the doctor attend</li>
+                              <li>(C) the doctor will attend</li>
+                              <li>(D) the doctor's attendance</li>
+                            </ul>
+                            <p>
+                              The sentence should read, “When did the doctor
+                              attend the conference?” Therefore, you should
+                              choose (B).
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
+                      {index === 15 && (
+                        <div className="bg-light-white rounded-lg w-full min-h-20 gap-3 flex flex-col p-4">
+                          <h2 className="text-2xl font-bold mb-4">
+                            Written Expression
+                          </h2>
+                          <p className="mb-4">
+                            <strong>Directions:</strong> In questions 16-40,
+                            each sentence has four underlined words or phrases.
+                            The four underlined parts of the sentence are marked
+                            (A), (B), (C), and (D). Identify the one underlined
+                            word or phrase that must be changed in order for the
+                            sentence to be correct. Then, on your answer sheet,
+                            find the number of the question and fill in the
+                            space that corresponds to the letter of the answer
+                            you have chosen.
+                          </p>
+                          <p className="mb-4">
+                            Look at the following examples.
+                          </p>
+
+                          <div className="mb-4">
+                            <h3 className="font-semibold">Example I</h3>
+                            <p>
+                              The four string on a violin are tuned in fifths.
+                            </p>
+                            <ul className="list-disc list-inside ml-4">
+                              <li>(A) The four string</li>
+                              <li>(B) on a violin</li>
+                              <li>(C) are tuned</li>
+                              <li>(D) in fifths</li>
+                            </ul>
+                            <p>
+                              The sentence should read, “The four strings on a
+                              violin are tuned in fifths.” Therefore, you should
+                              choose (A).
+                            </p>
+                          </div>
+
+                          <div>
+                            <h3 className="font-semibold">Example II</h3>
+                            <p>
+                              The research for the book Roots taking Alex Haley
+                              twelve years.
+                            </p>
+                            <ul className="list-disc list-inside ml-4">
+                              <li>(A) The research</li>
+                              <li>(B) for the book Roots</li>
+                              <li>(C) taking</li>
+                              <li>(D) Alex Haley twelve years</li>
+                            </ul>
+                            <p>
+                              The sentence should read, “The research for the
+                              book Roots took Alex Haley twelve years.”
+                              Therefore, you should choose (C).
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
                       <div
-                        className="text-base w-full"
-                        dangerouslySetInnerHTML={{
-                          __html: `<div style="display: flex; align-items: start;"><span style="font-size: 1.5rem; margin-right: 8px;">${
-                            index + 1
-                          })</span><div>${item.question}</div></div>`,
-                        }}
-                      ></div>
-                      <div className="mt-2">
-                        <div id="radioadmin" className="flex gap-3">
-                          {["a", "b", "c", "d"].map((option, index) => (
-                            <div key={index} className="w-full">
-                              <label
-                                htmlFor={item._id}
-                                onClick={() => {
-                                  if (answers[item._id] === option) {
-                                    setAnswer(item._id, undefined);
-                                  } else {
-                                    setAnswer(item._id, option);
-                                  }
-                                }}
-                                className={`flex flex-1 items-center justify-center text-center h-12 p-4 cursor-pointer border rounded-lg ${
-                                  answers[item._id] === option
-                                    ? "border-green-400 bg-green-400 text-white"
-                                    : ""
-                                }`}
-                              >
-                                <input
-                                  type="radio"
-                                  name={item._id}
-                                  value={option}
-                                  checked={answers[item._id] === option}
-                                  readOnly
-                                  className="w-4 h-4 opacity-0 absolute"
-                                />
-                                {option.toUpperCase()}
-                              </label>
-                            </div>
-                          ))}
+                        id={index}
+                        className="bg-light-white rounded-lg w-full min-h-20 gap-3 flex flex-col relative"
+                      >
+                        <div
+                          className="text-base w-full"
+                          dangerouslySetInnerHTML={{
+                            __html: `<div style="display: flex; align-items: start;"><span style="font-size: 1.5rem; margin-right: 8px;">${
+                              index + 1
+                            })</span><div>${item.question}</div></div>`,
+                          }}
+                        ></div>
+                        <div className="mt-2">
+                          <div id="radioadmin" className="flex gap-3">
+                            {["a", "b", "c", "d"].map((option, optionIndex) => (
+                              <div key={optionIndex} className="w-full">
+                                <label
+                                  htmlFor={item._id}
+                                  onClick={() => {
+                                    if (answers[item._id] === option) {
+                                      setAnswer(item._id, undefined);
+                                    } else {
+                                      setAnswer(item._id, option);
+                                    }
+                                  }}
+                                  className={`flex flex-1 items-center justify-center text-center h-12 p-4 cursor-pointer border rounded-lg ${
+                                    answers[item._id] === option
+                                      ? "border-green-400 bg-green-400 text-white"
+                                      : ""
+                                  }`}
+                                >
+                                  <input
+                                    type="radio"
+                                    name={item._id}
+                                    value={option}
+                                    checked={answers[item._id] === option}
+                                    readOnly
+                                    className="w-4 h-4 opacity-0 absolute"
+                                  />
+                                  {option.toUpperCase()}
+                                </label>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </React.Fragment>
                   ))}
                   <button
                     type="submit"

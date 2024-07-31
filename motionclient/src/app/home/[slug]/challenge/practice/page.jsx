@@ -241,7 +241,7 @@ export default function page() {
                             </div>
                           </div>
                           <h3 className="text-lg sm:text-xl ">
-                            - <span className="font-semibold">1 Chance</span>
+                            - <span className="font-semibold">1 Point Bonus</span>
                           </h3>
                         </div>
                       </div>
@@ -433,7 +433,7 @@ export default function page() {
                     >
                       <div className="flex mt-6 justify-end">
                         <div className="flex justify-center items-center gap-3">
-                          <div className="text-xl text-gray-100">Chance</div>
+                          <div className="text-xl text-gray-100">Point Bonus</div>
 
                           <div className="relative w-28 h-10 sm:w-32 sm:h-12 flex-none">
                             <Image

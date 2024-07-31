@@ -4,9 +4,11 @@ import Image from "next/image";
 // Provider
 import { useBackground } from "@/provider/backgroundprovider/backgroundprovider";
 import { useLeaderboardStore } from "@/store/useLeaderboardStore";
+import { useUserStore } from "@/store/useUserStore";
 
 export default function page() {
   const leaderboardData = useLeaderboardStore((state) => state.leaderboardData);
+  const userData = useUserStore((state) => state.userData);
 
   const { setType } = useBackground();
   useEffect(() => {
@@ -112,7 +114,7 @@ export default function page() {
                       </thead>
                       <tbody>
                         {leaderboardData.map((item, index) => (
-                          <tr key={index} className="">
+                          <tr key={index} className={`${item.nickname === userData.nickname ? 'bg-yellow-200' : ''}`}>
                             <th
                               scope="row"
                               className="px-6 lg:py-4 py-3 font-medium text-center"

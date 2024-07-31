@@ -140,11 +140,7 @@ const ModalLatihan = ({ closeModal }) => {
             Are you ready to start Practice?
           </h3>
           <p className="mb-4">
-            There is no time limit. You have 3 chances to get a wrong answer per
-            round, with a total of 10 rounds and 1 question per round. Questions
-            will be randomly selected from Structure and Written Expression. You
-            won't be able to perform other activities while practicing. Click
-            "Confirm" to begin.
+            There is no time limit. You have 3 chances to get a wrong answer per round to earn a point bonus. You can continue practicing through all 10 rounds with one question per round. Questions will be randomly selected from Structure and Written Expression. You won't be able to perform other activities while practicing. Click "Confirm" to begin.
           </p>
           <button
             type="button"
